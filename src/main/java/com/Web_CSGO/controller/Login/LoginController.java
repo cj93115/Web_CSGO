@@ -1,4 +1,4 @@
-package com.Web_CSGO.controller.login;
+package com.Web_CSGO.controller.Login;
 
 import com.Web_CSGO.common.base.BaseController;
 import org.springframework.stereotype.Controller;
@@ -15,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class LoginController extends BaseController {
     @GetMapping("/")
     public ModelAndView loginPage(){
-        return new ModelAndView("login");
+        return new ModelAndView("main/index");
     }
+
+
 }

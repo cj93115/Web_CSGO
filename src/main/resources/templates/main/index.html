@@ -1,12 +1,9 @@
 <!doctype html>
 <html>
 <head>
-	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="edge" />
 	<link rel="shortcut icon" href="favicon.ico" />
-
-
-	<title>菜鸟</title>
+	<title>CSGO</title>
 	<!--
         JQuery EasyUI 1.5.x of Insdep Theme 1.0.0
         演示地址：https://www.insdep.com/example/
@@ -114,9 +111,9 @@
 
 						<div title="">
 							<ul class="easyui-datalist" data-options="border:false,fit:true">
-								<#list menuList as menu>
+								<!--<#list menuList as menu>
 								<li><a onclick="addTab('','${menu.menuName!''}',true)" style="display: block;">${menu.menuName!''}</a></li>
-							</#list>
+							</#list>-->
 							</ul>
 						</div>
 
@@ -149,7 +146,7 @@
 			<div class="easyui-tab" data-options="closable:false,iconCls:'main_icon icon_index'"
 				 title="我的地盘"
 				 style="padding:0; overflow: hidden">
-				<iframe id="index" name="index" src="/menuListController/openVideo" frameborder="0" width="100%"
+				<iframe id="index" name="index" src="/AdminUser/getAdminUser" frameborder="0" width="100%"
 						height="100%">
 
 					<table class="table table-striped">

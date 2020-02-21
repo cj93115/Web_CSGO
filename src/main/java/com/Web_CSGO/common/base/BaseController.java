@@ -181,6 +181,7 @@ public abstract class BaseController {
         Map<String,Integer> map = new HashMap<>();
         Integer current = object.getInteger("current");
         Integer size = object.getInteger("size");
+        Integer total = object.getInteger("total");
         //起始页
         if(null == current || current ==0){
             current=1;
@@ -188,6 +189,9 @@ public abstract class BaseController {
         //每页的大小
         if(null == size){
             size = 10;
+        }
+        if(null == total){
+            total = 0;
         }
         map.put("current",current);
         map.put("size",size);

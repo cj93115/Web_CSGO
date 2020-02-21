@@ -20,17 +20,21 @@ public final class Resources {
     /**
      * 极光推送配置
      */
+/*
     public static final ResourceBundle JPUSH = ResourceBundle.getBundle("conf/jpush");
+*/
 
     /**
      * 云通信配置
      */
+/*
     public static final ResourceBundle SMS = ResourceBundle.getBundle("conf/sms");
+*/
 
     /**
      * 七牛云配置
      */
-    public static final ResourceBundle QINIU = ResourceBundle.getBundle("conf/qiniu");
+   /* public static final ResourceBundle QINIU = ResourceBundle.getBundle("conf/qiniu");*/
     /**
      * 国际化信息
      */

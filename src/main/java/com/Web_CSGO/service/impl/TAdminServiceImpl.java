@@ -3,6 +3,7 @@ package com.Web_CSGO.service.impl;
 import com.Web_CSGO.entity.AdminUser;
 import com.Web_CSGO.mapper.TAdminMapper;
 import com.Web_CSGO.service.IAdminService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Service
 public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, AdminUser> implements IAdminService {
     @Override
-    public List<AdminUser> getAdminUser() {
-        return this.baseMapper.getAdminUser();
+    public List<AdminUser> getAdminUser(Page page) {
+        return this.baseMapper.getAdminUser(page);
     }
 }

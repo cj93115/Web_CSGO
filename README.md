@@ -7,25 +7,22 @@ Web_CSGO
 软件架构说明
 
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
+1.  hutool工具包使用方式 [https://hutool.cn/docs/#/?id=%e5%ae%89%e8%a3%85]
+2.  前端框架使用参考  [https://www.insdep.com/document/page/easyui/component/splitbutton] 账号：14777889123 密码：14777889123
+3.  static/EasyUI-InsdepTheme index 有前端框架使用实例
+使用mssqlserver 2008 R2版本链接
+数据库IP：47.91.206.215
+账号： test
+密码：test
+####目录
+common 工具包
+controller 控制层
+entity     实体
+mapper     接口
+service    接口
+    iml    实现层
 
 #### 码云特技
 

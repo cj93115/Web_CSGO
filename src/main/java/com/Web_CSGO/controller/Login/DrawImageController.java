@@ -1,4 +1,4 @@
-package com.Web_CSGO.controller.login;
+package com.Web_CSGO.controller.Login;
 
 import java.awt.Color;
 import java.awt.Font;

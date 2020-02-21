@@ -26,13 +26,13 @@ public class AdminUser implements Serializable {
      */
     @TableId(value = "id",type = IdType.UUID)
     private String User_ID;
-    private String usetName;
-    private String usetPsd;
-    private Date usetLoginTime;
-    private String userDuty;
-    private String usetTrust;
-    private Date usetRegData;
-    private String usetMoney;
-    private Boolean usetShow;
-    private String wxId;
+    private String userName;
+    private String User_Psd;
+    private Date User_LoginTime;
+    private String User_duty;
+    private String User_Trust;
+    private Date User_RegDate;
+    private String User_Money;
+    private Boolean User_Show;
+    private String wx_id;
 }

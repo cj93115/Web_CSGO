@@ -3,16 +3,16 @@
 <mapper namespace="com.Web_CSGO.mapper.TAdminMapper">
 
     <select id="getAdminUser" resultType="com.Web_CSGO.entity.AdminUser">
-        SELECT User_ID,
-User_Name,
-User_Psd,
-User_LoginTime,
-User_duty,
-User_Trust,
-User_RegDate,
-User_Money,
-User_Show,
-wx_id
- FROM AdminUser WHERE 1=1
+        SELECT  User_ID,
+            User_Name  ,
+            User_Psd,
+            User_LoginTime,
+            User_duty,
+            User_Trust,
+            User_RegDate,
+            User_Money,
+            User_Show,
+            wx_id
+      FROM AdminUser WHERE 1=1
     </select>
 </mapper>

@@ -56,6 +56,6 @@ mybatis-plus:
 #日志输出
 logging:
   level:
-    com.Web_GSGO.mapper: debug
+    com.Web_CSGO.mapper: debug
 
 
