@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Web_GSGO.mapper.TAdminMapper">
+
+    <select id="getAdminUser" resultType="com.Web_GSGO.entity.AdminUser">
+        SELECT User_ID,
+User_Name,
+User_Psd,
+User_LoginTime,
+User_duty,
+User_Trust,
+User_RegDate,
+User_Money,
+User_Show,
+wx_id
+ FROM AdminUser WHERE 1=1
+    </select>
+</mapper>

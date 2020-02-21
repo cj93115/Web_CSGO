@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.Web_GSGO.runApplication
+Start-Class: com.Web_GSGO.runApplication
+
