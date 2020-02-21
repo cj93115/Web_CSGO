@@ -32,7 +32,7 @@ server:
   servlet:
     context-path: /
 mybatis-plus:
-  type-aliases-package: com.Web_GSGO.mapper.*  #扫描实体类
+  type-aliases-package: com.Web_CSGO.mapper.*  #扫描实体类
   mapper-locations: classpath*:/mapping/*Mapper.xml #mapper.xml的位置
   global-config:
       #刷新mapper 调试神器
