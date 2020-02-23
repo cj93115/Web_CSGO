@@ -3,6 +3,7 @@ package com.Web_CSGO.controller.Login;
 import com.Web_CSGO.common.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -18,5 +19,8 @@ public class LoginController extends BaseController {
         return new ModelAndView("main/index");
     }
 
-
+    @RequestMapping("/login")
+    public ModelAndView login(){
+        return new ModelAndView();
+    }
 }
