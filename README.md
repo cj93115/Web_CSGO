@@ -23,7 +23,11 @@ entity     实体
 mapper     接口
 service    接口
     iml    实现层
-
+打包命令 mvn clean package
+远程桌面IP:47.91.206.215
+账号：administrator
+密码：123456789Hy
+目前服务器上有项目在运行，请小心操作
 #### 码云特技
 
 1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md

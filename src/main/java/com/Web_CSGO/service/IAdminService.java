@@ -8,5 +8,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import java.util.List;
 
 public interface IAdminService extends IService<AdminUser> {
-    List<AdminUser> getAdminUser(Page page);
+    List<AdminUser> getAdminUser(Page page,AdminUser user);
 }

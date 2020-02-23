@@ -24,9 +24,10 @@ public class AdminUser implements Serializable {
     /**
      * 主键ID
      */
-    @TableId(value = "id",type = IdType.UUID)
+    @TableId(value = "User_ID",type = IdType.UUID)
     private String User_ID;
-    private String userName;
+    @TableId(value = "User_Name")
+    private String User_Name;
     private String User_Psd;
     private Date User_LoginTime;
     private String User_duty;

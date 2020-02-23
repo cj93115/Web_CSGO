@@ -18,7 +18,7 @@ import java.util.List;
 @Service
 public class TAdminServiceImpl extends ServiceImpl<TAdminMapper, AdminUser> implements IAdminService {
     @Override
-    public List<AdminUser> getAdminUser(Page page) {
-        return this.baseMapper.getAdminUser(page);
+    public List<AdminUser> getAdminUser(Page page,AdminUser user) {
+        return this.baseMapper.getAdminUser(page,user);
     }
 }

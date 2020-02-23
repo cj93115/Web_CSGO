@@ -13,6 +13,20 @@
             User_Money,
             User_Show,
             wx_id
-      FROM AdminUser WHERE 1=1
+      FROM AdminUser
+      <where>
+          1=1
+          <if test="user !=null ">
+              <if test="user.User_Name !=null and user.User_Name !=''">
+                  and  user_Name =  #{user.User_Name,jdbcType = VARCHAR}
+              </if>
+          </if>
+<!--
+          <if test="User_Name != '' and User_Name != null">
+-->
+<!--
+          </if>
+-->
+      </where>
     </select>
 </mapper>
