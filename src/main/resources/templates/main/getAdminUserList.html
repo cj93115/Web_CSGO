@@ -29,6 +29,9 @@
             padding-top: 10px;
 
         }
+        .textbox-icon,.passwordbox-open{
+            width: 24px!important;
+        }
     </style>
 
 </head>
@@ -39,10 +42,10 @@
         <form id="query">
             <label class="label-top">用户名:</label>
             <input class="easyui-textbox theme-textbox-radius" id="uname">
-            <label class="label-top">注册日期:</label>
+           <!-- <label class="label-top">注册日期:</label>
             <input class="easyui-datebox theme-textbox-radius" id="userRegDatestart">
             <label class="label-top">至</label>
-            <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">
+            <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
             <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
             <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')">新增</a>
         </form>
@@ -55,11 +58,11 @@
             <th data-options="field:'user_Name',width:100,align:'center'">用户名</th>
             <th data-options="field:'user_Psd',width:80,align:'center'">密码</th>
             <th data-options="field:'user_LoginTime',width:80,align:'center'">登录时间</th>
-            <th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
+            <!--<th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
             <th data-options="field:'user_RegDate',width:60,align:'center'">User_RegDate</th>
             <th data-options="field:'user_Money',width:60,align:'center'">User_Money</th>
             <th data-options="field:'user_Show',width:60,align:'center'">User_Show</th>
-            <th data-options="field:'wx_id',width:60,align:'center'">微信id</th>
+            <th data-options="field:'wx_id',width:60,align:'center'">微信id</th>-->
         </tr>
         </thead>
     </table>
@@ -76,18 +79,20 @@
                     <input class="easyui-textbox" name="user_ID" id="user_ID" hidden="true">
                     <div style="margin-bottom:20px">
                         <label class="label-top">用户名:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="user_Name" id="user_Name">
-                    </div>&nbsp;
+                        <input class="easyui-textbox  theme-textbox-radius" name="user_Name" id="user_Name" style="width: 190px">
+                    </div>
                     <div style="margin-bottom:20px">
                         <label class="label-top">密&nbsp;&nbsp;&nbsp;码:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="user_Psd" id="user_Psd">
+                        <input class="easyui-passwordbox  theme-textbox-radius" name="user_Psd" id="user_Psd" style="width: 190px">
                     </div>
-                    <div style="margin-bottom:20px">
+                    <div style="margin-bottom:20px;margin-left: -15px">
+                        <label class="label-top">确认密码:</label>
+                        <input class="easyui-passwordbox  theme-textbox-radius" id="psd" style="width: 190px">
+                    </div>
+                    <!--<div style="margin-bottom:20px">
                         <label class="label-top">微信号:</label>
-<!--
                         <input class="easyui-textbox  theme-textbox-radius" name="wx_id" id="wx_id">
--->
-                    </div>
+                    </div>-->
                 </form>
             </div>
         </div>
@@ -115,6 +120,7 @@
             pagination: true,
             pageSize: 10,
             collapsible: true,
+            fitColumns:true,
             queryParams: {//查询
                 user_Name: $("#uname").val(),
                 start: $("#userRegDatestart").val(),
@@ -129,6 +135,33 @@
     }
 
     function addAdminUser() {
+        if($("#user_Psd").val()==''||$("#psd").val()==''){
+            $.messager.show({
+                title: '提示',
+                msg: '密码不能为空！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        if($("#user_Psd").val()!=$("#psd").val()){
+            $.messager.show({
+                title: '提示',
+                msg: '密码不一致！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        if($("#user_Name").val()==''){
+            $.messager.show({
+                title: '提示',
+                msg: '用户名为空！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
         $.ajax({
             type: "post",
             url: "/AdminUser/addOrUpAdminUser",
@@ -136,12 +169,14 @@
             dataType: "json",
             success: function (data) {
                 if (data.httpCode == 200) {
+                    $('#window').window('close');
                     $.messager.show({
                         title: '提示',
                         msg: data.msg,
                         showType: 'show',
                         timeout: 3000
                     });
+                    $('#table').datagrid('reload');//刷新
                 } else {
                     $.messager.show({
                         title: '提示',
@@ -190,6 +225,7 @@
     function edit() {
         $.messager.confirm('编辑提示', '是否编辑?', function (r) {
             if (r) {
+                $("#psd").hide();
                 $.ajax({
                     type: "post",
                     url: "/AdminUser/editGetAdminUser",

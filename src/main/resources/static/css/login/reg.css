@@ -1,5 +1,5 @@
 @charset "utf-8";body{background-color:#3895e8;}
-.wrap{position:relative;box-sizing:border-box;height:100vh;background:url(bj.jpg) no-repeat center;background-size:auto 100vh;}
+.wrap{position:relative;box-sizing:border-box;height:100vh;background:url(/images/bj.jpg) no-repeat center;}
 .form-data{position:fixed;top:15%;left:50%;margin-left:-230px;padding:65px 0 30px 0;width:460px;border-radius:5px;background-color:#fff;box-shadow:0 0 30px rgba(0,0,0,.1);}
 .form-data .tel-warn{position:absolute;top:22px;right:0;color:#ea5d5f;font-size:12px;}
 .form-data .tel-warn i{display:inline-block;margin-top:-3px;margin-left:5px;color:#ea5d5f;vertical-align:middle;font-size:16px;}
@@ -54,4 +54,4 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 .find_password .jihuo_email{margin:0 auto;width:400px;color:#8d8d8d;text-align:center;font-size:14px;}
 .find_password .again{margin:0 auto;width:400px;color:#cacaca;text-align:center;font-size:12px;}
 .find_password .again a{color:#42a5f5;}
-.wrap .right{position:absolute;bottom:-80px;left:50%;margin-left:-590px;width:1180px;color:rgba(0,0,0,.3);text-align:center;line-height:40px;}
+.wrap .right{position:absolute;bottom:-80px;left:50%;margin-left:-590px;width:1180px;color: rgb(0, 0, 0);text-align:center;line-height:40px;}

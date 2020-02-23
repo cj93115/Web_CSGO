@@ -4,7 +4,10 @@ import com.Web_CSGO.common.base.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  *@ClassName: LoginController
@@ -12,15 +15,19 @@ import org.springframework.web.servlet.ModelAndView;
  *Author: cdl
  *@Date: 2020/2/20 14:51
  **/
-@Controller
+@RestController
+@RequestMapping("/LoginController")
 public class LoginController extends BaseController {
-    @GetMapping("/")
+    @GetMapping("loginPage")
     public ModelAndView loginPage(){
         return new ModelAndView("main/index");
     }
 
-    @RequestMapping("/login")
-    public ModelAndView login(){
-        return new ModelAndView();
+    @GetMapping("AdminloginPage")
+    public ModelAndView AdminloginPage(){
+        return new ModelAndView("main/Adminlogin");
     }
+
+
+
 }

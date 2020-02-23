@@ -19,45 +19,45 @@
         主题样式必须在easyui组件样式后。
     -->
 
-	<link href="EasyUI-InsdepTheme/themes/insdep/easyui.css" rel="stylesheet" type="text/css">
+	<link href="/EasyUI-InsdepTheme/themes/insdep/easyui.css" rel="stylesheet" type="text/css">
 
 
 	<!--
         themes/insdep/easyui_animation.css
         Insdep对easyui的额外增加的动画效果样式，根据需求引入或不引入，此样式不会对easyui产生影响
     -->
-	<link href="EasyUI-InsdepTheme/themes/insdep/easyui_animation.css" rel="stylesheet" type="text/css">
+	<link href="/EasyUI-InsdepTheme/themes/insdep/easyui_animation.css" rel="stylesheet" type="text/css">
 
 	<!--
         themes/insdep/easyui_plus.css
         Insdep对easyui的额外增强样式,内涵所有 insdep_xxx.css 的所有组件样式
         根据需求可单独引入insdep_xxx.css或不引入，此样式不会对easyui产生影响
     -->
-	<link href="EasyUI-InsdepTheme/themes/insdep/easyui_plus.css" rel="stylesheet" type="text/css">
+	<link href="/EasyUI-InsdepTheme/themes/insdep/easyui_plus.css" rel="stylesheet" type="text/css">
 
 	<!--
         themes/insdep/insdep_theme_default.css
         Insdep官方默认主题样式,更新需要自行引入，此样式不会对easyui产生影响
     -->
-	<link href="EasyUI-InsdepTheme/themes/insdep/insdep_theme_default.css" rel="stylesheet" type="text/css">
+	<link href="/EasyUI-InsdepTheme/themes/insdep/insdep_theme_default.css" rel="stylesheet" type="text/css">
 
 	<!--
         themes/insdep/icon.css
         美化过的easyui官方icons样式，根据需要自行引入
     -->
-	<link href="EasyUI-InsdepTheme/themes/insdep/icon.css" rel="stylesheet" type="text/css">
+	<link href="/EasyUI-InsdepTheme/themes/insdep/icon.css" rel="stylesheet" type="text/css">
 
 	<!--
         2017/03/22 新增
         plugin/font-awesome-4.7.0/css/font-awesome.min.css
         第三方图标库样式，用于显示左侧菜单栏图标，根据需要自行引入
     -->
-	<link href="EasyUI-InsdepTheme/plugin/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="/EasyUI-InsdepTheme/plugin/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 
-	<script type="text/javascript" src="EasyUI-InsdepTheme/jquery.min.js"></script>
-	<script type="text/javascript" src="EasyUI-InsdepTheme/jquery.easyui.min.js"></script>
-	<script type="text/javascript" src="EasyUI-InsdepTheme/themes/insdep/jquery.insdep-extend.min.js"></script>
+	<script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.min.js"></script>
+	<script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="/EasyUI-InsdepTheme/themes/insdep/jquery.insdep-extend.min.js"></script>
 
 
 </head>
@@ -67,7 +67,7 @@
 	<div data-options="region:'north',border:false,bodyCls:'theme-header-layout'">
 		<div class="theme-navigate">
 			<div class="left">
-				<a href="#" class="easyui-linkbutton left-control-switch"><i class="fa fa-bars fa-lg"></i></a>
+				<!--<a href="#" class="easyui-linkbutton left-control-switch"><i class="fa fa-bars fa-lg"></i></a>-->
 			</div>
 		</div>
 
@@ -80,23 +80,20 @@
 		<!--正常菜单-->
 		<div class="theme-left-normal">
 			<!--theme-left-switch 如果不需要缩进按钮，删除该对象即可-->
+<!--
 			<div class="left-control-switch theme-left-switch"><i class="fa fa-chevron-left fa-lg"></i></div>
+-->
 
 			<!--start class="easyui-layout"-->
 			<div class="easyui-layout" data-options="border:false,fit:true">
 				<!--start region:'north'-->
 				<div data-options="region:'north',border:false" style="height:100px;">
 					<!--start theme-left-user-panel-->
-					<div class="theme-left-user-panel">
+					<div class="" style="margin: 20px;">
 						<dl>
 							<dt>
-								<img src="EasyUI-InsdepTheme/themes/insdep/images/portrait86x86.png" width="43" height="43">
+								<img src="/images/csgologo.png" width="150" height="43">
 							</dt>
-							<dd>
-								<b class="badge-prompt">匿名 <i class="badge color-important">10</i></b>
-								<span>examples</span>
-								<p>安全等级：<i class="text-success">高</i></p>
-							</dd>
 
 						</dl>
 					</div>

@@ -6,6 +6,7 @@ import com.Web_CSGO.entity.AdminUser;
 import com.Web_CSGO.service.IAdminService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import javafx.scene.media.MediaView;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  *@ClassName testController
@@ -73,6 +75,16 @@ public class AdminUserController extends BaseController {
     @PostMapping("addOrUpAdminUser")
     public Object addOrUpAdminUser(AdminUser adminUser){
         JSONObject returnJson = new JSONObject();
+        List<AdminUser> users = new ArrayList<>();
+        users = adminService.getAdminUser(new Page(),adminUser);
+        if(users.size()>0){
+            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败,用回名存在!");
+        }
+
+        if("".equals(adminUser.getUser_ID())){
+            String uuid = UUID.randomUUID().toString();
+            adminUser.setUser_ID(uuid);
+        }
         try {
             boolean addOrUp = adminService.saveOrUpdate(adminUser);
             if (addOrUp){

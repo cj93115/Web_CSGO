@@ -34,6 +34,11 @@ public class UserRegisterController extends BaseController {
     @PostMapping("register")
     public Object register(@RequestBody JSONObject object){
         OcInformationsEntity ocInformationsEntity = JSON.toJavaObject(object, OcInformationsEntity.class);
+        if("".equals(ocInformationsEntity.getUserName())||ocInformationsEntity.getUserName()==null){
+            return setSuccessJSONObject(HttpCode.BAD_REQUEST,"","用户名不能为空！");
+        } if("".equals(ocInformationsEntity.getPassword())||ocInformationsEntity.getPassword()==null){
+            return setSuccessJSONObject(HttpCode.BAD_REQUEST,"","密码不能为空！");
+        }
         boolean save = ocInformationsService.save(ocInformationsEntity);
         if(save){
             return setSuccessJSONObject();
