@@ -24,6 +24,7 @@ public class LoginConfig implements WebMvcConfigurer {
         InterceptorRegistration registration = registry.addInterceptor(new AdminInterceptor());
         registration.addPathPatterns("/**");                      //所有路径都被拦截
         registration.excludePathPatterns(                         //添加不拦截路径
+                                         "/LoginController/login",
                                          "/LoginController/AdminloginPage",            //登录
                                          "/UserRegisterController/register",            //注册
                                          "/drawImage",            //登录
@@ -38,6 +39,7 @@ public class LoginConfig implements WebMvcConfigurer {
                                          "/**/*.css",             //css静态资源
                                          "/**/*.woff",
                                          "/**/*.ttf"
-                                         );    
+
+                                         );
     }
 }
