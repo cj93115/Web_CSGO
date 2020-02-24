@@ -37,7 +37,7 @@ public class LoginController extends BaseController {
 
     @PostMapping("login")
     @ResponseBody
-    public Map<String,Object> login(HttpServletRequest request, String username, String password, int userType, String verification_code){
+    public Map<String,Object> login(HttpServletRequest request, String username, String password, @RequestParam(required = false)int userType, String verification_code){
         System.out.println(username);
         return  tLoginServiceImpl.login(username,password,userType,verification_code,request);
     }

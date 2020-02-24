@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="edge"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <title></title>
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui_animation.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui_plus.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/insdep_theme_default.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/icon.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/plugin/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.min.js"></script>
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/themes/insdep/jquery.insdep-extend.min.js"></script>
+    <script type="text/javascript" src="/common/setForm.js"></script>
+    <style>
+        #main {
+            padding: 10px;
+        }
+
+        #table {
+            padding-top: 10px;
+        }
+
+        #addForm {
+            padding-top: 10px;
+
+        }
+        .textbox-icon,.passwordbox-open{
+            width: 24px!important;
+        }
+    </style>
+
+</head>
+
+<body>
+<div id="main">
+    <div id="tb" style="padding:2px 5px;">
+        <form id="query">
+            <label class="label-top">名称:</label>
+            <input class="easyui-textbox theme-textbox-radius" id="uname">
+           <!-- <label class="label-top">注册日期:</label>
+            <input class="easyui-datebox theme-textbox-radius" id="userRegDatestart">
+            <label class="label-top">至</label>
+            <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
+            <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
+            <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')">新增</a>
+        </form>
+    </div>
+    <table id="table" class="easyui-datagrid" cls="theme-datagrid"
+           data-options="url:'/AppExtend/getAppExtendList',method:'post'">
+        <thead>
+        <tr>
+            <th data-options="field:'extendId',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'extendName',width:100,align:'center'">开箱分类名称</th>
+            <th data-options="field:'extendOrder',width:80,align:'center'">序号</th>
+            <th data-options="field:'appKind.kindName',width:80,align:'center',formatter:formatter2">上级名称</th>
+            <!--<th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
+            <th data-options="field:'user_RegDate',width:60,align:'center'">User_RegDate</th>
+            <th data-options="field:'user_Money',width:60,align:'center'">User_Money</th>
+            <th data-options="field:'user_Show',width:60,align:'center'">User_Show</th>
+            <th data-options="field:'wx_id',width:60,align:'center'">微信id</th>-->
+        </tr>
+        </thead>
+    </table>
+</div>
+<!--新增窗口-->
+<div id="window" class="easyui-window" title="新增"
+     data-options="collapsible:false,closable:true,maximizable:false,closed:true"
+     style="width:500px;height:300px;padding:10px;">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" style="padding:10px;">
+            <div style="text-align: center;">
+                <form id="addForm">
+                    <input class="easyui-textbox" name="user_ID" id="user_ID" hidden="true">
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">分类名称:</label>
+                        <input class="easyui-textbox  theme-textbox-radius" name="extendName" id="extendName" style="width: 190px">
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">序&nbsp;&nbsp;&nbsp;号:</label>
+                        <input class="easyui-passwordbox  theme-textbox-radius" name="extend" id="user_Psd" style="width: 190px">
+                    </div>
+                    <div style="margin-bottom:20px;margin-left: -15px">
+                        <label class="label-top">上级名称:</label>
+                        <input class="easyui-passwordbox  theme-textbox-radius" id="psd" style="width: 190px">
+                    </div>
+                    <!--<div style="margin-bottom:20px">
+                        <label class="label-top">微信号:</label>
+                        <input class="easyui-textbox  theme-textbox-radius" name="wx_id" id="wx_id">
+                    </div>-->
+                </form>
+            </div>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addAdminUser()" style="width:80px">保存</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="$('#window').window('close')"
+               style="width:80px">取消</a>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+
+    $(function () {
+        $("#user_ID").next().hide();
+        init();
+    });
+    function init() {
+        $('#table').datagrid({
+            singleSelect: true,
+            closable: false,
+            cache: false,
+            rownumbers: true,//显示序号
+            pagination: true,
+            pageSize: 10,
+            collapsible: true,
+            fitColumns:true,
+            queryParams: {//查询
+                user_Name: $("#uname").val(),
+                start: $("#userRegDatestart").val(),
+                end: $("#userRegDateend").val()
+            }
+        });
+    }
+    function formatter(val, row, index) {
+        var del = "<a id='extendId' data-extend_id='" + row.extendId + "' title='删除' href='#' onclick='del()' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a id='extendId' data-extend_id='" + row.extendId + "' title='编辑' href='#' onclick='edit()' class='font-teal'><i></i>编辑 </a> ";
+        return del + ' ' + edit;
+    }
+    function formatter2(val, row, index) {
+        return row.appKind.kindName;
+    }
+
+    function addAdminUser() {
+        if($("#user_Psd").val()==''||$("#psd").val()==''){
+            $.messager.show({
+                title: '提示',
+                msg: '密码不能为空！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        if($("#user_Psd").val()!=$("#psd").val()){
+            $.messager.show({
+                title: '提示',
+                msg: '密码不一致！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        if($("#user_Name").val()==''){
+            $.messager.show({
+                title: '提示',
+                msg: '用户名为空！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        $.ajax({
+            type: "post",
+            url: "/AdminUser/addOrUpAdminUser",
+            data: $("#addForm").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.httpCode == 200) {
+                    $('#window').window('close');
+                    $.messager.show({
+                        title: '提示',
+                        msg: data.msg,
+                        showType: 'show',
+                        timeout: 3000
+                    });
+                    $('#table').datagrid('reload');//刷新
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: data.msg,
+                        showType: 'show',
+                        timeout: 3000
+                    });
+                }
+            }
+        });
+
+    }
+
+    function del() {
+        $.messager.confirm('删除提示', '是否删除?', function (r) {
+            if (r) {
+                $.ajax({
+                    type: "post",
+                    url: "/AdminUser/delAdminUser",
+                    data: {
+                        extendId: $("#extendId").data("extend_id")
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.httpCode == 200) {
+                            $.messager.show({
+                                title: '提示',
+                                msg: data.msg,
+                                showType: 'show',
+                                timeout: 3000
+                            });
+                        } else {
+                            $.messager.show({
+                                title: '提示',
+                                msg: data.msg,
+                                showType: 'show',
+                                timeout: 3000
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+    function edit() {
+        $.messager.confirm('编辑提示', '是否编辑?', function (r) {
+            if (r) {
+                $("#psd").hide();
+                $.ajax({
+                    type: "post",
+                    url: "/AppExtend/editGetAppExtend",
+                    data: {
+                        extendId: $("#extendId").data("extend_id")
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        $.setForm('#addForm',data);
+                        $('#window').window('open')
+                    }
+                });
+            }
+        });
+
+    }
+</script>
+</html>
