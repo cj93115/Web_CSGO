@@ -2,42 +2,38 @@ package com.Web_CSGO.controller.AdminUser;
 
 import com.Web_CSGO.common.HttpCode;
 import com.Web_CSGO.common.base.BaseController;
-import com.Web_CSGO.entity.AdminUser;
 import com.Web_CSGO.entity.AppExtend;
 import com.Web_CSGO.entity.AppKind;
+import com.Web_CSGO.entity.Product;
 import com.Web_CSGO.service.IAppExtendService;
 import com.Web_CSGO.service.IAppKindService;
+import com.Web_CSGO.service.IProductService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.management.Query;
 import java.util.*;
 
 
 @Slf4j
 @RestController
-@RequestMapping("/AppExtend")
+@RequestMapping("/Product")
 @EnableTransactionManagement//事务
-public class AppExtendController extends BaseController {
+public class ProductController extends BaseController {
     @Resource
-    private IAppExtendService appExtendService;
-    @Resource
-    private IAppKindService appKindService ;
-
-    @GetMapping("getAppExtend")
+    private IProductService productService;
+    @GetMapping("getProduct")
     public ModelAndView getAdminUserPage(){
-        return new ModelAndView("main/getAppExtendList");
+        return new ModelAndView("main/getProductList");
     }
     /***
      *
@@ -46,9 +42,10 @@ public class AppExtendController extends BaseController {
      * @return
      * 获取管理用户列表
      */
-    @PostMapping("getAppExtendList")
-    public Object getAdminUserList(Integer page, Integer rows, AppExtend appExtend, String start, String end){
-        List<AppExtend> appExtends = new ArrayList<>();
+    @PostMapping("getProductList")
+    public Object getProductList(Integer page, Integer rows, Product product, String start, String end){
+        System.out.println(product);
+        List<Product> products = new ArrayList<>();
         /***********分页部分*************/
         JSONObject object = new JSONObject();
         object.put("current",page);
@@ -64,23 +61,17 @@ public class AppExtendController extends BaseController {
         }
         Page<Object> objectPage = new Page<>(current, size);
         /***********分页部分*************/
-        appExtends = appExtendService.getAppExtend(objectPage, appExtend);
-           for(int i=0;i<appExtends.size();i++){
-               AppExtend appExtend1 = appExtends.get(i);
-               AppExtend appExtend2 = setAppKind(appExtend1);
-               appExtends.set(i,appExtend2);
-           }
+        products = productService.getProduct(objectPage,product);
         JSONObject returnJson = new JSONObject();
-
-        returnJson.put("rows",appExtends);//每页条数
+        returnJson.put("rows",products);//每页条数
         returnJson.put("total",objectPage.getTotal());//分页总条数
         return returnJson;
     }
-    @PostMapping("delAppExtend")
-    public Object delAppExtend(String extendId){
+    @PostMapping("delProduct")
+    public Object delProduct(String extendId){
         System.out.println(extendId);
         JSONObject returnJson = new JSONObject();
-        boolean remove = appExtendService.removeById(extendId);
+        boolean remove =   productService.removeById(extendId);
         try{
             if (remove){
                 returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "删除成功!");
@@ -92,31 +83,27 @@ public class AppExtendController extends BaseController {
         return returnJson;
     }
     @PostMapping("editGetAppExtend")
-    public Object editGetAppExtend(String extendId){
+    public Object editGetProduct(String productId){
         Map<String,Object> map = new HashMap();
-        AppExtend appExtend = appExtendService.getById(extendId);
-        appExtend = setAppKind(appExtend);
-        map.put("appExtend",appExtend);
-        List<AppKind> appKind = appKindService.getAppKind(new Page(), new AppKind());
-        map.put("appKind",appKind);
+        Product product =productService.getById(productId);
+        map.put("product",product);
         return JSON.toJSON(map);
     }
-    @PostMapping("addOrUpAppExtend")
-    public Object addOrUpAppExtend(AppExtend appExtend,String kindName){
-        appExtend.setKindId(kindName);
-        System.out.println(appExtend);
+    @PostMapping("addOrUpProduct")
+    public Object addOrUpProduct(Product product){
+
         JSONObject returnJson = new JSONObject();
-        List<AppExtend> appExtends = new ArrayList<>();
-        appExtends =  appExtendService.getAppExtend(new Page(),appExtend);
-        if(appExtends.size()>0){
+        List<Product> products = new ArrayList<>();
+        products = productService.getProduct(new Page(),product);
+        if(products.size()>0){
             return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败,用回名存在!");
         }
-        if("".equals(appExtend.getExtendId())){
+        if("".equals(product.getProductId())){
             String uuid = UUID.randomUUID().toString();
-            appExtend.setExtendId(uuid);
+            product.setProductId(uuid);
         }
         try {
-            boolean addOrUp = appExtendService.saveOrUpdate(appExtend);
+            boolean addOrUp = productService.saveOrUpdate(product);
 
             if (addOrUp){
                 returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "保存成功!");
@@ -126,18 +113,5 @@ public class AppExtendController extends BaseController {
             return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败!");
         }
         return returnJson;
-    }
-    public AppExtend setAppKind(AppExtend appExtend){
-        QueryWrapper<AppKind> appKindQueryWrapper = new QueryWrapper<>();
-        appKindQueryWrapper.eq("Kind_ID",appExtend.getKindId());
-        appExtend.setAppKind(appKindService.getOne(appKindQueryWrapper));
-        return appExtend;
-    }
-
-    @PostMapping("getKind")
-    public Object getkind(){
-        List<AppKind> appKind = appKindService.getAppKind(new Page(), new AppKind());
-        System.out.println(appKind);
-        return JSON.toJSON(appKind);
     }
 }

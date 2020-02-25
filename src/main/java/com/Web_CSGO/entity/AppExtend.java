@@ -28,7 +28,7 @@ public class AppExtend implements Serializable {
       private String extendBegin;
       @TableField("Extend_End")
       private String extendEnd;
-
+      @TableField(exist = false)
       private AppKind appKind;
 
 

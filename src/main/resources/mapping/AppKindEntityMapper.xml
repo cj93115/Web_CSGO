@@ -3,9 +3,23 @@
 <mapper namespace="com.Web_CSGO.mapper.TAppKindMapper">
 
     <select id="getAppKind" resultType="com.Web_CSGO.entity.AppKind">
-        SELECT  Kind_ID ,
-        Kind_Name ,
-        Kind_Order
+        SELECT  Kind_ID as kindId,
+        Kind_Name as kindName,
+        Kind_Order as kindOrder
       FROM APPKind
+        <where>
+            1=1
+            <if test="appKind !=null ">
+                <if test="appKind.kindName !=null and appKind.kindName !=''">
+                    and  Kind_Name =  #{appKind.kindName,jdbcType = VARCHAR}
+                </if>
+            </if>
+            <!--
+                      <if test="User_Name != '' and User_Name != null">
+            -->
+            <!--
+                      </if>
+            -->
+        </where>
     </select>
 </mapper>

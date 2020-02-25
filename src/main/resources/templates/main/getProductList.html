@@ -33,10 +33,7 @@
             width: 24px!important;
         }
     </style>
-<script>
 
-
-</script>
 </head>
 
 <body>
@@ -51,17 +48,19 @@
             <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
             <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
 
-            <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open');">新增</a>
+            <a href="#" class="easyui-linkbutton button-default" onclick=" $('#window').window('open');">新增</a>
         </form>
     </div>
     <table id="table" class="easyui-datagrid" cls="theme-datagrid"
-           data-options="url:'/AppExtend/getAppExtendList',method:'post'">
+           data-options="url:'/Product/getProductList',method:'post'">
         <thead>
         <tr>
-            <th data-options="field:'extendId',width:120,align:'center',formatter:formatter">操作</th>
-            <th data-options="field:'extendName',width:100,align:'center'">开箱分类名称</th>
-            <th data-options="field:'extendOrder',width:80,align:'center'">序号</th>
-            <th data-options="field:'appKind.kindName',width:80,align:'center',formatter:formatter2">上级名称</th>
+            <th data-options="field:'productId',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'productName',width:80,align:'center'">名称</th>
+            <th data-options="field:'productTime',width:80,align:'center'">上架时间</th>
+            <th data-options="field:'productSale',width:100,align:'center'">价格</th>
+            <th data-options="field:'productPicSmall',width:80,align:'center',formatter:formatter2">预览</th>
+
             <!--<th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
             <th data-options="field:'user_RegDate',width:60,align:'center'">User_RegDate</th>
             <th data-options="field:'user_Money',width:60,align:'center'">User_Money</th>
@@ -105,7 +104,8 @@
         </div>
         <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
             <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addAppExtend()" style="width:80px">保存</a>
-            <a class="easyui-linkbutton" href=" " id="onclose" style="width:80px">取消</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="$('#window').window('close')"
+               style="width:80px">取消</a>
         </div>
     </div>
 </div>
@@ -127,7 +127,7 @@
             collapsible: true,
             fitColumns:true,
             queryParams: {//查询
-                extendName: $("#uname").val(),
+                productName: $("#uname").val(),
                 start: $("#userRegDatestart").val(),
                 end: $("#userRegDateend").val()
             }
@@ -135,12 +135,12 @@
     }
     function formatter(val, row, index) {
 
-        var del = "<a id='extendId' data-extend_id='" + row.extendId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
-        var edit = "<a id='extendId' data-extend_id='" + row.extendId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+        var del = "<a id='productId' data-product_id='" + row.productId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a id='productId' data-product_id='" + row.productId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
         return del + ' ' + edit;
     }
     function formatter2(val, row, index) {
-        return row.appKind.kindName;
+        return "<img src='"+row.productPicSmall+"'height='60px' >" ;
     }
 
     function addAppExtend() {
@@ -205,9 +205,6 @@
                         timeout: 3000
                     });
                     $('#table').datagrid('reload');//刷新
-                    $("#addForm").form('clear');
-
-
                 } else {
                     $.messager.show({
                         title: '提示',
@@ -226,9 +223,9 @@
             if (r) {
                 $.ajax({
                     type: "post",
-                    url: "/AppExtend/delAppExtend",
+                    url: "/Product/delProduct",
                     data: {
-                        extendId: $(_this).attr("data-extend_id")
+                        extendId: $(_this).attr("data-product_id")
                     },
                     dataType: "json",
                     success: function (data) {
@@ -266,7 +263,6 @@
                     dataType: "json",
                     success: function (data) {
                         $.setForm('#addForm',data.appExtend);
-
                         $('#kindName').combobox({
                             valueField:'kindId',
                             textField:'kindName',
@@ -282,9 +278,5 @@
         });
 
     }
-    $("#onclose").click(function () {
-        $('#window').window('close');
-        $("#addForm").form('clear');
-    });
 </script>
 </html>
