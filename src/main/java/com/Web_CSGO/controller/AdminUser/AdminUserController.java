@@ -77,7 +77,7 @@ public class AdminUserController extends BaseController {
         JSONObject returnJson = new JSONObject();
         List<AdminUser> users = new ArrayList<>();
         users = adminService.getAdminUser(new Page(),adminUser);
-        if(users.size()>0){
+        if(users.size()>0&&"".equals(adminUser.getUser_ID())){
             return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败,用回名存在!");
         }
 

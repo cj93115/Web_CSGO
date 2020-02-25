@@ -67,7 +67,7 @@ public class UserController  extends BaseController {
     public Object addOrUpUser(OcInformationsEntity user){
         JSONObject returnJson = new JSONObject();
         List<OcInformationsEntity> users = ocInformationsService.getUserList(new Page(), user);
-        if(users.size()>0){
+        if(users.size()>0&&"".equals(user.getInformationId())){
             return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败,用户名存在!");
         }
         user.setPassword(MD5Util.string2MD5(user.getPassword()));

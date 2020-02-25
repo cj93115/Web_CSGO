@@ -103,7 +103,7 @@ public class OpenBoxController extends BaseController {
         QueryWrapper<OcShopsEntity> ocShopsQuery = new QueryWrapper<>();
         ocShopsQuery.eq("ShopName",ocShopsEntity.getShopName());
         List<Map<String, Object>> list = ocShopsService.listMaps(ocShopsQuery);
-        if(list.size()>0){
+        if(list.size()>0&&"".equals(ocShopsEntity.getShopTypeId())){
             return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败,用回名存在!");
         }
         try {

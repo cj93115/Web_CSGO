@@ -98,8 +98,7 @@
         </div>
         <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
             <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addAdminUser()" style="width:80px">保存</a>
-            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="$('#window').window('close')"
-               style="width:80px">取消</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" id="onclose" style="width:80px">取消</a>
         </div>
     </div>
 </div>
@@ -176,6 +175,7 @@
                         showType: 'show',
                         timeout: 3000
                     });
+                    $("#addForm").form('clear');
                     $('#table').datagrid('reload');//刷新
                 } else {
                     $.messager.show({
@@ -243,6 +243,10 @@
         });
 
     }
+    $("#onclose").click(function () {
+        $('#window').window('close');
+        $("#addForm").form('clear');
+    })
     //时间
     function format(val) {
         if (val == null || val == "") {
