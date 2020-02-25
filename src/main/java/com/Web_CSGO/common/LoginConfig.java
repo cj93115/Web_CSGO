@@ -25,21 +25,32 @@ public class LoginConfig implements WebMvcConfigurer {
         registration.addPathPatterns("/**");                      //所有路径都被拦截
         registration.excludePathPatterns(                         //添加不拦截路径
                                          "/LoginController/login",
-                                         "/LoginController/AdminloginPage",            //登录
-                                         "/UserRegisterController/register",            //注册
-                                         "/drawImage",            //登录
+                                         "/LoginController/loginPage", //登录
+                                         "/LoginController/AdminloginPage", //登录
+                                        /* "/UserController/getUserPage", //登录
+                                         "/UserController/getUserList", //登录*/
+                                         "/UserRegisterController/register", //注册
+                                         "/drawImage",
                                          "/common/**",
                                          "/css/**",
                                          "/images/**",
                                          "/main/**",
                                          "/js/**",
-                                         "/EasyUI-InsdepTheme",
+                                         "/EasyUI-InsdepTheme/**",
+                                         "/static",
                                          "/**/*.html",            //html静态资源
                                          "/**/*.js",              //js静态资源
                                          "/**/*.css",             //css静态资源
                                          "/**/*.woff",
-                                         "/**/*.ttf"
-
+                                         "/**/*.ttf",
+                                         "*.html",            //html静态资源
+                                         "*.js",              //js静态资源
+                                         "*.css",             //css静态资源
+                                         "*.woff2",             //css静态资源
+                                         "*.otf",             //css静态资源
+                                         "*.eot",             //css静态资源
+                                         "*.svg",             //css静态资源
+                                         "*.ttf"             //css静态资源
                                          );
     }
 }

@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta http-equiv="X-UA-Compatible" content="edge" />
 	<link rel="shortcut icon" href="favicon.ico" />
@@ -89,12 +89,15 @@
 				<!--start region:'north'-->
 				<div data-options="region:'north',border:false" style="height:100px;">
 					<!--start theme-left-user-panel-->
-					<div class="" style="margin: 20px;">
+					<div class="" style="margin-top: 10px;text-align: center;">
 						<dl>
 							<dt>
 								<img src="/images/csgologo.png" width="150" height="43">
 							</dt>
-
+							<dt>
+								用户：<b class="badge-prompt" th:text="${aUserName}"></b>							</dt>
+								<a class="theme-navigate-user-logout">注销</a>
+							</dt>
 						</dl>
 					</div>
 					<!--end theme-left-user-panel-->
@@ -105,10 +108,15 @@
 				<div data-options="region:'center',border:false">
 					<!--start easyui-accordion-->
 					<div class="easyui-accordion" data-options="border:false,fit:true">
-
+						<div title="用户管理">
+							<ul class="easyui-datalist" data-options="border:false,fit:true">
+								<li><a onclick="addTab('/user/UserController/getUserPage','用户列表',true)" style="display: block;">用户列表</a></li>
+								<li><a onclick="addTab('/OpenBoxController/getOpenBox','开箱空间',true)" style="display: block;">开箱空间</a></li>
+							</ul>
+						</div>
 						<div title="系统管理">
 							<ul class="easyui-datalist" data-options="border:false,fit:true">
-								<li><a onclick="addTab('/AdminUser/getAdminUser','系统用户管理',true)" style="display: block;">系统用户管理</a></li>
+								<li><a onclick="addTab('/AdminUser/getAdminUser','系统用户管理',true)" style="display: block;">管理员列表</a></li>
 							</ul>
 						</div>
 						<div title="开箱管理">
@@ -124,7 +132,7 @@
 			<!--end class="easyui-layout"-->
 
 		</div>
-		<!--最小化菜单-->
+		<!--最小化菜单
 		<div class="theme-left-minimal">
 			<ul class="easyui-datalist" data-options="border:false,fit:true">
 				<li><i class="fa fa-home fa-2x"></i><p>主题</p></li>
@@ -133,7 +141,7 @@
 				<li><i class="fa fa-cog fa-2x"></i><p>设置</p></li>
 				<li><a class="left-control-switch"><i class="fa fa-chevron-right fa-2x"></i><p>打开</p></a></li>
 			</ul>
-		</div>
+		</div>-->
 
 	</div>
 	<!--结束左侧菜单-->
@@ -142,9 +150,9 @@
 		<div id="mainTabs" class="easyui-tabs" data-options="tools:'#tab-tools',border:false,fit:true,tabPosition:'top',headerWidth:120,tabHeight:40">
 
 			<div class="easyui-tab" data-options="closable:false,iconCls:'main_icon icon_index'"
-				 title="我的地盘"
+				 title="首页"
 				 style="padding:0; overflow: hidden">
-				<iframe id="index" name="index" src="/AdminUser/getAdminUser" frameborder="0" width="100%"
+				<iframe id="index" name="index" src="" frameborder="0" width="100%"
 						height="100%">
 
 					<table class="table table-striped">
@@ -351,19 +359,19 @@
 </script>
 
 <!--第三方插件加载-->
-<script src="EasyUI-InsdepTheme/plugin/justgage-1.2.2/raphael-2.1.4.min.js"></script>
-<script src="EasyUI-InsdepTheme/plugin/justgage-1.2.2/justgage.js"></script>
+<script src="/EasyUI-InsdepTheme/plugin/justgage-1.2.2/raphael-2.1.4.min.js"></script>
+<script src="/EasyUI-InsdepTheme/plugin/justgage-1.2.2/justgage.js"></script>
 
 
-<script src="EasyUI-InsdepTheme/plugin/Highcharts-5.0.0/js/highcharts.js"></script>
+<script src="/EasyUI-InsdepTheme/plugin/Highcharts-5.0.0/js/highcharts.js"></script>
 
 
-<script type="text/javascript" src="EasyUI-InsdepTheme/plugin/ueditor-1.4.3.3/ueditor.config.js"></script>
-<script type="text/javascript" src="EasyUI-InsdepTheme/plugin/ueditor-1.4.3.3/ueditor.all.min.js"></script>
+<script type="text/javascript" src="/EasyUI-InsdepTheme/plugin/ueditor-1.4.3.3/ueditor.config.js"></script>
+<script type="text/javascript" src="/EasyUI-InsdepTheme/plugin/ueditor-1.4.3.3/ueditor.all.min.js"></script>
 
 
-<link href="EasyUI-InsdepTheme/plugin/cropper-2.3.4/dist/cropper.min.css" rel="stylesheet" type="text/css">
-<script src="EasyUI-InsdepTheme/plugin/cropper-2.3.4/dist/cropper.min.js"></script>
+<link href="/EasyUI-InsdepTheme/plugin/cropper-2.3.4/dist/cropper.min.css" rel="stylesheet" type="text/css">
+<script src="/EasyUI-InsdepTheme/plugin/cropper-2.3.4/dist/cropper.min.js"></script>
 
 
 <!--第三方插件加载结束-->

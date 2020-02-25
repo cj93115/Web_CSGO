@@ -51,13 +51,14 @@
         </form>
     </div>
     <table id="table" class="easyui-datagrid" cls="theme-datagrid"
-           data-options="url:'/AdminUser/getAdminUserList',method:'post'">
+           data-options="url:'/user/UserController/getUserList',method:'post'">
         <thead>
         <tr>
-            <th data-options="field:'user_ID',width:120,align:'center',formatter:formatter">操作</th>
-            <th data-options="field:'user_Name',width:100,align:'center'">用户名</th>
-            <th data-options="field:'user_Psd',width:80,align:'center'">密码</th>
-            <th data-options="field:'user_LoginTime',width:80,align:'center',formatter:format">登录时间</th>
+            <th data-options="field:'informationId',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'userName',width:100,align:'center'">用户名</th>
+            <th data-options="field:'mobile',width:80,align:'center'">电话</th>
+            <th data-options="field:'submitTime',width:80,align:'center',formatter:format">登录时间</th>
+            <th data-options="field:'openId',width:80,align:'center'">Steam账号</th>
             <!--<th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
             <th data-options="field:'user_RegDate',width:60,align:'center'">User_RegDate</th>
             <th data-options="field:'user_Money',width:60,align:'center'">User_Money</th>
@@ -76,18 +77,22 @@
         <div data-options="region:'center'" style="padding:10px;">
             <div style="text-align: center;">
                 <form id="addForm">
-                    <input class="easyui-textbox" name="user_ID" id="user_ID" hidden="true">
+                    <input class="easyui-textbox" name="informationId" id="informationId" hidden="true">
                     <div style="margin-bottom:20px">
                         <label class="label-top">用户名:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="user_Name" id="user_Name" style="width: 190px">
+                        <input class="easyui-textbox  theme-textbox-radius" name="userName" id="userName" style="width: 190px">
                     </div>
                     <div style="margin-bottom:20px">
                         <label class="label-top">密&nbsp;&nbsp;&nbsp;码:</label>
-                        <input class="easyui-passwordbox  theme-textbox-radius" name="user_Psd" id="user_Psd" style="width: 190px">
+                        <input class="easyui-passwordbox theme-textbox-radius" name="password" id="password" style="width: 190px">
                     </div>
                     <div style="margin-bottom:20px;margin-left: -15px">
                         <label class="label-top">确认密码:</label>
-                        <input class="easyui-passwordbox  theme-textbox-radius" id="psd" style="width: 190px">
+                        <input class="easyui-passwordbox theme-textbox-radius" id="psd" style="width: 190px">
+                    </div>
+                    <div style="margin-bottom:20px;">
+                        <label class="label-top">电&nbsp;&nbsp;&nbsp;话:</label>
+                        <input class="easyui-textbox  theme-textbox-radius" name="mobile" id="mobile" style="width: 190px">
                     </div>
                     <!--<div style="margin-bottom:20px">
                         <label class="label-top">微信号:</label>
@@ -97,7 +102,7 @@
             </div>
         </div>
         <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
-            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addAdminUser()" style="width:80px">保存</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addUser()" style="width:80px">保存</a>
             <a class="easyui-linkbutton" href="javascript:void(0)" onclick="$('#window').window('close')"
                style="width:80px">取消</a>
         </div>
@@ -108,7 +113,7 @@
 <script type="text/javascript">
 
     $(function () {
-        $("#user_ID").next().hide();
+        $("#informationId").next().hide();
         init();
     });
     function init() {
@@ -122,20 +127,20 @@
             collapsible: true,
             fitColumns:true,
             queryParams: {//查询
-                user_Name: $("#uname").val(),
+                userName: $("#uname").val(),
                 start: $("#userRegDatestart").val(),
                 end: $("#userRegDateend").val()
             }
         });
     }
     function formatter(val, row, index) {
-        var del = "<a data-user_id='" + row.user_ID + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
-        var edit = "<a data-user_id='" + row.user_ID + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+        var del = "<a  data-informationId='" + row.informationId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a data-informationId='" + row.informationId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
         return del + ' ' + edit;
     }
 
-    function addAdminUser() {
-        if($("#user_Psd").val()==''||$("#psd").val()==''){
+    function addUser() {
+        if($("#password").val()==''||$("#psd").val()==''){
             $.messager.show({
                 title: '提示',
                 msg: '密码不能为空！',
@@ -144,7 +149,7 @@
             });
             return;
         }
-        if($("#user_Psd").val()!=$("#psd").val()){
+        if($("#password").val()!=$("#psd").val()){
             $.messager.show({
                 title: '提示',
                 msg: '密码不一致！',
@@ -153,7 +158,7 @@
             });
             return;
         }
-        if($("#user_Name").val()==''){
+        if($("#userName").val()==''){
             $.messager.show({
                 title: '提示',
                 msg: '用户名为空！',
@@ -164,7 +169,7 @@
         }
         $.ajax({
             type: "post",
-            url: "/AdminUser/addOrUpAdminUser",
+            url: "/user/UserController/addOrUpUser",
             data: $("#addForm").serialize(),
             dataType: "json",
             success: function (data) {
@@ -195,9 +200,9 @@
             if (r) {
                 $.ajax({
                     type: "post",
-                    url: "/AdminUser/delAdminUser",
+                    url: "/user/UserController/delUser",
                     data: {
-                        userId: $(obj).data("user_id")
+                        informationId: $(obj).attr("data-informationId")
                     },
                     dataType: "json",
                     success: function (data) {
@@ -229,9 +234,9 @@
                 $("#psd").hide();
                 $.ajax({
                     type: "post",
-                    url: "/AdminUser/editGetAdminUser",
+                    url: "/user/UserController/editUser",
                     data: {
-                        userId: $(obj).data("user_id")
+                        informationId: $(obj).attr("data-informationId")
                     },
                     dataType: "json",
                     success: function (data) {
@@ -246,8 +251,8 @@
     //时间
     function format(val) {
         if (val == null || val == "") {
-            val = "";
-            return val;
+                val = "";
+                return val;
         }
         return val.substring(0, 10);
     }

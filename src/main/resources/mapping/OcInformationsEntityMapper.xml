@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Web_CSGO.mapper.TOcInformationsMapper">
-    <select id="get" resultType="java.util.Map">
-        SELECT  *
-        FROM oc_Informations WHERE InformationId=3830
+    <select id="getUserList" resultType="com.Web_CSGO.entity.OcInformationsEntity">
+        SELECT  informationId,userName,mobile,submitTime,openId
+        FROM oc_Informations
+        <where>
+            1=1
+            <if test="ocInformations !=null ">
+                <if test="ocInformations.UserName !=null and ocInformations.UserName !=''">
+                    and  UserName =  #{ocInformations.UserName,jdbcType = VARCHAR}
+                </if>
+            </if>
+        </where>
     </select>
 </mapper>

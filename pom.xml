@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.Web_GSGO</groupId>
+    <groupId>com.Web_CSGO</groupId>
     <artifactId>Web_CSGO</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>

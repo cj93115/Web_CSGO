@@ -3,6 +3,7 @@ package com.Web_CSGO.service.impl;
 import com.Web_CSGO.entity.OcInformationsEntity;
 import com.Web_CSGO.mapper.TOcInformationsMapper;
 import com.Web_CSGO.service.IOcInformationsService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ import java.util.Map;
 public class TOcInformationsServiceImpl extends ServiceImpl<TOcInformationsMapper, OcInformationsEntity> implements IOcInformationsService {
 
     @Override
-    public List<Map<String, Object>> get() {
-        return this.baseMapper.get();
+    public List<OcInformationsEntity> getUserList(Page page, OcInformationsEntity ocInformationsEntity) {
+        return this.baseMapper.getUserList(page,ocInformationsEntity);
     }
 }

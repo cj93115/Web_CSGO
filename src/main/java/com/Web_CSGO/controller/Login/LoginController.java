@@ -1,15 +1,19 @@
 package com.Web_CSGO.controller.Login;
 
 import com.Web_CSGO.common.base.BaseController;
+import com.Web_CSGO.entity.AdminUser;
 import com.Web_CSGO.service.ILoginService;
 import com.Web_CSGO.service.impl.TLoginServiceImpl;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
@@ -25,20 +29,29 @@ public class LoginController extends BaseController {
     @Resource
     ILoginService tLoginServiceImpl;
 
-    @GetMapping("loginPage")
-    public ModelAndView loginPage(){
-        return new ModelAndView("main/index");
+    @GetMapping("userIndexPage")
+    public ModelAndView userIndex(){
+        return new ModelAndView("main/userIndex");
     }
 
     @GetMapping("AdminloginPage")
     public ModelAndView AdminloginPage(){
         return new ModelAndView("main/Adminlogin");
     }
-
+    @GetMapping("adminIndexPage")
+    public ModelAndView AdminIndex(HttpServletRequest request,ModelMap mmap){
+        HttpSession session = request.getSession();
+        AdminUser adminUser = (AdminUser) session.getAttribute("AdminUser");
+        mmap.put("aUserName",adminUser.getUser_Name());
+        return new ModelAndView("main/index");
+    }
     @PostMapping("login")
     @ResponseBody
-    public Map<String,Object> login(HttpServletRequest request, String username, String password, @RequestParam(required = false)int userType, String verification_code){
-        System.out.println(username);
+    public Map<String,Object> login(HttpServletRequest request, @RequestBody JSONObject json){
+        String username = (String) json.get("username");
+        String password = (String) json.get("password");
+        Integer userType = (Integer) json.get("userType");
+        String verification_code = (String) json.get("verification_code");
         return  tLoginServiceImpl.login(username,password,userType,verification_code,request);
     }
 }

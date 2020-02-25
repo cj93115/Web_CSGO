@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Web_CSGO.mapper.OcShopsMapper">
+
+    <select id="getOpenBoxList" resultType="java.util.Map">
+        SELECT
+        oc.shopId,oc.shopName,oc.ShopTel,oc.ShopCode,oc.ShopJoinTime,oci.name
+        FROM
+        oc_Shops oc
+        LEFT JOIN
+        oc_Informations oci on oci.InformationId = oc.InformationId
+        <where>
+            1=1
+            <if test="params.name != null and params.name != ''">and oci.name = #{params.name,jdbcType = VARCHAR}</if>
+            <if test="params.ShopTel != null and params.ShopTel != ''">and oci.ShopTel = #{params.ShopTel,jdbcType = VARCHAR}</if>
+        </where>
+    </select>
+</mapper>

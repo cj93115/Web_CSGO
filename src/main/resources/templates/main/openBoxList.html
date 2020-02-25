@@ -41,23 +41,27 @@
     <div id="tb" style="padding:2px 5px;">
         <form id="query">
             <label class="label-top">用户名:</label>
-            <input class="easyui-textbox theme-textbox-radius" id="uname">
+            <input class="easyui-textbox theme-textbox-radius" id="name" >
+            <label class="label-top">联系电话:</label>
+            <input class="easyui-textbox theme-textbox-radius" id="ShopTel" >
            <!-- <label class="label-top">注册日期:</label>
             <input class="easyui-datebox theme-textbox-radius" id="userRegDatestart">
             <label class="label-top">至</label>
             <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
-            <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="tabledat()">查询</a>
             <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')">新增</a>
         </form>
     </div>
     <table id="table" class="easyui-datagrid" cls="theme-datagrid"
-           data-options="url:'/AdminUser/getAdminUserList',method:'post'">
+           data-options="url:'/OpenBoxController/getOpenBoxList',method:'post'">
         <thead>
         <tr>
-            <th data-options="field:'user_ID',width:120,align:'center',formatter:formatter">操作</th>
-            <th data-options="field:'user_Name',width:100,align:'center'">用户名</th>
-            <th data-options="field:'user_Psd',width:80,align:'center'">密码</th>
-            <th data-options="field:'user_LoginTime',width:80,align:'center',formatter:format">登录时间</th>
+            <th data-options="field:'shopId',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'name',width:100,align:'center'">玩家姓名</th>
+            <th data-options="field:'shopName',width:100,align:'center'">玩家皮肤空间名称	</th>
+            <th data-options="field:'ShopTel',width:100,align:'center'">联系电话</th>
+            <th data-options="field:'ShopCode',width:80,align:'center'">空间编号</th>
+            <th data-options="field:'ShopJoinTime',width:80,align:'center',formatter:format">开店时间</th>
             <!--<th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
             <th data-options="field:'user_RegDate',width:60,align:'center'">User_RegDate</th>
             <th data-options="field:'user_Money',width:60,align:'center'">User_Money</th>
@@ -76,18 +80,19 @@
         <div data-options="region:'center'" style="padding:10px;">
             <div style="text-align: center;">
                 <form id="addForm">
-                    <input class="easyui-textbox" name="user_ID" id="user_ID" hidden="true">
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">用户名:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="user_Name" id="user_Name" style="width: 190px">
+                    <input class="easyui-textbox" name="shopId" id="shopId" hidden="true">
+                    <div style="margin-bottom:20px;margin-left: -60px;">
+                        <label class="label-top">玩家皮肤空间名称:</label>
+                        <input class="easyui-textbox  theme-textbox-radius" name="shopName" id="shopName" style="width: 190px">
+                    </div>
+                    <div style="margin-bottom:20px;margin-left: -13px;">
+                        <label class="label-top">玩家姓名:</label>
+                        <input style="width: 190px" type="text" id="namec" name="informationId" class="easyui-combobox"
+                               data-options="url: '/OpenBoxController/getInformation',editable:false,valueField: 'id',textField: 'text',prompt: '玩家姓名'"/>
                     </div>
                     <div style="margin-bottom:20px">
-                        <label class="label-top">密&nbsp;&nbsp;&nbsp;码:</label>
-                        <input class="easyui-passwordbox  theme-textbox-radius" name="user_Psd" id="user_Psd" style="width: 190px">
-                    </div>
-                    <div style="margin-bottom:20px;margin-left: -15px">
-                        <label class="label-top">确认密码:</label>
-                        <input class="easyui-passwordbox  theme-textbox-radius" id="psd" style="width: 190px">
+                        <label class="label-top">电&nbsp;&nbsp;&nbsp;话:</label>
+                        <input class="easyui-textbox  theme-textbox-radius" name="shopTel" style="width: 190px">
                     </div>
                     <!--<div style="margin-bottom:20px">
                         <label class="label-top">微信号:</label>
@@ -97,7 +102,7 @@
             </div>
         </div>
         <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
-            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addAdminUser()" style="width:80px">保存</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addOrUpOpenBox()" style="width:80px">保存</a>
             <a class="easyui-linkbutton" href="javascript:void(0)" onclick="$('#window').window('close')"
                style="width:80px">取消</a>
         </div>
@@ -108,7 +113,7 @@
 <script type="text/javascript">
 
     $(function () {
-        $("#user_ID").next().hide();
+        $("#shopId").next().hide();
         init();
     });
     function init() {
@@ -120,12 +125,13 @@
             pagination: true,
             pageSize: 10,
             collapsible: true,
-            fitColumns:true,
-            queryParams: {//查询
-                user_Name: $("#uname").val(),
-                start: $("#userRegDatestart").val(),
-                end: $("#userRegDateend").val()
-            }
+            fitColumns:true
+        });
+    }
+    function tabledat() {
+        $('#table').datagrid('load',{
+            name: $('#name').val(),
+            ShopTel: $('#ShopTel').val()
         });
     }
     function formatter(val, row, index) {
@@ -134,29 +140,20 @@
         return del + ' ' + edit;
     }
 
-    function addAdminUser() {
-        if($("#user_Psd").val()==''||$("#psd").val()==''){
+    function addOrUpOpenBox() {
+        if($("#shopName").val()==''){
             $.messager.show({
                 title: '提示',
-                msg: '密码不能为空！',
+                msg: '玩家皮肤空间名称不能为空！',
                 showType: 'show',
                 timeout: 3000
             });
             return;
         }
-        if($("#user_Psd").val()!=$("#psd").val()){
+        if( $("#namec").combobox("getText")==''){
             $.messager.show({
                 title: '提示',
-                msg: '密码不一致！',
-                showType: 'show',
-                timeout: 3000
-            });
-            return;
-        }
-        if($("#user_Name").val()==''){
-            $.messager.show({
-                title: '提示',
-                msg: '用户名为空！',
+                msg: '玩家姓名不能为空！',
                 showType: 'show',
                 timeout: 3000
             });
@@ -164,7 +161,7 @@
         }
         $.ajax({
             type: "post",
-            url: "/AdminUser/addOrUpAdminUser",
+            url: "/OpenBoxController/addOrUpOpenBox",
             data: $("#addForm").serialize(),
             dataType: "json",
             success: function (data) {

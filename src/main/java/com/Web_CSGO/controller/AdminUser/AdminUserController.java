@@ -53,13 +53,13 @@ public class AdminUserController extends BaseController {
         /***********分页部分*************/
         JSONObject object = new JSONObject();
         object.put("current",page);
-        object.put("pageSize",rows);
+        object.put("size",rows);
         Integer current = (Integer)setPage(object).get("current");
         if (null == current) {
             current = 0;
         }
         //每页的大小
-        Integer size = (Integer)setPage(object).get("pageSize");
+        Integer size = (Integer)setPage(object).get("size");
         if (null == size) {
             size = 10;
         }
