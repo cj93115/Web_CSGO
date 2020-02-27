@@ -25,8 +25,12 @@ public class TLoginServiceImpl implements ILoginService{
         HttpSession session = request.getSession();
         if(userType == 1){
             String code = (String)session.getAttribute("verification_code");
-
-            if(code.equals(verification_code)){
+            if(code==null){
+                map.put("authenticated",false);
+                map.put("message","验证码错误");
+                return map;
+            }
+           // if(code.equals(verification_code)){
                 QueryWrapper<AdminUser> queryWrapper = new QueryWrapper<>();
                 queryWrapper.eq("User_Name",username);
                 AdminUser adminUser = tAdminMapper.selectOne(queryWrapper);
@@ -44,8 +48,11 @@ public class TLoginServiceImpl implements ILoginService{
                         map.put("message","用户名或密码错误");
                     }
                 }
-            }
-        }
+            }/*else {
+                map.put("authenticated",false);
+                map.put("message","验证码错误");
+            }*/
+     //   }
         else{
             QueryWrapper<OcInformationsEntity> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("UserName",username);

@@ -18,5 +18,6 @@ import java.util.Map;
  */
 public interface IOcShopsService extends IService<OcShopsEntity> {
     List<Map<String, Object>> getOpenBoxList(Page page, Map<String, Object> map);
+    Integer del(Integer shopId);
 
 }
