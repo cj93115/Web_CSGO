@@ -20,7 +20,8 @@ import java.util.Map;
  */
 @Mapper
 @Service
-public interface OcShopsMapper extends BaseMapper<OcShopsEntity> {
+public interface TOcShopsMapper extends BaseMapper<OcShopsEntity> {
 
     List<Map<String, Object>> getOpenBoxList(Page page,@Param("params") Map<String, Object> map);
+    Integer del(@Param("shopId") Integer shopId);
 }
