@@ -48,18 +48,18 @@
             <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
             <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
 
-            <a href="#" class="easyui-linkbutton button-default" onclick=" $('#window').window('open');">新增</a>
+            <a href="#" class="easyui-linkbutton button-default"  onclick="$('#window').window('open')" id="ocadd">新增</a>
         </form>
     </div>
     <table id="table" class="easyui-datagrid" cls="theme-datagrid"
            data-options="url:'/Product/getProductList',method:'post'">
         <thead>
         <tr>
-            <th data-options="field:'productId',width:120,align:'center',formatter:formatter">操作</th>
-            <th data-options="field:'productName',width:80,align:'center'">名称</th>
-            <th data-options="field:'productTime',width:80,align:'center'">上架时间</th>
-            <th data-options="field:'productSale',width:100,align:'center'">价格</th>
-            <th data-options="field:'productPicSmall',width:80,align:'center',formatter:formatter2">预览</th>
+            <th data-options="field:'product_ID',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'product_Name',width:80,align:'center'">名称</th>
+            <th data-options="field:'product_Time',width:80,align:'center'">上架时间</th>
+            <th data-options="field:'product_Sale',width:100,align:'center'">价格</th>
+            <th data-options="field:'product_Picsmall',width:80,align:'center',formatter:formatter2">预览</th>
 
             <!--<th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
             <th data-options="field:'user_RegDate',width:60,align:'center'">User_RegDate</th>
@@ -78,42 +78,41 @@
         <div data-options="region:'center'" style="padding:10px;">
             <div style="text-align: center;">
                 <form id="addForm">
-                    <input class="easyui-textbox" name="extendId" id="extendId" hidden="true">
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">分类名称:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="extendName" id="extendName" style="width: 190px">
+                    <input name="product_ID" id="product_ID" hidden="true">
+                    <input name="product_Pictrure" id="productPictrure" value=""><!--大的-->
+                    <input name="product_Picsmall" id="productPicsmall" value=""><!--小的-->
+                    <div style="margin-bottom:20px;margin-left: -8px">
+                        <label class="label-top">所属类型:</label>
+                        <input style="width: 188px" type="text" id="extend_ID" name="Extend_ID" class="easyui-combobox" data-options="editable:true ,valueField: 'Extend_ID',textField: 'Extend_Name',prompt: '上级名称',url:'/AppExtend/getKind'"/>
+                    </div>
+                    <div style="margin-bottom:20px;margin-left: -8px;">
+                        <label class="label-top">皮肤名称:</label>
+                        <input class="easyui-textbox theme-textbox-radius" name="product_Name" id="product_Name" style="width: 190px">
                     </div>
                     <div style="margin-bottom:20px">
-                        <label class="label-top">序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="extendOrder" id="extendOrder" style="width: 190px">
-                    </div>
-                    <div style="margin-bottom:20px;margin-left: -15px">
-                        &nbsp;&nbsp;&nbsp;<label class="label-top">上级名称:</label>
-                        <input style="width: 188px" type="text" id="kindName" name="kindName" class="easyui-combobox" data-options="editable:true ,valueField: 'kindId',textField: 'kindName',prompt: '上级名称',url:'/AppExtend/getKind'"/>
-                    </div>
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">开始时间:</label>
-                        <input  style="width: 188px"type="text" name="extendBegin" id="extendBegin"  class="easyui-datetimebox">
-                    </div>
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">结束时间:</label>
-                        <input style="width: 188px" type="text" name="extendEnd" id="extendEnd"  class="easyui-datetimebox">
+                        <label class="label-top">价&nbsp;&nbsp;&nbsp;&nbsp;格:</label>
+                        <input class="easyui-numberbox theme-textbox-radius" data-options="min:0,precision:2,suffix:'￥'" name="extend_Order" id="extend_Order" style="width: 190px">
                     </div>
                 </form>
+                <div style="margin-bottom:20px;margin-left: -22px;">
+                    <label class="label-top">&nbsp;&nbsp;&nbsp;&nbsp;武器图片:</label>
+                    <input class="easyui-filebox" name="image" id="image" data-options="onChange:upload,prompt:'选择图片',buttonText:'选择文件',accept:'image/jpeg,image/png'" style="width:190px">
+                </div>
             </div>
         </div>
         <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
-            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addAppExtend()" style="width:80px">保存</a>
-            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="$('#window').window('close')"
+            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addAppProduct()" style="width:80px">保存</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" id="onclose"
                style="width:80px">取消</a>
         </div>
     </div>
 </div>
 </body>
 <script type="text/javascript">
-    
+
     $(function () {
         $("#extendId").next().hide();
+        $("#productPictrure").next().hide();
         init();
     });
     function init() {
@@ -127,34 +126,35 @@
             collapsible: true,
             fitColumns:true,
             queryParams: {//查询
-                productName: $("#uname").val(),
-                start: $("#userRegDatestart").val(),
-                end: $("#userRegDateend").val()
+                Product_Name: $("#uname").val()
             }
         });
     }
     function formatter(val, row, index) {
 
-        var del = "<a id='productId' data-product_id='" + row.productId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
-        var edit = "<a id='productId' data-product_id='" + row.productId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+        var del = "<a data-product_id='" + row.product_PicSmall + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a data-product_id='" + row.product_ID + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
         return del + ' ' + edit;
     }
     function formatter2(val, row, index) {
-        return "<img src='"+row.productPicSmall+"'height='60px' >" ;
+        var imgUrl = "<img src='"+row.productPicSmall+"'height='60px' >";
+        if(row.productPicSmall==''||row.productPicSmall==null){
+            imgUrl = '';
+        }
+        return  imgUrl;
     }
 
-    function addAppExtend() {
-        $("input#extendId").hide();
-        if($("#extendName").val()==''||$("#extendName").val()==null){
+    function addAppProduct() {
+        if($("#extend_ID").val()==''||$("#extend_ID").val()==null){
             $.messager.show({
                 title: '提示',
-                msg: '名称不能为空！',
+                msg: '所属类型不能为空！',
                 showType: 'show',
                 timeout: 3000
             });
             return;
         }
-        if($("#extendOrder").val()==""||$("#extendOrder").val()==null){
+        if($("#product_Name").val()==""||$("#product_Name").val()==null){
             $.messager.show({
                 title: '提示',
                 msg: '请输入序号！',
@@ -163,28 +163,19 @@
             });
             return;
         }
-        if($("#kindName").val()==''){
+        if($("#extend_Order").val()==''){
             $.messager.show({
                 title: '提示',
-                msg: '请选择上级名称！',
+                msg: '价格不能为空！',
                 showType: 'show',
                 timeout: 3000
             });
             return;
         }
-        if($("#extendBegin").val()==''){
+        if($("#product_Pictrure").val()==400){
             $.messager.show({
                 title: '提示',
-                msg: '请填写开始时间！',
-                showType: 'show',
-                timeout: 3000
-            });
-            return;
-        }
-        if($("#extendEnd").val()==''){
-            $.messager.show({
-                title: '提示',
-                msg: '请填写结束时间！',
+                msg: '图片没有上传成功，请重新选择上传！',
                 showType: 'show',
                 timeout: 3000
             });
@@ -192,7 +183,7 @@
         }
         $.ajax({
             type: "post",
-            url: "/AppExtend/addOrUpAppExtend",
+            url: "/Product/addOrUpProduct",
             data: $("#addForm").serialize(),
             dataType: "json",
             success: function (data) {
@@ -205,6 +196,8 @@
                         timeout: 3000
                     });
                     $('#table').datagrid('reload');//刷新
+                    $("#addForm").form('clear');
+
                 } else {
                     $.messager.show({
                         title: '提示',
@@ -236,6 +229,7 @@
                                 showType: 'show',
                                 timeout: 3000
                             });
+                            $('#table').datagrid('reload');//刷新
                         } else {
                             $.messager.show({
                                 title: '提示',
@@ -250,27 +244,31 @@
         });
     }
     function edit(_this) {
-        $("input#extendId").hide();
         $.messager.confirm('编辑提示', '是否编辑?', function (r) {
             if (r) {
 
                 $.ajax({
                     type: "post",
-                    url: "/AppExtend/editGetAppExtend",
+                    url: "/Product/editGetProduct",
                     data: {
-                        extendId: $(_this).attr("data-extend_id")
+                        productId: $(_this).attr("data-product_id")
                     },
                     dataType: "json",
                     success: function (data) {
-                        $.setForm('#addForm',data.appExtend);
-                        $('#kindName').combobox({
-                            valueField:'kindId',
-                            textField:'kindName',
-                            data:data.appKind,
-                            onLoadSuccess : function(){
-                                $('#kindName').combobox('setValue',data.appExtend.kindId);
+                        $.each(data, function (name, ival) {
+                            if(name=='product_ID'){
+                                $('#product_ID').val(ival);
+                            }else if(name=='product_Pictrure'){
+                                $('#product_Pictrure').val(ival);
+                            }else if(name=='extend_ID'){
+                                $('#extend_ID').combobox('setValue',ival);
+                            }else if(name=='product_Name'){
+                                $('#product_Name').textbox('setValue',ival);
+                            }else if(name=='extend_Order'){
+                                $('#extend_Order').numberbox("setValue", ival);
                             }
                         });
+
                         $('#window').window('open')
                     }
                 });
@@ -278,5 +276,33 @@
         });
 
     }
+    function upload() {
+        var formData = new FormData();
+        formData.append("file", $("input[name=image]")[0].files[0]); //文件上传框的name
+        $.ajax({
+            type: "post",
+            url: "/Product/imageUpload",
+            data:formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data){
+                if(data.httpCode==200){
+                    $('#productPictrure').val(data.result);
+
+                }else {
+                    $('#productPictrure').val(data.httpCode);
+                }
+            }
+         });
+    }
+    $("#onclose").click(function () {
+        $('#window').window('close');
+        $("#addForm").form('clear');
+    })
+    $("#ocadd").click(function () {
+        $("#addForm").form('clear');
+    })
 </script>
 </html>

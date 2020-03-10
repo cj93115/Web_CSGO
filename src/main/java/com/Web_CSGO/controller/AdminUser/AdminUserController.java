@@ -101,6 +101,10 @@ public class AdminUserController extends BaseController {
     public Object delAdminUser(String userId){
         JSONObject returnJson = new JSONObject();
         try {
+            AdminUser byId = adminService.getById(userId);
+            if("admin".equals(byId.getUser_Name())){
+                return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","无法删除管理员账号!");
+            }
             boolean remove = adminService.removeById(userId);
             if (remove){
                 returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "删除成功!");
@@ -114,6 +118,7 @@ public class AdminUserController extends BaseController {
     @PostMapping("editGetAdminUser")
     public Object editGetAdminUser(String userId){
         AdminUser adminUser = adminService.getById(userId);
+        adminUser.setUser_Psd(adminUser.getUser_Psd());
         return JSON.toJSON(adminUser);
     }
 }

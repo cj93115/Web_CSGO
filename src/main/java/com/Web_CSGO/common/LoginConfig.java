@@ -25,6 +25,7 @@ public class LoginConfig implements WebMvcConfigurer {
         registration.addPathPatterns("/**");                      //所有路径都被拦截
         registration.excludePathPatterns(                         //添加不拦截路径
                                          "/LoginController/login",
+                                         "RoomController/getRoomList",
                                          "/LoginController/loginPage", //登录
                                          "/LoginController/AdminloginPage", //登录
                                         /* "/UserController/getUserPage", //登录
@@ -35,6 +36,8 @@ public class LoginConfig implements WebMvcConfigurer {
                                          "/css/**",
                                          "/images/**",
                                          "/main/**",
+                                         "/static/userimages/**",
+                                         "/userimages/**",
                                          "/js/**",
                                          "/EasyUI-InsdepTheme/**",
                                          "/static",

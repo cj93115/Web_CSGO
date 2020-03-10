@@ -15,9 +15,11 @@ public class runApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(runApplication.class, args);
+        System.out.println("secced!");
     }
     @Bean
     public RestTemplate getRestTemplate(){
         return templateBuilder.build();
     }
+
 }

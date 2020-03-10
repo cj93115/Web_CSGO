@@ -25,24 +25,27 @@ public class Room implements Serializable {
     private String id;
 
     @TableId(value = "room_name")
-    private String roomName;
+    private String room_name;
 
     @TableId(value = "open_box")
-    private String openBox;
+    private String open_box;
 
     @TableId(value = "account_balance")
-    private Double accountBalance;
+    private Double account_balance;
 
     @TableId(value = "start_time")
-    private Object startTime;
+    private Object start_time;
 
     @TableId(value = "end_time")
-    private Object endTime;
+    private Object end_time;
 
     @TableId(value = "c_time")
-    private Object cTime;
+    private Object c_time;
 
     @TableId(value = "up_time")
-    private Object upTime;
+    private Object up_time;
+
+    @TableId(value = "number")
+    private Object number;
 
 }

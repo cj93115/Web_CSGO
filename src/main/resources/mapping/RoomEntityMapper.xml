@@ -3,4 +3,17 @@
 <mapper namespace="com.Web_CSGO.mapper.TRoomMapper">
 
 
+    <select id="getRoomList" resultType="com.Web_CSGO.entity.Room">
+      SELECT * FROM room
+      <where>
+          1=1
+          <if test="params.room_name != null and params.room_name != ''">and room_name = #{params.room_name,jdbcType = VARCHAR}</if>
+          <if test="params.start_time != null and params.start_time != '' ">
+              and CONVERT(varchar(100),start_time, 23) = #{params.start_time,jdbcType = VARCHAR}
+          </if>
+          <if test=" params.end_time!= null and params.end_time != ''">
+              and CONVERT(varchar(100),end_time, 23) = #{params.end_time,jdbcType = VARCHAR}
+          </if>
+      </where>
+    </select>
 </mapper>

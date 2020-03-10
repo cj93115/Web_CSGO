@@ -54,4 +54,16 @@ public class LoginController extends BaseController {
         String verification_code = (String) json.get("verification_code");
         return  tLoginServiceImpl.login(username,password,userType,verification_code,request);
     }
+    @GetMapping("removeSession")
+    public Object removeSession(HttpServletRequest request){
+        String userType = request.getParameter("userType");
+        if("1".equals(userType)){
+            request.getSession().removeAttribute("AdminUser");
+        }else {
+            request.getSession().removeAttribute("OcInformationsEntity");
+        }
+        return setSuccessJSONObject();
+    }
 }
+
+

@@ -36,4 +36,5 @@ public class AdminUser implements Serializable {
     private String User_Money;
     private Boolean User_Show;
     private String wx_id;
+
 }

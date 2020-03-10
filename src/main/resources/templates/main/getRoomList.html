@@ -1,0 +1,274 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="edge"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <title></title>
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui_animation.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui_plus.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/insdep_theme_default.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/icon.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/plugin/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.min.js"></script>
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/themes/insdep/jquery.insdep-extend.min.js"></script>
+    <script type="text/javascript" src="/common/setForm.js"></script>
+
+    <style>
+        #main {
+            padding: 10px;
+        }
+
+        #table {
+            padding-top: 10px;
+        }
+
+        #addForm {
+            padding-top: 10px;
+
+        }
+        .textbox-icon,.passwordbox-open{
+            width: 24px!important;
+        }
+    </style>
+
+</head>
+
+<body>
+<div id="main">
+    <div id="tb" style="padding:2px 5px;">
+        <form id="query">
+            <label class="label-top">房间名称:</label>
+            <input class="easyui-textbox theme-textbox-radius" id="uname">
+            <label class="label-top">开始时间:</label>
+            <input class="easyui-datebox theme-textbox-radius" id="starttime" style="width: 132px">
+            <label class="label-top">结束时间:</label>
+            <input class="easyui-datebox theme-textbox-radius" id="endtime" style="width: 132px">
+           <!-- <label class="label-top">注册日期:</label>
+            <input class="easyui-datebox theme-textbox-radius" id="userRegDatestart">
+            <label class="label-top">至</label>
+            <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
+            <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
+            <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')" id="ocadd">新增</a>
+        </form>
+    </div>
+    <table id="table" class="easyui-datagrid" cls="theme-datagrid"
+           data-options="url:'/RoomController/getRoomList',method:'post'">
+        <thead>
+        <tr>
+            <th data-options="field:'id',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'room_name',width:100,align:'center'">房间名称</th>
+            <th data-options="field:'number',width:80,align:'center'">开箱人数</th>
+            <th data-options="field:'account_balance',width:80,align:'center'">余额</th>
+            <th data-options="field:'start_time',width:80,align:'center',formatter:format">开始时间</th>
+            <th data-options="field:'end_time',width:80,align:'center',formatter:format">结束时间</th>
+        </tr>
+        </thead>
+    </table>
+
+</div>
+<!--新增编辑窗口-->
+<div id="window" class="easyui-window" title="新增"
+     data-options="collapsible:false,closable:true,maximizable:false,closed:true"
+     style="width:500px;height:300px;padding:10px;">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" style="padding:10px;">
+            <div style="text-align: center;">
+                <form id="addForm">
+                    <input class="easyui-textbox" name="id" id="id">
+                    <div>
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">房间名称:</label>
+                        <input class="easyui-textbox theme-textbox-radius" name="room_name" id="room_name" style="width: 190px">
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">参加人数:</label>
+                        <input class="easyui-numberbox theme-textbox-radius" name="number" id="number" style="width: 190px" data-options="min:1,precision:0">
+                    </div>
+                    <div style="margin-bottom:20px;margin-left: -15px">
+                        <label class="label-top">开箱数量:</label>
+                        <input class="easyui-numberbox theme-textbox-radius" name="open_box" id="open_box" style="width: 190px" data-options="min:1,precision:0">
+                    </div>
+                    <div style="margin-bottom:20px;margin-left: -15px">
+                        <label class="label-top">账户余额:</label>
+                        <input class="easyui-numberbox theme-textbox-radius" name="account_balance" id="account_balance" style="width: 190px" data-options="min:1,precision:0">
+                    </div>
+                    <div style="margin-bottom:20px;margin-left: -15px">
+                        <label class="label-top">开始时间:</label>
+                        <input class="easyui-datebox theme-textbox-radius" name="start_time" id="start_time" style="width: 190px">
+                    </div>
+                    <div style="margin-bottom:20px;margin-left: -15px">
+                        <label class="label-top">结束时间:</label>
+                        <input class="easyui-datebox theme-textbox-radius" name="end_time" id="end_time" style="width: 190px">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addRoom()" style="width:80px">保存</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" id="onclose" style="width:80px">取消</a>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    $(function () {
+        $("#id").next().hide();
+        init();
+    });
+    function init() {
+        $('#table').datagrid({
+            singleSelect: true,
+            closable: false,
+            cache: false,
+            rownumbers: true,//显示序号
+            pagination: true,
+            pageSize: 10,
+            collapsible: true,
+            fitColumns:true,
+            queryParams: {//查询
+                room_name: $("#uname").val(),
+                start_time: $("#starttime").val(),
+                end_time: $("#endtime").val()
+            }
+        });
+    }
+    function formatter(val, row, index) {
+        var del = "<a data-id='" + row.id + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a data-id='" + row.id + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+        return del + ' ' + edit;
+    }
+
+    function addRoom() {
+        if($("#room_name").val()==''){
+            $.messager.show({
+                title: '提示',
+                msg: '房间名不能为空！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+
+        $.ajax({
+            type: "post",
+            url: "/RoomController/addOrUpRoom",
+            data: $("#addForm").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.httpCode == 200) {
+                    $('#window').window('close');
+                    $.messager.show({
+                        title: '提示',
+                        msg: data.msg,
+                        showType: 'show',
+                        timeout: 3000
+                    });
+                    $("#addForm").form('clear');
+                    $('#table').datagrid('reload');//刷新
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: data.msg,
+                        showType: 'show',
+                        timeout: 3000
+                    });
+                }
+            }
+        });
+
+    }
+
+    function del(obj) {
+        $.messager.confirm('删除提示', '是否删除?', function (r) {
+            if (r) {
+                $.ajax({
+                    type: "post",
+                    url: "/RoomController/delRoom",
+                    data: {
+                        id: $(obj).data("id")
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.httpCode == 200) {
+                            $.messager.show({
+                                title: '提示',
+                                msg: data.msg,
+                                showType: 'show',
+                                timeout: 3000
+                            });
+                            $('#table').datagrid('reload');//刷新
+                        } else {
+                            $.messager.show({
+                                title: '提示',
+                                msg: data.msg,
+                                showType: 'show',
+                                timeout: 3000
+                            });
+                        }
+                    }
+                });
+            }
+        });
+
+    }
+    function edit(obj) {
+        $.messager.confirm('编辑提示', '是否编辑?', function (r) {
+            if (r) {
+                $.ajax({
+                    type: "post",
+                    url: "/RoomController/editGetRoom",
+                    data: {
+                        id: $(obj).data("id")
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                       /* $.each(data, function (name, ival) {
+                            if(name=='room_name'){
+                                $('#room_name').textbox('setValue',ival);
+                            }else if(name=='number'){
+                                $('#number').textbox('setValue',ival);
+                            }else if(name=='open_box'){
+                                $('#open_box').textbox('setValue',ival);
+                            }else if(name=='account_balance'){
+                                $('#account_balance').textbox('setValue',ival);
+                            }else if(name=='start_time'){
+                                $('#start_time').datebox("setValue", ival);
+                            }else if(name=='end_time'){
+                                $('#end_time').datebox("setValue", ival);
+                            }else if(name=='id'){
+                                $('#id').textbox("setValue", ival);
+                            }
+                        });*/
+                        $.setForm('#addForm',data);
+
+                        $('#window').window('open')
+                    }
+                });
+            }
+        });
+
+    }
+    $("#onclose").click(function () {
+        $('#window').window('close');
+        $("#addForm").form('clear');
+    })
+    $("#ocadd").click(function () {
+        $("#addForm").form('clear');
+    })
+    //时间
+    function format(val) {
+        if (val == null || val == "") {
+            val = "";
+            return val;
+        }
+        return val.substring(0, 10);
+    }
+</script>
+</html>

@@ -43,13 +43,13 @@
             <label class="label-top">用户名:</label>
             <input class="easyui-textbox theme-textbox-radius" id="name" >
             <label class="label-top">联系电话:</label>
-            <input class="easyui-textbox theme-textbox-radius" id="ShopTel" >
+            <input class="easyui-textbox theme-textbox-radius" id="ShopTel_" >
            <!-- <label class="label-top">注册日期:</label>
             <input class="easyui-datebox theme-textbox-radius" id="userRegDatestart">
             <label class="label-top">至</label>
             <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
             <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="tabledat()">查询</a>
-            <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')">新增</a>
+            <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')" id="ocadd">新增</a>
         </form>
     </div>
     <table id="table" class="easyui-datagrid" cls="theme-datagrid"
@@ -92,7 +92,7 @@
                     </div>
                     <div style="margin-bottom:20px">
                         <label class="label-top">电&nbsp;&nbsp;&nbsp;话:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="shopTel" style="width: 190px">
+                        <input class="easyui-numberbox theme-textbox-radius" name="shopTel" id="shopTel" style="width: 190px"  data-options="min:11,precision:0">
                     </div>
                     <!--<div style="margin-bottom:20px">
                         <label class="label-top">微信号:</label>
@@ -103,7 +103,7 @@
         </div>
         <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
             <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addOrUpOpenBox()" style="width:80px">保存</a>
-            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="$('#window').window('close')"
+            <a class="easyui-linkbutton" href="javascript:void(0)" id="onclose"
                style="width:80px">取消</a>
         </div>
     </div>
@@ -131,12 +131,12 @@
     function tabledat() {
         $('#table').datagrid('load',{
             name: $('#name').val(),
-            ShopTel: $('#ShopTel').val()
+            ShopTel: $('#ShopTel_').val()
         });
     }
     function formatter(val, row, index) {
-        var del = "<a data-user_id='" + row.user_ID + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
-        var edit = "<a data-user_id='" + row.user_ID + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+        var del = "<a data-shopId='" + row.shopId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a data-shopId='" + row.shopId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
         return del + ' ' + edit;
     }
 
@@ -154,6 +154,15 @@
             $.messager.show({
                 title: '提示',
                 msg: '玩家姓名不能为空！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        if( $("#shopTel").val().length<11){
+            $.messager.show({
+                title: '提示',
+                msg: '电话不能低于11位！',
                 showType: 'show',
                 timeout: 3000
             });
@@ -192,9 +201,9 @@
             if (r) {
                 $.ajax({
                     type: "post",
-                    url: "/AdminUser/delAdminUser",
+                    url: "/OpenBoxController/delOpenBox",
                     data: {
-                        userId: $(obj).data("user_id")
+                        shopId: $(obj).data("shopid")
                     },
                     dataType: "json",
                     success: function (data) {
@@ -221,17 +230,18 @@
 
     }
     function edit(obj) {
+        console.log($(obj).data("shopid"));
         $.messager.confirm('编辑提示', '是否编辑?', function (r) {
             if (r) {
-                $("#psd").hide();
                 $.ajax({
                     type: "post",
-                    url: "/AdminUser/editGetAdminUser",
+                    url: "/OpenBoxController/editGetOpenBox",
                     data: {
-                        userId: $(obj).data("user_id")
+                        shopId: $(obj).data("shopid")
                     },
                     dataType: "json",
                     success: function (data) {
+                        $('#namec').combobox('setValue',data.informationId);
                         $.setForm('#addForm',data);
                         $('#window').window('open')
                     }
@@ -248,5 +258,12 @@
         }
         return val.substring(0, 10);
     }
+    $("#onclose").click(function () {
+        $('#window').window('close');
+        $("#addForm").form('clear');
+    })
+    $("#ocadd").click(function () {
+        $("#addForm").form('clear');
+    })
 </script>
 </html>

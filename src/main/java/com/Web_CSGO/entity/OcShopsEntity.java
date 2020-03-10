@@ -25,8 +25,10 @@ import lombok.experimental.Accessors;
 public class OcShopsEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @TableId(value = "shopId",type = IdType.NONE)
+    private Integer shopId;
 
-    @TableId(value = "ShopTypeId",type = IdType.NONE)
+    @TableField("ShopTypeId")
     private Integer ShopTypeId;
 
     @TableField("ShopName")

@@ -58,10 +58,12 @@
            data-options="url:'/AppExtend/getAppExtendList',method:'post'">
         <thead>
         <tr>
-            <th data-options="field:'extendId',width:120,align:'center',formatter:formatter">操作</th>
-            <th data-options="field:'extendName',width:100,align:'center'">开箱分类名称</th>
-            <th data-options="field:'extendOrder',width:80,align:'center'">序号</th>
-            <th data-options="field:'appKind.kindName',width:80,align:'center',formatter:formatter2">上级名称</th>
+            <th data-options="field:'Extend_ID',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'Extend_Name',width:100,align:'center'">开箱分类名称</th>
+            <th data-options="field:'Extend_Order',width:80,align:'center'">序号</th>
+<!--
+            <th data-options="field:'Kind_Name',width:80,align:'center'">上级名称</th>
+-->
             <!--<th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
             <th data-options="field:'user_RegDate',width:60,align:'center'">User_RegDate</th>
             <th data-options="field:'user_Money',width:60,align:'center'">User_Money</th>
@@ -80,38 +82,34 @@
             <div style="text-align: center;">
                 <form id="addForm">
                     <input class="easyui-textbox" name="extendId" id="extendId" hidden="true">
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">分类名称:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="extendName" id="extendName" style="width: 190px">
+                    <div style="margin-bottom:20px;margin-left: -24px;">
+                        <label class="label-top">开箱分类名称:</label>
+                        <input class="easyui-textbox  theme-textbox-radius" name="extend_Name" id="extend_Name" style="width: 190px">
                     </div>
                     <div style="margin-bottom:20px">
                         <label class="label-top">序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="extendOrder" id="extendOrder" style="width: 190px">
-                    </div>
-                    <div style="margin-bottom:20px;margin-left: -15px">
-                        &nbsp;&nbsp;&nbsp;<label class="label-top">上级名称:</label>
-                        <input style="width: 188px" type="text" id="kindName" name="kindName" class="easyui-combobox" data-options="editable:true ,valueField: 'kindId',textField: 'kindName',prompt: '上级名称',url:'/AppExtend/getKind'"/>
+                        <input class="easyui-textbox  theme-textbox-radius" name="extend_Order" id="extend_Order" style="width: 190px">
                     </div>
                     <div style="margin-bottom:20px">
                         <label class="label-top">开始时间:</label>
-                        <input  style="width: 188px"type="text" name="extendBegin" id="extendBegin"  class="easyui-datetimebox">
+                        <input  style="width: 188px"type="text" name="extend_Begin" id="extend_Begin"  class="easyui-datebox">
                     </div>
                     <div style="margin-bottom:20px">
                         <label class="label-top">结束时间:</label>
-                        <input style="width: 188px" type="text" name="extendEnd" id="extendEnd"  class="easyui-datetimebox">
+                        <input style="width: 188px" type="text" name="extend_End" id="extend_End"  class="easyui-datebox">
                     </div>
                 </form>
             </div>
         </div>
         <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
             <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addAppExtend()" style="width:80px">保存</a>
-            <a class="easyui-linkbutton" href=" " id="onclose" style="width:80px">取消</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" id="onclose" style="width:80px">取消</a>
         </div>
     </div>
 </div>
 </body>
 <script type="text/javascript">
-    
+
     $(function () {
         $("#extendId").next().hide();
         init();
@@ -127,21 +125,17 @@
             collapsible: true,
             fitColumns:true,
             queryParams: {//查询
-                extendName: $("#uname").val(),
-                start: $("#userRegDatestart").val(),
-                end: $("#userRegDateend").val()
+                extend_Name: $("#uname").val()
             }
         });
     }
     function formatter(val, row, index) {
 
-        var del = "<a id='extendId' data-extend_id='" + row.extendId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
-        var edit = "<a id='extendId' data-extend_id='" + row.extendId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+        var del = "<a data-extend_id='" + row.Extend_ID + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a data-extend_id='" + row.Extend_ID + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
         return del + ' ' + edit;
     }
-    function formatter2(val, row, index) {
-        return row.appKind.kindName;
-    }
+
 
     function addAppExtend() {
         $("input#extendId").hide();
@@ -228,7 +222,7 @@
                     type: "post",
                     url: "/AppExtend/delAppExtend",
                     data: {
-                        extendId: $(_this).attr("data-extend_id")
+                        extendId: $(_this).data("extend_id")
                     },
                     dataType: "json",
                     success: function (data) {
@@ -239,6 +233,7 @@
                                 showType: 'show',
                                 timeout: 3000
                             });
+                            $('#table').datagrid('reload');//刷新
                         } else {
                             $.messager.show({
                                 title: '提示',

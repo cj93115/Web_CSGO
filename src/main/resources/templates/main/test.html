@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="/css/login/base.css">
+<link rel="stylesheet" href="/css/login/iconfont.css">
+<link rel="stylesheet" href="/css/login/reg.css">
+<script src="/EasyUI-InsdepTheme/jquery.min.js"></script>
+<script src="/js/login/login.js"></script>
+<script>
+    function drawImage(_this) {
+        $(_this).attr("src","/drawImage?date="+ new Date().getTime());
+    }
+    function test() {
+        var username = $("#num").val();
+        var verification_code = $("#veri").val();
+        if(username==null||username==""){ alert("请输入用户名");return}
+        var json = JSON.stringify({"username":username,"password":password,"verification_code":verification_code,"userType":1});
+        $.ajax({
+            type: "post",
+            url: "/LoginController/login",
+            contentType:"application/json",
+            data: json,
+            dataType: "json",
+            success: function(data){
+                ($text).append(data.id)
+                ($text).append(data.name)
+            }
+        });
+        /*$.post("/LoginController/login",{"username":username,"password":password,"verification_code":verification_code,"userType":1},function (data) {
+            if(data.authenticated){
+                window.location.href="/LoginController/adminIndexPage"
+            }
+            else{
+                alert(data.message);
+            }
+        },"json");*/
+    }
+</script>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="ajax-hook">
+</div>
+<div class="wrap">
+    <div class="wpn">
+        <div class="form-data pos">
+            <a href="index.html"><img src="" class="head-logo"></a>
+            <div class="change-login">
+            </div>
+            <div class="form1">
+                <p class="p-input pos">
+
+                    <input  type="text" style="font-size: 14px" placeholder="请输入姓名"  id="num">
+                </p>
+                <p class="p-input pos">
+
+
+            <button class="lang-btn off log-btn" onclick="test()">添加</button>
+             <button class="lang-btn off log-btn" onclick="test()">查询</button>
+
+                <div id="text"></div>
+            <p class="right">
+                Powered by 广西弘毅软件开发有限公司
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

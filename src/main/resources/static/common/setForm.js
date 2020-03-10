@@ -17,6 +17,8 @@ $.extend({
                 });
             }else if($oinput.attr("type")== "textarea"){// 多行文本框
                 obj.find("[name="+name+"]").html(ival);
+            }else if(isNaN(ival)&&!isNaN(Date.parse(ival))){// 多行文本框
+                obj.find("#"+name+"").datebox("setValue", ival);
             }else{
                 obj.find("#"+name+"").textbox('setValue',ival);
             }

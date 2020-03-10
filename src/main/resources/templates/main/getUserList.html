@@ -47,7 +47,7 @@
             <label class="label-top">至</label>
             <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
             <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
-            <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')">新增</a>
+            <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')" id="ocadd">新增</a>
         </form>
     </div>
     <table id="table" class="easyui-datagrid" cls="theme-datagrid"
@@ -92,7 +92,7 @@
                     </div>
                     <div style="margin-bottom:20px;">
                         <label class="label-top">电&nbsp;&nbsp;&nbsp;话:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="mobile" id="mobile" style="width: 190px">
+                        <input class="easyui-numberbox theme-textbox-radius" name="mobile" id="mobile" style="width: 190px" data-options="min:11,precision:0">
                     </div>
                     <!--<div style="margin-bottom:20px">
                         <label class="label-top">微信号:</label>
@@ -161,6 +161,15 @@
             $.messager.show({
                 title: '提示',
                 msg: '用户名为空！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        if( $("#mobile").val().length<11){
+            $.messager.show({
+                title: '提示',
+                msg: '电话不能低于11位！',
                 showType: 'show',
                 timeout: 3000
             });
@@ -258,6 +267,9 @@
     }
     $("#onclose").click(function () {
         $('#window').window('close');
+        $("#addForm").form('clear');
+    })
+    $("#ocadd").click(function () {
         $("#addForm").form('clear');
     })
 </script>

@@ -167,5 +167,8 @@ public class OcInformationsEntity implements Serializable {
     @TableField("ishot")
     private Integer ishot;
 
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
 }

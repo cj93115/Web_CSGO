@@ -101,10 +101,10 @@ public class OpenBoxController extends BaseController {
     public Object addOrUpOpenBox(OcShopsEntity ocShopsEntity) {
         JSONObject returnJson = new JSONObject();
         QueryWrapper<OcShopsEntity> ocShopsQuery = new QueryWrapper<>();
-        ocShopsQuery.eq("ShopName",ocShopsEntity.getShopName());
+        ocShopsQuery.eq("ShopName", ocShopsEntity.getShopName());
         List<Map<String, Object>> list = ocShopsService.listMaps(ocShopsQuery);
-        if(list.size()>0&&"".equals(ocShopsEntity.getShopTypeId())){
-            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败,用回名存在!");
+        if (list.size() > 0 && !list.get(0).get("shopId").equals(ocShopsEntity.getShopId())) {
+            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "", "保存失败,已经存在!");
         }
         try {
             boolean addOrUp = ocShopsService.saveOrUpdate(ocShopsEntity);
@@ -114,6 +114,27 @@ public class OpenBoxController extends BaseController {
         }catch (Exception e) {
             log.error(e.getMessage());
             return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败!");
+        }
+        return returnJson;
+    }
+
+    @PostMapping("editGetOpenBox")
+    public Object editGetOpenBox(String shopId){
+        OcShopsEntity ocShopsEntity = ocShopsService.getById(shopId);
+        return JSON.toJSON(ocShopsEntity);
+    }
+
+    @PostMapping("delOpenBox")
+    public Object delOpenBox(String shopId){
+        JSONObject returnJson = new JSONObject();
+        try {
+            boolean remove = ocShopsService.removeById(shopId);
+            if (remove){
+                returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "删除成功!");
+            }
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","删除失败!");
         }
         return returnJson;
     }

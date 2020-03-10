@@ -6,6 +6,7 @@ import com.Web_CSGO.common.util.MD5Util;
 import com.Web_CSGO.entity.AdminUser;
 import com.Web_CSGO.entity.OcInformationsEntity;
 import com.Web_CSGO.service.IOcInformationsService;
+import com.Web_CSGO.service.IOcShopsService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,6 +36,8 @@ import java.util.UUID;
 public class UserController  extends BaseController {
     @Autowired
     private IOcInformationsService ocInformationsService;
+    @Autowired
+    private IOcShopsService ocShopsService;
 
     @GetMapping("getUserPage")
     public ModelAndView getUserPage(){
@@ -67,7 +72,7 @@ public class UserController  extends BaseController {
     public Object addOrUpUser(OcInformationsEntity user){
         JSONObject returnJson = new JSONObject();
         List<OcInformationsEntity> users = ocInformationsService.getUserList(new Page(), user);
-        if(users.size()>0&&"".equals(user.getInformationId())){
+        if(users.size()>0&&!users.get(0).getInformationId().equals(user.getInformationId())){
             return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败,用户名存在!");
         }
         user.setPassword(MD5Util.string2MD5(user.getPassword()));
@@ -84,11 +89,19 @@ public class UserController  extends BaseController {
         return returnJson;
     }
     @PostMapping("delUser")
-    public Object delUser(String informationId){
+    public Object delUser(String informationId,HttpServletRequest request){
+        HttpSession session= request.getSession();
+        AdminUser adminUser = (AdminUser) session.getAttribute("AdminUser");
+
         JSONObject returnJson = new JSONObject();
         try {
-            if (ocInformationsService.removeById(informationId)){
-                returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "删除成功!");
+            if(adminUser!=null) {
+                // ocShopsService.
+                if (ocInformationsService.removeById(informationId)) {
+                    returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "删除成功!");
+                }
+            }else {
+                return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","需要管理员删除，删除失败!");
             }
         }catch (Exception e) {
             log.error(e.getMessage());

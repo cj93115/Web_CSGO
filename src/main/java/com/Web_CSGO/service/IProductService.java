@@ -1,6 +1,5 @@
 package com.Web_CSGO.service;
 
-import com.Web_CSGO.entity.AppKind;
 import com.Web_CSGO.entity.Product;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;

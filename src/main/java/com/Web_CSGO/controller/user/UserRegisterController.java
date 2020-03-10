@@ -8,11 +8,14 @@ import com.Web_CSGO.service.IOcInformationsService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  *@ClassName: UserRegisterController
@@ -42,10 +45,9 @@ public class UserRegisterController extends BaseController {
             return setSuccessJSONObject(HttpCode.BAD_REQUEST,"","密码不能为空！");
         }
         ocInformationsEntity.setPassword(MD5Util.string2MD5(ocInformationsEntity.getPassword()));
-        QueryWrapper<OcInformationsEntity> on = new QueryWrapper<>();
-        on.lambda().eq(OcInformationsEntity::getUserName, ocInformationsEntity.getUserName());
-        OcInformationsEntity one = ocInformationsService.getOne(on);
-        if(one!=null){
+
+        List<OcInformationsEntity> userList = ocInformationsService.getUserList(new Page(), ocInformationsEntity);
+        if(userList.size()!=0){
             return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败,用户存在!");
         }
         boolean save = ocInformationsService.save(ocInformationsEntity);

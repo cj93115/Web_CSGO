@@ -67,7 +67,7 @@
 	<div data-options="region:'north',border:false,bodyCls:'theme-header-layout'">
 		<div class="theme-navigate">
 			<div class="left">
-				<!--<a href="#" class="easyui-linkbutton left-control-switch"><i class="fa fa-bars fa-lg"></i></a>-->
+				<a href="#" class="easyui-linkbutton left-control-switch"><i class="fa fa-bars fa-lg"></i></a>
 			</div>
 		</div>
 
@@ -80,9 +80,11 @@
 		<!--正常菜单-->
 		<div class="theme-left-normal">
 			<!--theme-left-switch 如果不需要缩进按钮，删除该对象即可-->
+
 <!--
 			<div class="left-control-switch theme-left-switch"><i class="fa fa-chevron-left fa-lg"></i></div>
 -->
+
 
 			<!--start class="easyui-layout"-->
 			<div class="easyui-layout" data-options="border:false,fit:true">
@@ -96,7 +98,7 @@
 							</dt>
 							<dt>
 								用户：<b class="badge-prompt" th:text="${aUserName}"></b>							</dt>
-								<a class="theme-navigate-user-logout">注销</a>
+								<a class="theme-navigate-user-logout"  href="javascript:void(0)" onclick="removeSession()">注销</a>
 							</dt>
 						</dl>
 					</div>
@@ -114,15 +116,20 @@
 								<li><a onclick="addTab('/OpenBoxController/getOpenBox','开箱空间',true)" style="display: block;">开箱空间</a></li>
 							</ul>
 						</div>
-						<div title="系统管理">
-							<ul class="easyui-datalist" data-options="border:false,fit:true">
-								<li><a onclick="addTab('/AdminUser/getAdminUser','系统用户管理',true)" style="display: block;">管理员列表</a></li>
-							</ul>
-						</div>
 						<div title="开箱管理">
 							<ul class="easyui-datalist" data-options="border:false,fit:true">
 								<li><a onclick="addTab('/AppExtend/getAppExtend','箱子类别',true)" style="display: block;">箱子类别</a></li>
 								<li><a onclick="addTab('/Product/getProduct','箱子管理',true)" style="display: block;">箱子管理</a></li>
+							</ul>
+						</div>
+						<div title="竞技场">
+							<ul class="easyui-datalist" data-options="border:false,fit:true">
+								<li><a onclick="addTab('/RoomController/getRoom','房间管理',true)" style="display: block;">房间管理</a></li>
+							</ul>
+						</div>
+						<div title="系统管理">
+							<ul class="easyui-datalist" data-options="border:false,fit:true">
+								<li><a onclick="addTab('/AdminUser/getAdminUser','系统用户管理',true)" style="display: block;">管理员列表</a></li>
 							</ul>
 						</div>
 					</div>
@@ -133,8 +140,8 @@
 			<!--end class="easyui-layout"-->
 
 		</div>
-		<!--最小化菜单
-		<div class="theme-left-minimal">
+		<!--最小化菜单-->
+		<!--<div class="theme-left-minimal">
 			<ul class="easyui-datalist" data-options="border:false,fit:true">
 				<li><i class="fa fa-home fa-2x"></i><p>主题</p></li>
 				<li><i class="fa fa-book fa-2x"></i><p>组件</p></li>
@@ -155,68 +162,6 @@
 				 style="padding:0; overflow: hidden">
 				<iframe id="index" name="index" src="" frameborder="0" width="100%"
 						height="100%">
-
-					<table class="table table-striped">
-						<thead>
-						<tr>
-							<th>Name</th>
-							<th>Date Joined</th>
-							<th>E-mail</th>
-							<th>Called</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr>
-							<td>John Lilki</td>
-							<td>September 14, 2013</td>
-							<td>jhlilk22@yahoo.com</td>
-							<td>No</td>
-						</tr>
-						<tr>
-							<td>Jamie Harington</td>
-							<td>January 11, 2014</td>
-							<td>jamieharingonton@yahoo.com</td>
-							<td>Yes</td>
-						</tr>
-						<tr>
-							<td>Jill Lewis</td>
-							<td>May 11, 2014</td>
-							<td>jilsewris22@yahoo.com</td>
-							<td>Yes</td>
-						</tr>
-						<tr>
-							<td>John Lilki</td>
-							<td>September 14, 2013</td>
-							<td>jhlilk22@yahoo.com</td>
-							<td>No</td>
-						</tr>
-						<tr>
-							<td>John Lilki</td>
-							<td>September 14, 2013</td>
-							<td>jhlilk22@yahoo.com</td>
-							<td>No</td>
-						</tr>
-						<tr>
-							<td>Jamie Harington</td>
-							<td>January 11, 2014</td>
-							<td>jamieharingonton@yahoo.com</td>
-							<td>Yes</td>
-						</tr>
-						<tr>
-							<td>Jill Lewis</td>
-							<td>May 11, 2014</td>
-							<td>jilsewris22@yahoo.com</td>
-							<td>Yes</td>
-						</tr>
-						<tr>
-							<td>John Lilki</td>
-							<td>September 14, 2013</td>
-							<td>jhlilk22@yahoo.com</td>
-							<td>No</td>
-						</tr>
-						</tbody>
-					</table>
-
 				</iframe>
 			</div>
 			<!-- <div title="Sub Tabs" style="padding:10px;">
@@ -263,6 +208,7 @@
 	function addTab(url, title, YN) {//参数：页面链接、tab标题、是否刷新页面（传true或者false）
 		var content = '<iframe scrolling="auto" frameborder="0"  src="' + url + '" style="width:100%;height:99.3%;"></iframe>';
 		if ($("#mainTabs").tabs("exists", title)) {
+		    console.log(111);
 			var tab = $("#mainTabs").tabs("getTab", title);
 			if (YN) {//判断是否刷新选项卡页面
 				$("#mainTabs").tabs('update', {
@@ -286,7 +232,6 @@
 	$(function(){
 
 
-
 		/*布局部分*/
 		$('#master-layout').layout({
 			fit:true/*布局框架全屏*/
@@ -299,10 +244,17 @@
 
 		var left_control_status=true;
 		var left_control_panel=$("#master-layout").layout("panel",'west');
-
+        onclick();
+		function onclick() {
+            left_control_panel.panel('resize',{width:20});
+            left_control_status=false;
+            $(".theme-left-normal").hide();
+            $(".theme-left-minimal").show();
+            $("#master-layout").layout('resize', {width:'100%'})
+        }
 		$(".left-control-switch").on("click",function(){
 			if(left_control_status){
-				left_control_panel.panel('resize',{width:70});
+				left_control_panel.panel('resize',{width:20});
 				left_control_status=false;
 				$(".theme-left-normal").hide();
 				$(".theme-left-minimal").show();
@@ -314,15 +266,6 @@
 			}
 			$("#master-layout").layout('resize', {width:'100%'})
 		});
-
-		/*右侧菜单控制结束*/
-		$("#add").on("click",function(){
-			console.log(111);
-		});
-
-
-
-
 
 		$(".theme-navigate-user-modify").on("click",function(){
 			$('.theme-navigate-user-panel').menu('hide');
@@ -356,7 +299,21 @@
 	function doSearch(value,name){
 		alert('You input: ' + value+'('+name+')');
 	}
-
+ function removeSession() {
+	 $.ajax({
+	     type: "get",
+	     url: "/LoginController/removeSession",
+	     data: {
+             userType:1
+	     },
+	     dataType: "json",
+	     success: function(data){
+			 if(data.httpCode==200){
+                 window.location.reload();
+			 }
+	     }
+	  });
+ }
 </script>
 
 <!--第三方插件加载-->

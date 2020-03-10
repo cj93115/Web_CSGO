@@ -48,7 +48,7 @@ public class AppExtendController extends BaseController {
      */
     @PostMapping("getAppExtendList")
     public Object getAdminUserList(Integer page, Integer rows, AppExtend appExtend, String start, String end){
-        List<AppExtend> appExtends = new ArrayList<>();
+        List<Map<Object,String>> appExtends = new ArrayList<>();
         /***********分页部分*************/
         JSONObject object = new JSONObject();
         object.put("current",page);
@@ -65,11 +65,6 @@ public class AppExtendController extends BaseController {
         Page<Object> objectPage = new Page<>(current, size);
         /***********分页部分*************/
         appExtends = appExtendService.getAppExtend(objectPage, appExtend);
-           for(int i=0;i<appExtends.size();i++){
-               AppExtend appExtend1 = appExtends.get(i);
-               AppExtend appExtend2 = setAppKind(appExtend1);
-               appExtends.set(i,appExtend2);
-           }
         JSONObject returnJson = new JSONObject();
 
         returnJson.put("rows",appExtends);//每页条数
@@ -103,17 +98,18 @@ public class AppExtendController extends BaseController {
     }
     @PostMapping("addOrUpAppExtend")
     public Object addOrUpAppExtend(AppExtend appExtend,String kindName){
-        appExtend.setKindId(kindName);
-        System.out.println(appExtend);
+        appExtend.setKind_ID(kindName);
+
         JSONObject returnJson = new JSONObject();
-        List<AppExtend> appExtends = new ArrayList<>();
-        appExtends =  appExtendService.getAppExtend(new Page(),appExtend);
-        if(appExtends.size()>0){
-            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败,用回名存在!");
+        List<Map<Object,String>> appExtends = new ArrayList<>();
+        appExtends = appExtendService.getAppExtend(new Page(), appExtend);
+        if (appExtends.size() > 0&&!appExtend.getExtend_ID().equals(appExtends.get(0).get("Extend_ID"))) {
+            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "", "保存失败,用户名存在!");
         }
-        if("".equals(appExtend.getExtendId())){
+
+        if("".equals(appExtend.getExtend_ID())){
             String uuid = UUID.randomUUID().toString();
-            appExtend.setExtendId(uuid);
+            appExtend.setExtend_ID(uuid);
         }
         try {
             boolean addOrUp = appExtendService.saveOrUpdate(appExtend);
@@ -129,15 +125,14 @@ public class AppExtendController extends BaseController {
     }
     public AppExtend setAppKind(AppExtend appExtend){
         QueryWrapper<AppKind> appKindQueryWrapper = new QueryWrapper<>();
-        appKindQueryWrapper.eq("Kind_ID",appExtend.getKindId());
+        appKindQueryWrapper.eq("Kind_ID",appExtend.getExtend_ID());
         appExtend.setAppKind(appKindService.getOne(appKindQueryWrapper));
         return appExtend;
     }
 
     @PostMapping("getKind")
     public Object getkind(){
-        List<AppKind> appKind = appKindService.getAppKind(new Page(), new AppKind());
-        System.out.println(appKind);
-        return JSON.toJSON(appKind);
+        List<Map<Object, String>> appExtend = appExtendService.getAppExtend(new Page(), new AppExtend());
+        return JSON.toJSON(appExtend);
     }
 }

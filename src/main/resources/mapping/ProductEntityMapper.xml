@@ -3,18 +3,18 @@
 <mapper namespace="com.Web_CSGO.mapper.TProductMapper">
 
     <select id="getProduct" resultType="com.Web_CSGO.entity.Product">
-        SELECT  Product_ID as productId,
-        Product_Name as productName,
-        Product_Pictrure as productPictrure,
-        Product_Sale as productSale,
-        Product_Time as productTime,
-        Product_PicSmall as productPicSmall
+        SELECT  Product_ID,
+        Product_Name,
+        Product_Pictrure,
+        Product_Sale,
+        Product_Time,
+        Product_PicSmall
       FROM APPProduct
         <where>
             1=1
             <if test="product !=null ">
-                <if test="product.productName !=null and product.productName !=''">
-                    and  Product_Name =  #{product.productName,jdbcType = VARCHAR}
+                <if test="product.Product_Name !=null and product.Product_Name !=''">
+                    and  Product_Name =  #{product.Product_Name,jdbcType = VARCHAR}
                 </if>
             </if>
             <!--

@@ -1,6 +1,7 @@
 package com.Web_CSGO.common;
 
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.Web_CSGO.entity.AdminUser;
@@ -26,8 +27,8 @@ public class AdminInterceptor implements  HandlerInterceptor {
      * 在请求处理之前进行调用（Controller方法调用之前）
      */
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-//        System.out.println("执行了TestInterceptor的preHandle方法");
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)  throws ServletException {
+        System.out.println("执行了TestInterceptor的preHandle方法");
         try {
             System.err.println(request.getRequestURI());
             OcInformationsEntity ocInformationsEntity =new OcInformationsEntity();
@@ -41,7 +42,7 @@ public class AdminInterceptor implements  HandlerInterceptor {
             }
             if(AdminUser==null&&!"/user/".contains(request.getRequestURI())){
                 response.sendRedirect("/LoginController/AdminloginPage");
-            }else if(ocInformationsEntity==null&&"/user/".contains(request.getRequestURI())){
+            }else if(ocInformationsEntity==null&&"/user/".contains(request.getRequestURI())&&!"/".contains(request.getRequestURI())){
                 response.sendRedirect("/LoginController/loginPage");
             }
         } catch (IOException e) {
@@ -50,7 +51,7 @@ public class AdminInterceptor implements  HandlerInterceptor {
         return false;//如果设置为false时，被请求时，拦截器执行到此处将不会继续操作
                       //如果设置为true时，请求将会继续执行后面的操作
     }
- 
+
     /**
      * 请求处理之后进行调用，但是在视图被渲染之前（Controller方法调用之后）
      */
@@ -58,7 +59,7 @@ public class AdminInterceptor implements  HandlerInterceptor {
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
 //         System.out.println("执行了TestInterceptor的postHandle方法");
     }
- 
+
     /**
      * 在整个请求结束之后被调用，也就是在DispatcherServlet 渲染了对应的视图之后执行（主要是用于进行资源清理工作）
      */

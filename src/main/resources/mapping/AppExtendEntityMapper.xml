@@ -2,38 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.Web_CSGO.mapper.TAppExtendMapper">
 <resultMap id="appExtendMap" type="com.Web_CSGO.entity.AppExtend">
-        <id column="Extend_ID" property="extendId"></id>
-        <result column="Extend_Name" property="extendName"></result>
-        <result column="Extend_Order" property="extendOrder"></result>
-        <result column="Kind_ID" property="kindId"></result>
-        <result column="Extend_Begin" property="extendBegin"></result>
-        <result column="Extend_End" property="extendEnd"></result>
+        <id column="Extend_ID" property="extend_ID"></id>
+        <result column="Extend_Name" property="extend_Name"></result>
+        <result column="Extend_Order" property="extend_Order"></result>
+        <result column="Kind_ID" property="kind_ID"></result>
+        <result column="Extend_Begin" property="extend_Begin"></result>
+        <result column="Extend_End" property="extend_End"></result>
 
     </resultMap>
-    <select id="getAppExtend" resultMap="appExtendMap">
-        SELECT  Extend_ID ,
-       Extend_Name ,
-       Extend_Order ,
-        APPExtend.Kind_ID as Kind_ID,
-       Extend_Begin ,
-       Extend_End ,
-        Kind_Name ,
-        Kind_Order
-        FROM APPExtend
-        JOIN  APPKind on APPExtend.Kind_ID = APPKind.Kind_ID
-        <where>
-          1=1
-          <if test="extend!=null ">
-              <if test="extend.extendName !=null and extend.extendName !=''">
-                  and  Extend_Name =  #{extend.extendName,jdbcType = VARCHAR}
-              </if>
-          </if>
-<!--
-          <if test="User_Name != '' and User_Name != null">
--->
-<!--
-          </if>
--->
-      </where>
+    <select id="getAppExtend" resultType="java.util.Map">
+            SELECT  Extend_ID ,
+            Extend_Name ,
+            Extend_Order ,
+            APPExtend.Kind_ID as Kind_ID,
+            Extend_Begin ,
+            Extend_End ,
+            Kind_Name ,
+            Kind_Order
+            FROM APPExtend
+            JOIN  APPKind on APPExtend.Kind_ID = APPKind.Kind_ID
+            <where>
+                1=1
+                <if test="extend!=null ">
+                    <if test="extend.extend_Name !=null and extend.extend_Name !=''">
+                        and  Extend_Name =  #{extend.extend_Name,jdbcType = VARCHAR}
+                    </if>
+                </if>
+                <!--
+                          <if test="User_Name != '' and User_Name != null">
+                -->
+                <!--
+                          </if>
+                -->
+            </where>
     </select>
+
 </mapper>
