@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="edge"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <title></title>
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui_animation.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui_plus.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/insdep_theme_default.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/icon.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/plugin/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.min.js"></script>
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/themes/insdep/jquery.insdep-extend.min.js"></script>
+    <script type="text/javascript" src="/common/setForm.js"></script>
+    <style>
+        #main {
+            padding: 10px;
+        }
+
+        #table {
+            padding-top: 10px;
+        }
+
+        #addForm {
+            padding-top: 10px;
+
+        }
+        .textbox-icon,.passwordbox-open{
+            width: 24px!important;
+        }
+    </style>
+
+</head>
+
+<body>
+<div id="main">
+    <div id="tb" style="padding:2px 5px;">
+        <form id="query">
+            <label class="label-top">姓名:</label>
+            <input class="easyui-textbox theme-textbox-radius" id="uname">
+
+            <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
+            <a href="#" class="easyui-linkbutton button-default" onclick="addUser()" id="ocadd">新增</a>
+        </form>
+    </div>
+    <table id="table" class="easyui-datagrid" cls="theme-datagrid"
+           data-options="url:'/usertest/getList',method:'get'">
+        <thead>
+        <tr>
+            <th data-options="field:'informationId',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'id',width:100,align:'center'">id</th>
+            <th data-options="field:'name',width:80,align:'center'">姓名</th>
+
+        </tr>
+        </thead>
+    </table>
+
+</div>
+<!--新增编辑窗口-->
+<div id="window" class="easyui-window" title="新增"
+     data-options="collapsible:false,closable:true,maximizable:false,closed:true"
+     style="width:500px;height:300px;padding:10px;">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" style="padding:10px;">
+                <form id="addForm">
+                    <input class="easyui-textbox" name="id" id="id" hidden="true">
+                    <label class="label-top">姓名:</label>
+                    <input class="easyui-textbox  theme-textbox-radius" name="name" id="name" style="width: 190px">
+                </form>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="editUser()" style="width:80px">保存</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" id="onclose" style="width:80px">取消</a>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    $(function () {
+        $("#informationId").next().hide();
+        init();
+    });
+    function init() {
+        $('#table').datagrid({
+            singleSelect: true,
+            closable: false,
+            cache: false,
+            rownumbers: true,//显示序号
+            pagination: true,
+            collapsible: true,
+            fitColumns:true,
+            queryParams: {//查询
+                userName: $("#uname").val(),
+                pageSize: 7,
+                currentPage: 3
+            }
+        });
+    }
+
+    function formatter(val, row, index) {
+        var del = "<a  data-id='" + row.id + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a data-id='" + row.id + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+        return del + ' ' + edit;
+    }
+
+    function addUser() {
+        if($("#uname").val()==''){
+            $.messager.show({
+                title: '提示',
+                msg: '姓名不能为空！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+
+        $.ajax({
+            type: "get",
+            url: "/usertest/addUser",
+            data:{"name":$("#uname").val()},
+            dataType: "json",
+            success: function (data) {
+                    $.messager.show({
+                        title: '提示',
+                        msg: data.msg,
+                        showType: 'show',
+                        timeout: 3000
+                    });
+                    $("#addForm").form('clear');
+                    $('#table').datagrid('reload');//刷新
+
+            }
+        });
+
+    }
+    function edit(obj) {
+        $.messager.confirm('编辑提示', '是否编辑?', function (r) {
+            if (r) {
+                $("#psd").hide();
+                $.ajax({
+                    type: "post",
+                    url: "/usertest/editUser",
+                    data: {
+                        id: $(obj).attr("data-id")
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        $.setForm('#addForm',data);
+                        $('#window').window('open')
+                    }
+
+                });
+            }
+        });
+
+    }   function editUser(obj) {
+
+
+
+                $.ajax({
+                    type: "post",
+                    url: "/usertest/updateUser",
+                    data:  {  id: $("#id").val(), name: $("#name").val()},
+                    dataType: "json",
+                    success: function (data) {
+
+                        $('#window').window('close');
+                        $("#addForm").form('clear');
+                        $('#table').datagrid('reload');//刷新
+                    }
+                });
+
+
+
+    }
+
+    function del(obj) {
+        $.messager.confirm('删除提示', '是否删除?', function (r) {
+            if (r) {
+                $.ajax({
+                    type: "post",
+                    url: "/usertest/deleteUser",
+                    data: {      id: $(obj).attr("data-id")},
+                    dataType: "json",
+                    success: function (data) {
+
+                            $.messager.show({
+                                title: '提示',
+                                msg: data.msg,
+                                showType: 'show',
+                                timeout: 3000
+                            });
+                            $('#table').datagrid('reload');//刷新
+                    }
+                });
+            }
+        });
+
+    }
+
+    //时间
+    function format(val) {
+        if (val == null || val == "") {
+                val = "";
+                return val;
+        }
+        return val.substring(0, 10);
+    }
+    $("#onclose").click(function () {
+        $('#window').window('close');
+        $("#addForm").form('clear');
+    })
+    $("#ocadd").click(function () {
+        $("#addForm").form('clear');
+    })
+</script>
+</html>

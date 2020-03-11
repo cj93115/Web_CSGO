@@ -1,5 +1,7 @@
 package com.Web_CSGO.common.util;
 
+import com.Web_CSGO.common.support.HttpKit;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,7 +11,7 @@ import java.util.Map;
  *
  *
  */
-public class PageUtil {
+public class PageUtil{
 
     private final static String DEFAULT_PAGE_SIZE = "10";
 
@@ -87,4 +89,31 @@ public class PageUtil {
             }
         }
     }
+
+    public static Page defaultPage() {
+        HttpServletRequest request = HttpKit.getRequest();
+        int pageSize = StringUtils.isBlank(request.getParameter("pageSize"))  ? 10 : Integer.valueOf(request.getParameter("pageSize"));     //每页多少条数据
+        int currentPage = StringUtils.isBlank(request.getParameter("currentPage"))  ? 0 : Integer.valueOf(request.getParameter("currentPage"));   //当前页
+//        String sort = request.getParameter("sort");         //排序字段名称
+//        String order = request.getParameter("order");       //asc或desc(升序或降序)
+//        if (ToolUtil.isEmpty(sort)) {
+//            Page<Object> page = new Page<Object>(currentPage, pageSize);
+//
+//            return page;
+//        } else {
+//            Page<Object> page = new Page<Object>(currentPage, pageSize, sort);
+//            if (Order.ASC.getDes().equals(order)) {
+//                page.setAsc(true);
+//            } else {
+//                page.setAsc(false);
+//            }
+                   Page<Object> page = new Page<Object>(currentPage, pageSize);
+            return page;
+
+    }
+
+
+
+
+
 }

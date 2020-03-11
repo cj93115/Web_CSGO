@@ -18,13 +18,13 @@ public class TUserTestServiceImpl  extends ServiceImpl<TUserTestMapper, UserTest
 
 
     @Override
-    public List<Map<String, Object>> getUsetTestList() {
-        return baseMapper.getUserTestList();
+    public List<UserTest> getUsetTestList(Page<UserTest> page) {
+        return baseMapper.getUserTestList(page);
     }
 
     @Override
     public void addUser(String name) {
-         baseMapper.addUser(name);
+        baseMapper.addUser(name);
     }
 
 }

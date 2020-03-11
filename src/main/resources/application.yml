@@ -12,9 +12,9 @@ spring:
     #sqlserver连接
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-    url: jdbc:sqlserver://47.91.206.215:1433;DatabaseName=Web_CSGO
-    username: test
-    password: test
+    url: jdbc:sqlserver://localhost:1433;DatabaseName=Web_CSGO
+    username: sa
+    password: root
   # 模板引擎
   thymeleaf:
     encoding: utf-8

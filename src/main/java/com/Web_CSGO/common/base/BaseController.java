@@ -3,12 +3,14 @@ package com.Web_CSGO.common.base;
 
 import com.Web_CSGO.common.Constants;
 import com.Web_CSGO.common.HttpCode;
+import com.Web_CSGO.common.enums.CodeEnum;
 import com.Web_CSGO.common.exception.BaseException;
 import com.Web_CSGO.common.exception.IllegalParameterException;
 import com.Web_CSGO.common.util.OpenIdUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -199,4 +201,13 @@ public abstract class BaseController {
 
     }
 
+    /**
+     * 把service层的分页信息，封装为bootstrap table通用的分页封装
+     */
+        public Object senJsonResul(CodeEnum codeEnum,Page page){
+            Map<String,Object> map=new HashMap<>();
+                map.put("msg",codeEnum);
+                map.put("rows",page);
+            return new JSONObject(map);
+    }
 }
