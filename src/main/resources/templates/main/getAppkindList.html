@@ -55,12 +55,12 @@
         </form>
     </div>
     <table id="table" class="easyui-datagrid" cls="theme-datagrid"
-           data-options="url:'/AppExtend/queryAll',method:'post'">
+           data-options="url:'/appkind/queryAll',method:'post'">
         <thead>
         <tr>
-            <th data-options="field:'Extend_ID',width:120,align:'center',formatter:formatter">操作</th>
-            <th data-options="field:'Extend_Name',width:100,align:'center'">开箱分类名称</th>
-            <th data-options="field:'Extend_Order',width:80,align:'center'">序号</th>
+            <th data-options="field:'kindId',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'kindName',width:100,align:'center'">开箱分类名称</th>
+            <th data-options="field:'kindOrder',width:80,align:'center'">序号</th>
 <!--
             <th data-options="field:'Kind_Name',width:80,align:'center'">上级名称</th>
 -->
@@ -84,19 +84,11 @@
                     <input class="easyui-textbox" name="extendId" id="extendId" hidden="true">
                     <div style="margin-bottom:20px;margin-left: -24px;">
                         <label class="label-top">开箱分类名称:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="extend_Name" id="extend_Name" style="width: 190px">
+                        <input class="easyui-textbox  theme-textbox-radius" name="kindName" id="extend_Name" style="width: 190px">
                     </div>
                     <div style="margin-bottom:20px">
                         <label class="label-top">序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="extend_Order" id="extend_Order" style="width: 190px">
-                    </div>
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">开始时间:</label>
-                        <input  style="width: 188px"type="text" name="extend_Begin" id="extend_Begin"  class="easyui-datebox">
-                    </div>
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">结束时间:</label>
-                        <input style="width: 188px" type="text" name="extend_End" id="extend_End"  class="easyui-datebox">
+                        <input class="easyui-textbox  theme-textbox-radius" name="kindOrder" id="extend_Order" style="width: 190px">
                     </div>
                 </form>
             </div>
@@ -186,12 +178,11 @@
         }
         $.ajax({
             type: "post",
-            url: "/AppExtend/addOrUpAppExtend",
+            url: "/appkind/save",
             data: $("#addForm").serialize(),
-
             dataType: "json",
             success: function (data) {
-                if (data.httpCode == 200) {
+
                     $('#window').window('close');
                     $.messager.show({
                         title: '提示',
@@ -203,14 +194,7 @@
                     $("#addForm").form('clear');
 
 
-                } else {
-                    $.messager.show({
-                        title: '提示',
-                        msg: data.msg,
-                        showType: 'show',
-                        timeout: 3000
-                    });
-                }
+
             }
         });
 

@@ -10,4 +10,7 @@ import java.util.Map;
 
 public interface IAppExtendService extends IService<AppExtend> {
     List<Map<Object,String>> getAppExtend(Page page, AppExtend appExtend);
+    List<Map<Object,String>>  queryAll(Page page, AppExtend APPExtend);
+
+
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace=".mapper.AppextendMapper">
+
+    <resultMap type=".entity.Appextend" id="AppextendMap">
+        <result property="extendId" column="Extend_ID"/>
+        <result property="extendName" column="Extend_Name"/>
+        <result property="extendOrder" column="Extend_Order"/>
+        <result property="kindId" column="Kind_ID"/>
+        <result property="extendBegin" column="Extend_Begin"/>
+        <result property="extendEnd" column="Extend_End"/>
+        <result property="extendIsacive" column="Extend_IsAcive"/>
+        <result property="extendPic" column="Extend_Pic"/>
+    </resultMap>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllList" resultMap="AppextendMap ">
+        select
+          Extend_ID, Extend_Name, Extend_Order, Kind_ID, Extend_Begin, Extend_End, Extend_IsAcive, Extend_Pic
+        from dbo.APPExtend
+        <where>
+        1=1
+            <if test="obj.extendId != null and obj.extendId != ''">
+                and Extend_ID like '%${ obj.extendId }%'
+            </if>
+            <if test="obj.extendName != null and obj.extendName != ''">
+                and Extend_Name like '%${ obj.extendName }%'
+            </if>
+            <if test="obj.extendOrder != null">
+                and Extend_Order like '%${ obj.extendOrder }%'
+            </if>
+            <if test="obj.kindId != null and obj.kindId != ''">
+                and Kind_ID like '%${ obj.kindId }%'
+            </if>
+            <if test="obj.extendBegin != null">
+                and Extend_Begin like '%${ obj.extendBegin }%'
+            </if>
+            <if test="obj.extendEnd != null">
+                and Extend_End like '%${ obj.extendEnd }%'
+            </if>
+            <if test="obj.extendIsacive != null">
+                and Extend_IsAcive like '%${ obj.extendIsacive }%'
+            </if>
+            <if test="obj.extendPic != null and obj.extendPic != ''">
+                and Extend_Pic like '%${ obj.extendPic }%'
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+
+</mapper>

@@ -7,9 +7,11 @@ import com.Web_CSGO.common.enums.CodeEnum;
 import com.Web_CSGO.common.exception.BaseException;
 import com.Web_CSGO.common.exception.IllegalParameterException;
 import com.Web_CSGO.common.util.OpenIdUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.logging.log4j.LogManager;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.github.pagehelper.PageInfo;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +31,7 @@ import java.util.Map;
  * @version 2018年11月23日
  */
 public abstract class BaseController {
+
 
 
     protected final Logger logger = LogManager.getLogger(this.getClass());
@@ -101,11 +105,10 @@ public abstract class BaseController {
     protected JSONObject setSuccessJSONObject(HttpCode code, Object data, String message) {
         JSONObject json = new JSONObject();
         if (data != null) {
-            json.put("result", data);
+            json.put("rows", data);
         } else {
-            json.put("result", new JSONObject());
+            json.put("rows", new JSONObject());
         }
-        json.put("httpCode", code.value());
         json.put("msg", message);
         json.put("timestamp", System.currentTimeMillis());
         return json;
@@ -210,4 +213,6 @@ public abstract class BaseController {
                 map.put("rows",page);
             return new JSONObject(map);
     }
+
+
 }

@@ -2,32 +2,19 @@ package com.Web_CSGO.controller.AdminUser;
 
 import com.Web_CSGO.common.HttpCode;
 import com.Web_CSGO.common.base.BaseController;
-import com.Web_CSGO.entity.AppExtend;
-import com.Web_CSGO.entity.AppKind;
+import com.Web_CSGO.common.util.ToolUtil;
 import com.Web_CSGO.entity.Product;
-import com.Web_CSGO.service.IAppExtendService;
-import com.Web_CSGO.service.IAppKindService;
 import com.Web_CSGO.service.IProductService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
-import net.coobird.thumbnailator.Thumbnails;
-import org.apache.logging.log4j.util.PropertiesUtil;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
-import java.awt.image.BufferedImage;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -123,40 +110,12 @@ public class ProductController extends BaseController {
 
     @PostMapping("imageUpload")
     @ResponseBody
-    public Object filesUpload(@RequestParam(value="file") MultipartFile file,HttpServletRequest request) {
-        File saveDir;
-        String imgUrl="";
-        // 判断文件是否为空
-        if (!file.isEmpty())
-            try {
-                // 保存的文件路径(如果用的是Tomcat服务器，文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\upload\\文件夹中
-              //  String filePath =  request.getSession().getServletContext().getRealPath("/");//获取项目路径
-              //  String substring = filePath.substring(0, 2);//分割盘符拿到根目录
-                String substring = "C:";//分割盘符拿到根目录
+    public Object filesUpload(@RequestParam(value="file") MultipartFile file) {
+       String filename= ToolUtil.filesUpload(file);
+       if(file==null){
+           return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败!");
+       }
+        return   setSuccessJSONObject(HttpCode.SUCCESS, filename, "保存成功!");
 
-                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");//设置日期格式
-                String realName = df.format(new Date()).toString().replaceAll("[\\p{P}+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]", "")
-                        .replace(" ", "");//取日期去掉空格和标点符号
-
-                // 1 构建存放路径
-                File fileImg = new File("/uploads");
-                if (!fileImg.exists()) {
-                    fileImg.mkdirs();//创建文件夹
-                    // 2 创建提示文本文本
-                    String pathTxt = substring + "/uploads/该文件为图片文件夹.txt";
-                    //如果文件夹下没有 提示文件.txt 就会创建该文件
-                    BufferedWriter bw = new BufferedWriter(new FileWriter(pathTxt));
-                    bw.close();//一定要关闭文件
-                }
-                //图片尺寸不变，压缩图片文件大小outputQuality实现,参数1为最高质量
-                String fileName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));//获取文件后缀，更改文件名
-                imgUrl = substring + "/uploads/" + realName + fileName;
-                saveDir = new File(imgUrl);
-                file.transferTo(saveDir);   // 转存文件
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败!");
-            }
-        return setSuccessJSONObject(HttpCode.SUCCESS, imgUrl, "保存成功!");
     }
 }

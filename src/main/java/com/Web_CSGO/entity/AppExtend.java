@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import java.beans.Transient;
 import java.io.Serializable;
 
 @Data
@@ -28,8 +27,7 @@ public class AppExtend implements Serializable {
       private String extend_Begin;
       @TableField("Extend_End")
       private String extend_End;
-      @TableField(exist = false)
-      private AppKind appKind;
+
 
 
 }

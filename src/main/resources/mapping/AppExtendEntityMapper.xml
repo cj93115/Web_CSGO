@@ -37,4 +37,18 @@
             </where>
     </select>
 
+
+    <select id="queryAllList"  resultType="java.util.Map">
+        select
+        Extend_ID, Extend_Name, Extend_Order, kind_ID, extend_Begin, extend_End, extend_IsAcive, extend_Pic
+        from dbo.APPExtend
+        <where>
+            1=1
+
+            <if test="obj.extend_Name != null and obj.extend_Name != ''">
+                and Extend_Name like '%${ obj.extend_Name }%'
+            </if>
+
+        </where>
+    </select>
 </mapper>

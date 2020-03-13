@@ -48,13 +48,12 @@
         </form>
     </div>
     <table id="table" class="easyui-datagrid" cls="theme-datagrid"
-           data-options="url:'/usertest/getList',method:'get'">
+           data-options="url:'/userTest/queryAll',method:'get'">
         <thead>
         <tr>
             <th data-options="field:'informationId',width:120,align:'center',formatter:formatter">操作</th>
             <th data-options="field:'id',width:100,align:'center'">id</th>
-            <th data-options="field:'name',width:80,align:'center'">姓名</th>
-
+            <th data-opt
         </tr>
         </thead>
     </table>
@@ -96,9 +95,9 @@
             collapsible: true,
             fitColumns:true,
             queryParams: {//查询
-                userName: $("#uname").val(),
-                pageSize: 7,
-                currentPage: 3
+                name: $("#uname").val(),
+                pageSize: 20,
+                currentPage: 1
             }
         });
     }

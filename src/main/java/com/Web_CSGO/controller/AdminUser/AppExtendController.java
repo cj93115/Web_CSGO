@@ -2,26 +2,20 @@ package com.Web_CSGO.controller.AdminUser;
 
 import com.Web_CSGO.common.HttpCode;
 import com.Web_CSGO.common.base.BaseController;
-import com.Web_CSGO.entity.AdminUser;
+import com.Web_CSGO.common.util.PageUtil;
 import com.Web_CSGO.entity.AppExtend;
-import com.Web_CSGO.entity.AppKind;
+
 import com.Web_CSGO.service.IAppExtendService;
-import com.Web_CSGO.service.IAppKindService;
-import com.alibaba.fastjson.JSON;
+
 import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.gson.JsonObject;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.management.Query;
 import java.util.*;
 
 
@@ -32,8 +26,7 @@ import java.util.*;
 public class AppExtendController extends BaseController {
     @Resource
     private IAppExtendService appExtendService;
-    @Resource
-    private IAppKindService appKindService ;
+
 
     @GetMapping("getAppExtend")
     public ModelAndView getAdminUserPage(){
@@ -71,6 +64,21 @@ public class AppExtendController extends BaseController {
         returnJson.put("total",objectPage.getTotal());//分页总条数
         return returnJson;
     }
+
+
+    @PostMapping("queryAll")
+    @ResponseBody
+    public JSONObject queryAll(AppExtend APPExtend) {
+        Page<Map<Object,String>> page= PageUtil.defaultPage();
+        Map<String, Object> map = new HashMap<String, Object>();
+        List<Map<Object,String>> list =appExtendService.queryAll(page,APPExtend);
+        page.setRecords(list);
+        map.put("total" ,page.getTotal());
+        map.put("rows",list);
+
+        return new JSONObject(map);
+    }
+
     @PostMapping("delAppExtend")
     public Object delAppExtend(String extendId){
         System.out.println(extendId);
@@ -86,53 +94,53 @@ public class AppExtendController extends BaseController {
         }
         return returnJson;
     }
-    @PostMapping("editGetAppExtend")
-    public Object editGetAppExtend(String extendId){
-        Map<String,Object> map = new HashMap();
-        AppExtend appExtend = appExtendService.getById(extendId);
-        appExtend = setAppKind(appExtend);
-        map.put("appExtend",appExtend);
-        List<AppKind> appKind = appKindService.getAppKind(new Page(), new AppKind());
-        map.put("appKind",appKind);
-        return JSON.toJSON(map);
-    }
-    @PostMapping("addOrUpAppExtend")
-    public Object addOrUpAppExtend(AppExtend appExtend,String kindName){
-        appExtend.setKind_ID(kindName);
-
-        JSONObject returnJson = new JSONObject();
-        List<Map<Object,String>> appExtends = new ArrayList<>();
-        appExtends = appExtendService.getAppExtend(new Page(), appExtend);
-        if (appExtends.size() > 0&&!appExtend.getExtend_ID().equals(appExtends.get(0).get("Extend_ID"))) {
-            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "", "保存失败,用户名存在!");
-        }
-
-        if("".equals(appExtend.getExtend_ID())){
-            String uuid = UUID.randomUUID().toString();
-            appExtend.setExtend_ID(uuid);
-        }
-        try {
-            boolean addOrUp = appExtendService.saveOrUpdate(appExtend);
-
-            if (addOrUp){
-                returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "保存成功!");
-            }
-        }catch (Exception e) {
-            log.error(e.getMessage());
-            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败!");
-        }
-        return returnJson;
-    }
-    public AppExtend setAppKind(AppExtend appExtend){
-        QueryWrapper<AppKind> appKindQueryWrapper = new QueryWrapper<>();
-        appKindQueryWrapper.eq("Kind_ID",appExtend.getExtend_ID());
-        appExtend.setAppKind(appKindService.getOne(appKindQueryWrapper));
-        return appExtend;
-    }
-
-    @PostMapping("getKind")
-    public Object getkind(){
-        List<Map<Object, String>> appExtend = appExtendService.getAppExtend(new Page(), new AppExtend());
-        return JSON.toJSON(appExtend);
-    }
+//    @PostMapping("editGetAppExtend")
+//    public Object editGetAppExtend(String extendId){
+//        Map<String,Object> map = new HashMap();
+//        AppExtend appExtend = appExtendService.getById(extendId);
+//        appExtend = setAppKind(appExtend);
+//        map.put("appExtend",appExtend);
+//        List<AppKind> appKind = appKindService.getAppKind(new Page(), new AppKind());
+//        map.put("appKind",appKind);
+//        return JSON.toJSON(map);
+//    }
+//    @PostMapping("addOrUpAppExtend")
+//    public Object addOrUpAppExtend(AppExtend appExtend,String kindName){
+//        appExtend.setKind_ID(kindName);
+//
+//        JSONObject returnJson = new JSONObject();
+//        List<Map<Object,String>> appExtends = new ArrayList<>();
+//        appExtends = appExtendService.getAppExtend(new Page(), appExtend);
+//        if (appExtends.size() > 0&&!appExtend.getExtend_ID().equals(appExtends.get(0).get("Extend_ID"))) {
+//            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "", "保存失败,用户名存在!");
+//        }
+//
+//        if("".equals(appExtend.getExtend_ID()) || appExtend.getExtend_ID()==null){
+//            String uuid = UUID.randomUUID().toString();
+//            appExtend.setExtend_ID(uuid);
+//        }
+//        try {
+//            boolean addOrUp = appExtendService.saveOrUpdate(appExtend);
+//
+//            if (addOrUp){
+//                returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "保存成功!");
+//            }
+//        }catch (Exception e) {
+//            log.error(e.getMessage());
+//            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败!");
+//        }
+//        return returnJson;
+//    }
+//    public AppExtend setAppKind(AppExtend appExtend){
+//        QueryWrapper<AppKind> appKindQueryWrapper = new QueryWrapper<>();
+//        appKindQueryWrapper.eq("Kind_ID",appExtend.getExtend_ID());
+//        appExtend.setAppKind(appKindService.getOne(appKindQueryWrapper));
+//        return appExtend;
+//    }
+//
+//    @PostMapping("getKind")
+//    public Object getkind(){
+//        List<Map<Object, String>> appExtend = appExtendService.getAppExtend(new Page(), new AppExtend());
+//        return JSON.toJSON(appExtend);
+//    }
 }

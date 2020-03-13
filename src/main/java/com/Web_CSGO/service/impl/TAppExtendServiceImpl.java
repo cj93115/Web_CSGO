@@ -16,4 +16,8 @@ public class TAppExtendServiceImpl extends ServiceImpl<TAppExtendMapper, AppExte
     public List<Map<Object,String>> getAppExtend(Page page, AppExtend appExtend) {
         return  this.baseMapper.getAppExtend(page,appExtend);
     }
+    @Override
+    public List<Map<Object,String>>  queryAll(Page page, AppExtend appExtend){
+        return baseMapper.queryAllList(page,appExtend);
+    }
 }

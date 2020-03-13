@@ -14,4 +14,5 @@ import java.util.Map;
 @Mapper
 public interface TAppExtendMapper extends BaseMapper<AppExtend> {
     public List<Map<Object,String>> getAppExtend(Page page, @Param("extend") AppExtend appExtend);
+    List<Map<Object,String>>  queryAllList(Page page,@Param("obj") AppExtend obj);
 }

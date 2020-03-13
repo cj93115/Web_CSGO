@@ -15,11 +15,15 @@
  */
 package com.Web_CSGO.common.util;
 
+import com.Web_CSGO.common.HttpCode;
 import com.Web_CSGO.common.support.StrKit;
+import com.alibaba.fastjson.JSONObject;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import javax.servlet.http.HttpServletRequest;
+import java.io.*;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.net.URISyntaxException;
@@ -30,6 +34,7 @@ import java.util.Map.Entry;
 /**
  * 高频方法集合类
  */
+@Slf4j
 public class ToolUtil {
 
     /**
@@ -651,5 +656,48 @@ public class ToolUtil {
             reBig = divBig.multiply(new BigDecimal("100")).divide(totalBig,3,BigDecimal.ROUND_CEILING);
         }
         return reBig;
+    }
+
+    /**
+     * 文件保存
+     * @param file
+     * @param request
+     * @return
+     */
+    public static String filesUpload(MultipartFile file) {
+        File saveDir;
+        String imgUrl="";
+        // 判断文件是否为空
+        if (!file.isEmpty())
+            try {
+                // 保存的文件路径(如果用的是Tomcat服务器，文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\upload\\文件夹中
+                //  String filePath =  request.getSession().getServletContext().getRealPath("/");//获取项目路径
+                //  String substring = filePath.substring(0, 2);//分割盘符拿到根目录
+                String substring = "D:";//分割盘符拿到根目录
+
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");//设置日期格式
+                String realName = df.format(new Date()).toString().replaceAll("[\\p{P}+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]", "")
+                        .replace(" ", "");//取日期去掉空格和标点符号
+
+                // 1 构建存放路径
+                File fileImg = new File("/csgo_img");
+                if (!fileImg.exists()) {
+                    fileImg.mkdirs();//创建文件夹
+                    // 2 创建提示文本文本
+                    String pathTxt = substring + "/csgo_img/该文件为图片文件夹.txt";
+                    //如果文件夹下没有 提示文件.txt 就会创建该文件
+                    BufferedWriter bw = new BufferedWriter(new FileWriter(pathTxt));
+                    bw.close();//一定要关闭文件
+                }
+                //图片尺寸不变，压缩图片文件大小outputQuality实现,参数1为最高质量
+                String fileName = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));//获取文件后缀，更改文件名
+                imgUrl = substring + "/csgo_img/" + realName + fileName;
+                saveDir = new File(imgUrl);
+                file.transferTo(saveDir);   // 转存文件
+            } catch (Exception e) {
+                log.error(e.getMessage());
+                return null;
+            }
+        return imgUrl;
     }
 }

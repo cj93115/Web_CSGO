@@ -1,109 +1,96 @@
 package com.Web_CSGO.controller.user;
 
-import com.Web_CSGO.common.base.BaseController;
-import com.Web_CSGO.common.util.PageUtil;
-import com.Web_CSGO.entity.OcInformationsEntity;
 import com.Web_CSGO.entity.UserTest;
 import com.Web_CSGO.service.IUserTestService;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import com.Web_CSGO.common.util.PageUtil;
 
-
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Controller
-@RequestMapping("usertest")
-public class UserTestController extends BaseController{
+/**
+ * (UserTest)表控制层
+ *
+ * @author makejava
+ * @since 2020-03-13 10:12:17
+ */
+@RestController
+@RequestMapping("userTest")
+public class UserTestController {
+    /**
+     * 服务对象
+     */
     @Autowired
     private IUserTestService userTestService;
 
-
     /**
-     * 查询
-     * @return
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
      */
-    @GetMapping("getList")
-    public @ResponseBody
-    JSONObject getList() {
-        Page<UserTest> page= PageUtil.defaultPage();
+    @GetMapping("selectOne")
+    public UserTest selectOne(Integer id) {
+        return userTestService.getById(id);
+    }
+    
+    @GetMapping("queryAll")
+    @ResponseBody
+    public JSONObject queryAll(UserTest user_test) {
+     Page<UserTest> page= PageUtil.defaultPage();
         Map<String, Object> map = new HashMap<String, Object>();
-        List<UserTest> list = userTestService.getUsetTestList(page);
+        List<UserTest> list =userTestService.queryAll(page,user_test);
         page.setRecords(list);
         map.put("total" ,page.getTotal());
         map.put("rows",list);
 
         return new JSONObject(map);
     }
-
-    /**
-     * 新增
-     * @param name
-     * @return
-     */
-    @GetMapping("addUser")
-    public @ResponseBody
-    JSONObject addUser(@RequestParam("name") String name) {
-        Map<String, Object> map = new HashMap<String, Object>();
+    
+        //添加
+    @RequestMapping("/save")
+    @ResponseBody
+    public JSONObject save(UserTest user_test){
         try {
-             userTestService.addUser(name);
+            userTestService.save(user_test);
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            map.put("msg", "新增失败");
-            return new JSONObject(map);
+            return null;
         }
-        map.put("msg", "新增成功");
-        return new JSONObject(map);
     }
-
-    /**
-     * 删除
-     * @param id
-     * @return
-     */
-    @PostMapping("deleteUser")
-    public @ResponseBody
-    JSONObject deleteUser(Integer id) {
-        return senMessage(userTestService.removeById(id));
-    }
-
-    /**
-     * 修改
-     * @param userTest
-     * @return
-     */
-    @PostMapping("updateUser")
-    public @ResponseBody
-    JSONObject deleteUser(UserTest userTest) {
-        return senMessage(userTestService.updateById(userTest));
-    }
-
-    @PostMapping("editUser")
-    public @ResponseBody Object editUser(Integer id){
-        UserTest getUser = userTestService.getById(id);
-        return JSON.toJSON(getUser);
-    }
-
-    /**
-     * 返回信息结果
-     * @param bo
-     * @return
-     */
-    JSONObject  senMessage(boolean bo){
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (bo){
-            map.put("msg", "操作成功");
-            return new JSONObject(map);
+    //修改
+    @RequestMapping("/update")
+    @ResponseBody
+    public JSONObject update(@ModelAttribute("editUserTest")UserTest user_test){
+        try {
+            userTestService.updateById(user_test);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
-        map.put("msg", "操作失败");
-        return new JSONObject(map);
-
     }
+    /**
+     * 删除功能,前台要求返回{success:true/false,msg:xxx}
+     * @return
+     */
+    @RequestMapping("/delete")
+    @ResponseBody
+    public JSONObject delete(Long id){
+        try {
+           userTestService.removeById(id);
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
 }

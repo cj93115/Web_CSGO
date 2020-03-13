@@ -11,10 +11,10 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllList" resultMap="UserTestMap">
         select
-        id, name
+          id, name
         from dbo.user_test
         <where>
-            1=1
+        1=1
             <if test="obj.id != null">
                 and id like '%${ obj.id }%'
             </if>
