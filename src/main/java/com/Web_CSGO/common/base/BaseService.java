@@ -32,7 +32,7 @@ public abstract class BaseService<P extends BaseMapper<T>, T extends BaseEntity>
             if (entity.get("id") == null) {
                 if (null != prefix) {
                     Date date = new Date();
-                    String time = DateUtil.format(date.getTime(), DateUtil.PATTERN_YYYYMMDDHHMMSS);
+                    String time = DateUtil.getTime();
                     String id = prefix + time + UUIDUtil.buildRandom(5);
                     entity.set("id", id);
                 } else {

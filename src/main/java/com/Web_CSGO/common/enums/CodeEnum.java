@@ -8,8 +8,12 @@ package com.Web_CSGO.common.enums;
 public enum CodeEnum {
 	SENSE_SUCCESS(0,"success"),
 	SUCCESS(200,"成功"),
+	SAVE_SUCCESS(200,"保存成功"),
+	UPDATE_SUCCESS(200,"编辑成功"),
+	DELETE_SUCCESS(200,"删除成功"),
 	SAVE_FAILD(-1,"保存失败"),
 	UPDATE_FAILD(-2,"更新错误"),
+	OPERATION_FAILD(205,"操作失败"),
 	DELETE_FAILD(-3,"删除错误"),
 	UNKNOWN_ERROR(-4,"未知错误"),
 	PARAMS_ERROR(-5,"参数不合法!"),
@@ -32,7 +36,7 @@ public enum CodeEnum {
 	UNICODE_EXIST(-408,"编号已存在"),
 	EXIST(-409,"不能重复添加"),
 	MAJOR_CODE_REPEAT(-14,"新增失败,参数重复"),
-	DEPT_CODE_REPEAT(-15,"新增失败,数据重复"),
+	DEPT_CODE_REPEAT(-15,"操作失败,数据已存在"),
 	;
 
 	private Integer code;

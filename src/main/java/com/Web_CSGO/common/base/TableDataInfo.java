@@ -31,10 +31,11 @@ public class TableDataInfo implements Serializable
      * @param list 列表数据
      * @param total 总记录数
      */
-    public TableDataInfo(List<?> list, int total)
+    public TableDataInfo(List<?> list, int total,int code)
     {
         this.rows = list;
         this.total = total;
+        this.code = code;
     }
 
     public long getTotal()
@@ -66,4 +67,6 @@ public class TableDataInfo implements Serializable
     {
         this.code = code;
     }
+
+
 }

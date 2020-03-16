@@ -1,9 +1,9 @@
 package com.Web_CSGO.service.impl;
 
 
-import com.Web_CSGO.entity.Appkind;
-import com.Web_CSGO.mapper.AppkindMapper;
-import com.Web_CSGO.service.IAppkindService;
+import com.Web_CSGO.entity.Appextend;
+import com.Web_CSGO.mapper.AppextendMapper;
+import com.Web_CSGO.service.IAppextendService;
 import com.Web_CSGO.common.base.tips.ResultTip;
 import com.Web_CSGO.common.enums.CodeEnum;
 import com.Web_CSGO.common.util.ToolUtil;
@@ -18,41 +18,41 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * (Appkind)表服务实现类
+ * (Appextend)表服务实现类
  *
- * @author makejava
- * @since 2020-03-15 12:23:24
+ * @author caojie
+ * @since 2020-03-15 13:12:47
  */
 @Service
-public class AppkindServiceImpl extends ServiceImpl<AppkindMapper,Appkind> implements IAppkindService {
+public class AppextendServiceImpl extends ServiceImpl<AppextendMapper,Appextend> implements IAppextendService {
     @Override
-    public List<Appkind>  queryAll(Page page, Appkind APPKind){
-    return baseMapper.queryAllList(page,APPKind);
+    public List<Map<String, Object>>  queryAll(Page page, Appextend APPExtend){
+    return baseMapper.queryAllList(page,APPExtend);
     }
 
 
 
 
     @Override
-    public ResultTip saveOrUpdateData(Appkind APPKind) {
+    public ResultTip saveOrUpdateData(Appextend APPExtend) {
 
 
-        if(ToolUtil.isEmpty(APPKind)){//判断对象是否为空
+        if(ToolUtil.isEmpty(APPExtend)){//判断对象是否为空
             return new ResultTip(CodeEnum.PARAMS_INCOMPLETENESS);
         }
-        if (isExist(APPKind)){//判断唯一字段是否存在
+        if (isExist(APPExtend)){//判断唯一字段是否存在
             return new ResultTip(CodeEnum.DEPT_CODE_REPEAT);
         }
 
         int resultCuont;
         try {
             //没有id则生成uuid做新增,有id则做修改
-        if("".equals(APPKind.getKindId()) || APPKind.getKindId()==null){
+        if("".equals(APPExtend.getExtendId()) || APPExtend.getExtendId()==null){
             String uuid = UUID.randomUUID().toString();
-            APPKind.setKindId(uuid);
-            resultCuont=baseMapper.insert(APPKind);
+            APPExtend.setExtendId(uuid);
+            resultCuont=baseMapper.insert(APPExtend);
         }else {
-            resultCuont=baseMapper.updateById(APPKind);
+            resultCuont=baseMapper.updateById(APPExtend);
         }
 
             //resultCuont(成功事件)是否大于0,大于则成功,小于则失败
@@ -69,17 +69,17 @@ public class AppkindServiceImpl extends ServiceImpl<AppkindMapper,Appkind> imple
 
     /**
      * 判断唯一字段是否存在
-     * @param APPKind
+     * @param APPExtend
      * @return
      */
-    public boolean isExist(Appkind APPKind) {
+    public boolean isExist(Appextend APPExtend) {
         Map<String,Object> map =new HashMap<>();
         //填入唯一字段
-        map.put("Kind_Name",APPKind.getKindName());
-        List<Appkind> list=baseMapper.selectByMap(map);
+        map.put("Extend_Name",APPExtend.getExtendName());
+        List<Appextend> list=baseMapper.selectByMap(map);
 
         if(list.size()>0){
-            if (list.get(0).getKindId().equals(APPKind.getKindId())){//若有同名是它本身返回false
+            if (list.get(0).getExtendId().equals(APPExtend.getExtendId())){//若有同名是它本身返回false
                 return false;
             }
             return true;

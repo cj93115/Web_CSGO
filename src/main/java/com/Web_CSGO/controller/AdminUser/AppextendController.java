@@ -1,7 +1,7 @@
 package com.Web_CSGO.controller.AdminUser;
 
-import com.Web_CSGO.entity.Appkind;
-import com.Web_CSGO.service.IAppkindService;
+import com.Web_CSGO.entity.Appextend;
+import com.Web_CSGO.service.IAppextendService;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.web.bind.annotation.*;
@@ -16,48 +16,48 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * (Appkind)表控制层
+ * (Appextend)表控制层
  *
- * @author makejava
- * @since 2020-03-15 12:25:57
+ * @author caojie
+ * @since 2020-03-15 13:19:42
  */
 @RestController
-@RequestMapping("appkind")
-public class AppkindController {
+@RequestMapping("appextend")
+public class AppextendController {
     /**
      * 服务对象
      */
     @Resource
-    private IAppkindService appkindService;
+    private IAppextendService appextendService;
 
 
    //返回该页面的视图
-      @GetMapping("getAppkind")
+      @GetMapping("getAppextend")
     public ModelAndView getAdminUserPage(){
-        return new ModelAndView("main/getAppkindList");
+        return new ModelAndView("main/getAppextendList");
     }
     /**
      * 通过主键查询单条数据
      *
-     * @param  kindId 主键
+     * @param  extendId 主键
      * @return 单条数据
      */    
      @PostMapping("selectOne")
-    public Appkind selectOne(String kindId) {
-        return appkindService.getById(kindId);
+    public Appextend selectOne(String extendId) {
+        return appextendService.getById(extendId);
     }
     
         /**
      * 通过条件分页查询
-     * @param APPKind
+     * @param APPExtend
      * @return
      */
     @PostMapping("queryAll")
     @ResponseBody
-    public ResultTip queryAll(Appkind APPKind) {
-     Page<Appkind> page= PageUtil.defaultPage();
+    public ResultTip queryAll(Appextend APPExtend) {
+     Page<Map<String, Object>> page= PageUtil.defaultPage();
         Map<String, Object> map = new HashMap<String, Object>();
-        List<Appkind> list =appkindService.queryAll(page,APPKind);
+        List<Map<String, Object>> list =appextendService.queryAll(page,APPExtend);
         page.setRecords(list);
         return new ResultTip(CodeEnum.SUCCESS, page);
     }
@@ -65,24 +65,25 @@ public class AppkindController {
     
         /**
      * 新增或修改
-     * @param APPKind
+     * @param  APPExtend
      * @return
      */
     @PostMapping("/saveOrUpdateData")
     @ResponseBody
-    public ResultTip saveOrUpdateData(Appkind APPKind){ return appkindService.saveOrUpdateData(APPKind);
+    public ResultTip saveOrUpdateData(Appextend APPExtend){ return appextendService.saveOrUpdateData(APPExtend);
     }
     
 
     /**
      * 删除功能
+      * @param  extendId 主键
      * @return
      */
     @PostMapping("/delete")
     @ResponseBody
-    public ResultTip delete(String kindId){
+    public ResultTip delete(String extendId){
         try {
-           if(appkindService.removeById(kindId)){
+           if(appextendService.removeById(extendId)){
               return new ResultTip(CodeEnum.DELETE_SUCCESS);
           }
               return new ResultTip(CodeEnum.OPERATION_FAILD);
@@ -91,10 +92,6 @@ public class AppkindController {
             return new ResultTip(e.getMessage());
         }
     }
-    @PostMapping("/getKind")
-    @ResponseBody
-    public List<Appkind> getKind(){
-           return appkindService.list();
-    }
+
 
 }

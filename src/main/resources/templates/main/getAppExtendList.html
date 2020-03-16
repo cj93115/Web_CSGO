@@ -29,14 +29,15 @@
             padding-top: 10px;
 
         }
-        .textbox-icon,.passwordbox-open{
-            width: 24px!important;
+
+        .textbox-icon, .passwordbox-open {
+            width: 24px !important;
         }
     </style>
-<script>
+    <script>
 
 
-</script>
+    </script>
 </head>
 
 <body>
@@ -45,25 +46,31 @@
         <form id="query">
             <label class="label-top">名称:</label>
             <input class="easyui-textbox theme-textbox-radius" id="uname">
-           <!-- <label class="label-top">注册日期:</label>
-            <input class="easyui-datebox theme-textbox-radius" id="userRegDatestart">
-            <label class="label-top">至</label>
-            <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
-            <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
+            <!-- <label class="label-top">注册日期:</label>
+             <input class="easyui-datebox theme-textbox-radius" id="userRegDatestart">
+             <label class="label-top">至</label>
+             <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
+            <a href="javascript:void(0)" class="easyui-linkbutton button-info" onclick="init()">查询</a>
 
             <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open');">新增</a>
         </form>
     </div>
     <table id="table" class="easyui-datagrid" cls="theme-datagrid"
-           data-options="url:'/AppExtend/queryAll',method:'post'">
+           data-options="url:'/appextend/queryAll',method:'post'">
         <thead>
         <tr>
-            <th data-options="field:'Extend_ID',width:120,align:'center',formatter:formatter">操作</th>
-            <th data-options="field:'Extend_Name',width:100,align:'center'">开箱分类名称</th>
-            <th data-options="field:'Extend_Order',width:80,align:'center'">序号</th>
-<!--
-            <th data-options="field:'Kind_Name',width:80,align:'center'">上级名称</th>
--->
+            <th data-options="field:'extendId',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'kindName',width:80,align:'center'">箱子类型</th>
+            <th data-options="field:'extendName',width:100,align:'center'">箱子名称</th>
+            <th data-options="field:'extendOrder',width:80,align:'center'">序号</th>
+            <th data-options="field:'productIsprivate',width:80,align:'center'">是否开启</th>
+            <th data-options="field:'extendBegin',width:80,align:'center'">开始时间</th>
+            <th data-options="field:'extendEnd',width:80,align:'center'">结束时间</th>
+
+
+            <!--
+                        <th data-options="field:'Kind_Name',width:80,align:'center'">上级名称</th>
+            -->
             <!--<th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
             <th data-options="field:'user_RegDate',width:60,align:'center'">User_RegDate</th>
             <th data-options="field:'user_Money',width:60,align:'center'">User_Money</th>
@@ -82,22 +89,31 @@
             <div style="text-align: center;">
                 <form id="addForm">
                     <input class="easyui-textbox" name="extendId" id="extendId" hidden="true">
-                    <div style="margin-bottom:20px;margin-left: -24px;">
-                        <label class="label-top">开箱分类名称:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="extend_Name" id="extend_Name" style="width: 190px">
-                    </div>
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="extend_Order" id="extend_Order" style="width: 190px">
-                    </div>
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">开始时间:</label>
-                        <input  style="width: 188px"type="text" name="extend_Begin" id="extend_Begin"  class="easyui-datebox">
-                    </div>
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">结束时间:</label>
-                        <input style="width: 188px" type="text" name="extend_End" id="extend_End"  class="easyui-datebox">
-                    </div>
+                        <div style="margin-bottom:20px;margin-left: -24px">
+
+                            <label class="label-top">箱子类型:</label>
+                            <input style="width: 188px" type="text" id="kindId" name="kindId" class="easyui-combobox"
+                                   data-options="editable:true ,valueField: 'kindId',textField: 'kindName',prompt: '上级名称',url:'/appkind/getKind'"/>
+                            <br>
+                            <label class="label-top">箱子名称:</label>
+                            <input class="easyui-textbox  theme-textbox-radius" name="extendName" id="extendName"
+                                   style="width: 190px">
+                        </div>
+                        <div style="margin-bottom:20px">
+                            <label class="label-top">序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
+                            <input class="easyui-textbox  theme-textbox-radius" name="extendOrder" id="extendOrder"
+                                   style="width: 190px">
+                        </div>
+                        <div style="margin-bottom:20px">
+                            <label class="label-top">开始时间:</label>
+                            <input style="width: 188px" type="text" name="extendBegin" id="extendBegin"
+                                   class="easyui-datebox">
+                        </div>
+                        <div style="margin-bottom:20px">
+                            <label class="label-top">结束时间:</label>
+                            <input style="width: 188px" type="text" name="extendEnd" id="extendEnd"
+                                   class="easyui-datebox">
+                        </div>
                 </form>
             </div>
         </div>
@@ -114,6 +130,7 @@
         $("#extendId").next().hide();
         init();
     });
+
     function init() {
         $('#table').datagrid({
             singleSelect: true,
@@ -123,23 +140,28 @@
             pagination: true,
             pageSize: 10,
             collapsible: true,
-            fitColumns:true,
+            fitColumns: true,
             queryParams: {//查询
-                extend_Name: $("#uname").val()
+                extendName: $("#uname").val(),
+                PageSize:9,
+                currentPage:1,
+                sort:"extend_order",
+                order:"desc"
             }
         });
     }
+
     function formatter(val, row, index) {
 
-        var del = "<a data-extend_id='" + row.Extend_ID + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
-        var edit = "<a data-extend_id='" + row.Extend_ID + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+        var del = "<a data-extend_id='" + row.extendId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a data-extend_id='" + row.extendId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
         return del + ' ' + edit;
     }
 
 
     function addAppExtend() {
         $("input#extendId").hide();
-        if($("#extend_Name").val()==''||$("#extend_Name").val()==null){
+        if ($("#extendName").val() == '' || $("#extendName").val() == null) {
             $.messager.show({
                 title: '提示',
                 msg: '名称不能为空！',
@@ -148,7 +170,7 @@
             });
             return;
         }
-        if($("#extend_Order").val()==""||$("#extend_Order").val()==null){
+        if ($("#extendOrder").val() == "" || $("#extendOrder").val() == null) {
             $.messager.show({
                 title: '提示',
                 msg: '请输入序号！',
@@ -157,7 +179,7 @@
             });
             return;
         }
-        if($("#kind_Name").val()==''){
+        if ($("#kindName").val() == '') {
             $.messager.show({
                 title: '提示',
                 msg: '请选择上级名称！',
@@ -166,7 +188,7 @@
             });
             return;
         }
-        if($("#extend_Begin").val()==''){
+        if ($("#extendBegin").val() == '') {
             $.messager.show({
                 title: '提示',
                 msg: '请填写开始时间！',
@@ -175,7 +197,7 @@
             });
             return;
         }
-        if($("#extend_End").val()==''){
+        if ($("#extendEnd").val() == '') {
             $.messager.show({
                 title: '提示',
                 msg: '请填写结束时间！',
@@ -186,12 +208,11 @@
         }
         $.ajax({
             type: "post",
-            url: "/AppExtend/addOrUpAppExtend",
+            url: "/appextend/saveOrUpdateData",
             data: $("#addForm").serialize(),
-
             dataType: "json",
             success: function (data) {
-                if (data.httpCode == 200) {
+                if (data.code == 200) {
                     $('#window').window('close');
                     $.messager.show({
                         title: '提示',
@@ -221,13 +242,13 @@
             if (r) {
                 $.ajax({
                     type: "post",
-                    url: "/AppExtend/delAppExtend",
+                    url: "/appextend/delete",
                     data: {
                         extendId: $(_this).data("extend_id")
                     },
                     dataType: "json",
                     success: function (data) {
-                        if (data.httpCode == 200) {
+                        if (data.code == 200) {
                             $.messager.show({
                                 title: '提示',
                                 msg: data.msg,
@@ -248,6 +269,7 @@
             }
         });
     }
+
     function edit(_this) {
         $("input#extendId").hide();
         $.messager.confirm('编辑提示', '是否编辑?', function (r) {
@@ -255,20 +277,20 @@
 
                 $.ajax({
                     type: "post",
-                    url: "/AppExtend/editGetAppExtend",
+                    url: "/appextend/selectOne",
                     data: {
                         extendId: $(_this).attr("data-extend_id")
                     },
                     dataType: "json",
                     success: function (data) {
-                        $.setForm('#addForm',data.appExtend);
+                        $.setForm('#addForm', data.rows);
 
                         $('#kindName').combobox({
-                            valueField:'kindId',
-                            textField:'kindName',
-                            data:data.appKind,
-                            onLoadSuccess : function(){
-                                $('#kindName').combobox('setValue',data.appExtend.kindId);
+                            valueField: 'kindId',
+                            textField: 'kindName',
+                            data: data,
+                            onLoadSuccess: function () {
+                                $('#kindName').combobox('setValue', data.kindName);
                             }
                         });
                         $('#window').window('open')
@@ -278,6 +300,7 @@
         });
 
     }
+
     $("#onclose").click(function () {
         $('#window').window('close');
         $("#addForm").form('clear');

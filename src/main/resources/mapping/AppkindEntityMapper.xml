@@ -10,21 +10,16 @@
 
 
     <!--通过实体作为筛选条件查询-->
-    <select id="queryAllList" resultMap="AppkindMap ">
+    <select id="queryAllList" resultMap="AppkindMap">
         select
           Kind_ID, Kind_Name, Kind_Order
         from dbo.APPKind
         <where>
         1=1
-            <if test="obj.kindId != null and obj.kindId != ''">
-                and Kind_ID like '%${ obj.kindId }%'
-            </if>
             <if test="obj.kindName != null and obj.kindName != ''">
                 and Kind_Name like '%${ obj.kindName }%'
             </if>
-            <if test="obj.kindOrder != null">
-                and Kind_Order like '%${ obj.kindOrder }%'
-            </if>
+
         </where>
     </select>
 

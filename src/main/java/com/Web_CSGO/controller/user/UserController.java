@@ -43,10 +43,7 @@ public class UserController  extends BaseController {
     public ModelAndView getUserPage(){
        return new ModelAndView("main/getUserList");
     }
-    @GetMapping("getUserPage2")
-    public ModelAndView getUserPage2(){
-       return new ModelAndView("main/getUserList2");
-    }
+
 
     @PostMapping("getUserList")
     public Object getUserList(Integer page, Integer rows,OcInformationsEntity oc){

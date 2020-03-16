@@ -13,7 +13,8 @@ import java.util.Map;
  * @version 2018年11月23日
  */
 public class JsonUtil {
-    private final static Gson gson = new GsonBuilder().setDateFormat(DateUtil.PATTERN_YYYY_MM_DD_HH_MM_SS).create();
+
+    private final static Gson gson = new GsonBuilder().setDateFormat("YYYY_MM_DD_HH_MM_SS").create();
 
     /**
      * 转成Json字符串

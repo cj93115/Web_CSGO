@@ -40,25 +40,28 @@
 <div id="main">
     <div id="tb" style="padding:2px 5px;">
         <form id="query">
-            <label class="label-top">用户名:</label>
+            <label class="label-top">名称:</label>
             <input class="easyui-textbox theme-textbox-radius" id="uname">
            <!-- <label class="label-top">注册日期:</label>
             <input class="easyui-datebox theme-textbox-radius" id="userRegDatestart">
             <label class="label-top">至</label>
             <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
             <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
-            <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')" id="ocadd">新增</a>
+
+            <a href="#" class="easyui-linkbutton button-default"  onclick="$('#window').window('open')" id="ocadd">新增</a>
         </form>
     </div>
     <table id="table" class="easyui-datagrid" cls="theme-datagrid"
-           data-options="url:'/user/UserController/getUserList',method:'post'">
+           data-options="url:'/appproduct/queryAll',method:'post'">
         <thead>
         <tr>
-            <th data-options="field:'informationId',width:120,align:'center',formatter:formatter">操作</th>
-            <th data-options="field:'userName',width:100,align:'center'">用户名</th>
-            <th data-options="field:'mobile',width:80,align:'center'">电话</th>
-            <th data-options="field:'submitTime',width:80,align:'center',formatter:format">登录时间</th>
-            <th data-options="field:'openId',width:80,align:'center'">Steam账号</th>
+            <th data-options="field:'productId',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'productName',width:80,align:'center'">名称</th>
+            <th data-options="field:'productTime',width:80,align:'center'">上架时间</th>
+            <th data-options="field:'productSale',width:100,align:'center'">价格</th>
+            <th data-options="field:'productIsprivate',width:100,align:'center'">是否开启</th>
+            <th data-options="field:'productPicsmall',width:80,align:'center',formatter:formatter2">预览</th>
+
             <!--<th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
             <th data-options="field:'user_RegDate',width:60,align:'center'">User_RegDate</th>
             <th data-options="field:'user_Money',width:60,align:'center'">User_Money</th>
@@ -67,49 +70,53 @@
         </tr>
         </thead>
     </table>
-
 </div>
-<!--新增编辑窗口-->
+<!--新增窗口-->
 <div id="window" class="easyui-window" title="新增"
      data-options="collapsible:false,closable:true,maximizable:false,closed:true"
-     style="width:500px;height:300px;padding:10px;">
+     style="width:500px;height:400px;padding:10px;">
     <div class="easyui-layout" data-options="fit:true">
         <div data-options="region:'center'" style="padding:10px;">
             <div style="text-align: center;">
                 <form id="addForm">
-                    <input class="easyui-textbox" name="informationId" id="informationId" hidden="true">
-                    <div style="margin-bottom:20px">
-                        <label class="label-top">用户名:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="userName" id="userName" style="width: 190px">
+                    <input name="productId" id="productId" hidden="true">
+                    <input name="productBrand" id="productBrand" value="1" data-value="1"  hidden="true">
+                    <div style="margin-bottom:20px;margin-left: -8px;">
+                        <label class="label-top">物品名称:</label>
+                        <input class="easyui-textbox theme-textbox-radius" name="productName" id="productName" style="width: 190px">
                     </div>
                     <div style="margin-bottom:20px">
-                        <label class="label-top">密&nbsp;&nbsp;&nbsp;码:</label>
-                        <input class="easyui-passwordbox theme-textbox-radius" name="password" id="password" style="width: 190px">
+                        <label class="label-top">价&nbsp;&nbsp;&nbsp;&nbsp;格:</label>
+                        <input class="easyui-numberbox theme-textbox-radius" data-options="min:0,precision:2,suffix:'￥'" name="productSale" id="productSale" style="width: 190px">
                     </div>
-                    <div style="margin-bottom:20px;margin-left: -15px">
-                        <label class="label-top">确认密码:</label>
-                        <input class="easyui-passwordbox theme-textbox-radius" id="psd" style="width: 190px">
-                    </div>
-                    <div style="margin-bottom:20px;">
-                        <label class="label-top">电&nbsp;&nbsp;&nbsp;话:</label>
-                        <input class="easyui-numberbox theme-textbox-radius" name="mobile" id="mobile" style="width: 190px" data-options="min:11,precision:0">
-                    </div>
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">是否开启:</label>
+                        <select  name="productIsprivate" id="productIsprivate"   style="width: 190px">
+                            <option value="0">是</option>
+                            <option value="1">否</option>
+                        </select>
 
+                    </div>
                 </form>
+                <div style="margin-bottom:20px;margin-left: -22px;">
+                    <label class="label-top">&nbsp;&nbsp;&nbsp;&nbsp;武器图片:</label>
+                    <input class="easyui-filebox" name="image" id="image" data-options="onChange:upload,prompt:'选择图片',buttonText:'选择文件',accept:'image/jpeg,image/png'" style="width:190px">
+                </div>
             </div>
         </div>
         <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
-            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addUser()" style="width:80px">保存</a>
-            <a class="easyui-linkbutton" href="javascript:void(0)" id="onclose" style="width:80px">取消</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addAppProduct()" style="width:80px">保存</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" id="onclose"
+               style="width:80px">取消</a>
         </div>
     </div>
 </div>
-
 </body>
 <script type="text/javascript">
 
     $(function () {
-        $("#informationId").next().hide();
+        $("#extendId").next().hide();
+        $("#productPictrure").next().hide();
         init();
     });
     function init() {
@@ -123,50 +130,52 @@
             collapsible: true,
             fitColumns:true,
             queryParams: {//查询
-                userName: $("#uname").val(),
-                start: $("#userRegDatestart").val(),
-                end: $("#userRegDateend").val()
+                productName: $("#uname").val(),
+                PageSize:9,
+                productBrand:"1",
+                currentPage:1
+
             }
         });
     }
     function formatter(val, row, index) {
-        var del = "<a  data-informationId='" + row.informationId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
-        var edit = "<a data-informationId='" + row.informationId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+
+        var del = "<a data-productId='" + row.productId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a data-productId='" + row.productId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
         return del + ' ' + edit;
     }
+    function formatter2(val, row, index) {
+        var imgUrl = "<img src='"+row.productPicSmall+"'height='60px' >";
+        if(row.productPicSmall==''||row.productPicSmall==null){
+            imgUrl = '';
+        }
+        return  imgUrl;
+    }
 
-    function addUser() {
-        if($("#password").val()==''||$("#psd").val()==''){
+    function addAppProduct() {
+
+        if($("#productName").val()==""||$("#productName").val()==null){
             $.messager.show({
                 title: '提示',
-                msg: '密码不能为空！',
+                msg: '请输入物品名称！',
                 showType: 'show',
                 timeout: 3000
             });
             return;
         }
-        if($("#password").val()!=$("#psd").val()){
+        if($("#extendOrder").val()==''){
             $.messager.show({
                 title: '提示',
-                msg: '密码不一致！',
+                msg: '价格不能为空！',
                 showType: 'show',
                 timeout: 3000
             });
             return;
         }
-        if($("#userName").val()==''){
+        if($("#productPictrure").val()==400){
             $.messager.show({
                 title: '提示',
-                msg: '用户名为空！',
-                showType: 'show',
-                timeout: 3000
-            });
-            return;
-        }
-        if( $("#mobile").val().length<11){
-            $.messager.show({
-                title: '提示',
-                msg: '电话不能低于11位！',
+                msg: '图片没有上传成功，请重新选择上传！',
                 showType: 'show',
                 timeout: 3000
             });
@@ -174,11 +183,11 @@
         }
         $.ajax({
             type: "post",
-            url: "/user/UserController/addOrUpUser",
+            url: "/appproduct/saveOrUpdateData",
             data: $("#addForm").serialize(),
             dataType: "json",
             success: function (data) {
-                if (data.httpCode == 200) {
+                if (data.code == 200) {
                     $('#window').window('close');
                     $.messager.show({
                         title: '提示',
@@ -186,25 +195,34 @@
                         showType: 'show',
                         timeout: 3000
                     });
-                    $("#addForm").form('clear');
                     $('#table').datagrid('reload');//刷新
+                    $("#addForm").form('clear');
+
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: data.msg,
+                        showType: 'show',
+                        timeout: 3000
+                    });
                 }
             }
         });
+
     }
 
-    function del(obj) {
+    function del(_this) {
         $.messager.confirm('删除提示', '是否删除?', function (r) {
             if (r) {
                 $.ajax({
                     type: "post",
-                    url: "/user/UserController/delUser",
+                    url: "/appproduct/delete",
                     data: {
-                        informationId: $(obj).attr("data-informationId")
+                        productId: $(_this).attr("data-productId")
                     },
                     dataType: "json",
                     success: function (data) {
-                        if (data.httpCode == 200) {
+                        if (data.code == 200) {
                             $.messager.show({
                                 title: '提示',
                                 msg: data.msg,
@@ -224,20 +242,32 @@
                 });
             }
         });
-
     }
-    function edit(obj) {
+    function edit(_this) {
         $.messager.confirm('编辑提示', '是否编辑?', function (r) {
             if (r) {
-                $("#psd").hide();
+
                 $.ajax({
                     type: "post",
-                    url: "/user/UserController/editUser",
+                    url: "/appproduct/selectOne",
                     data: {
-                        informationId: $(obj).attr("data-informationId")
+                        productId: $(_this).attr("data-productId")
                     },
                     dataType: "json",
                     success: function (data) {
+                        // $.each(data, function (name, ival) {
+                        //     if(name=='productId'){
+                        //         $('#productId').val(ival);
+                        //     }else if(name=='productPictrure'){
+                        //         $('#product_Pictrure').val(ival);
+                        //     }else if(name=='extendID'){
+                        //         $('#extend_ID').combobox('setValue',ival);
+                        //     }else if(name=='productName'){
+                        //         $('#productName').textbox('setValue',ival);
+                        //     }else if(name=='extendOrder'){
+                        //         $('#extendOrder').numberbox("setValue", ival);
+                        //     }
+                        // });
                         $.setForm('#addForm',data);
                         $('#window').window('open')
                     }
@@ -246,13 +276,26 @@
         });
 
     }
-    //时间
-    function format(val) {
-        if (val == null || val == "") {
-                val = "";
-                return val;
-        }
-        return val.substring(0, 10);
+    function upload() {
+        var formData = new FormData();
+        formData.append("file", $("input[name=image]")[0].files[0]); //文件上传框的name
+        $.ajax({
+            type: "post",
+            url: "/appproduct/imageUpload",
+            data:formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data){
+                if(data.code==200){
+                    $('#productPictrure').val(data.data);
+
+                }else {
+                    $('#productPictrure').val(data.msg);
+                }
+            }
+         });
     }
     $("#onclose").click(function () {
         $('#window').window('close');

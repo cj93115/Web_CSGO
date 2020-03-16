@@ -3,6 +3,7 @@ package com.Web_CSGO.common.base;
 
 import com.Web_CSGO.common.Constants;
 import com.Web_CSGO.common.HttpCode;
+import com.Web_CSGO.common.base.tips.PageInfoBT;
 import com.Web_CSGO.common.enums.CodeEnum;
 import com.Web_CSGO.common.exception.BaseException;
 import com.Web_CSGO.common.exception.IllegalParameterException;
@@ -12,7 +13,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
-import com.github.pagehelper.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -64,6 +65,7 @@ public abstract class BaseController {
         return rspData;
     }
 
+
     /**
      * 设置成功响应代码
      *
@@ -86,6 +88,16 @@ public abstract class BaseController {
             return setSuccessJSONObject(HttpCode.SUCCESS, o);
         }
 
+    }
+
+    /**
+     * 把service层的分页信息，封装为bootstrap table通用的分页封装
+     */
+    protected <T> PageInfoBT<T> packForBT(Page<T> page) {
+        return new PageInfoBT<T>(page);
+    }
+    protected <T> PageInfoBT<T> packForBT(Page<T> page,long limit,long current) {
+        return new PageInfoBT<T>(page,limit,current);
     }
 
     protected JSONObject setSuccessJSONObject(HttpCode code, Object data) {

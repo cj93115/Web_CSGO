@@ -1,9 +1,10 @@
 package com.Web_CSGO.service.impl;
 
 
-import com.Web_CSGO.entity.Appkind;
-import com.Web_CSGO.mapper.AppkindMapper;
-import com.Web_CSGO.service.IAppkindService;
+import com.Web_CSGO.common.util.DateUtil;
+import com.Web_CSGO.entity.Appproduct;
+import com.Web_CSGO.mapper.AppproductMapper;
+import com.Web_CSGO.service.IAppproductService;
 import com.Web_CSGO.common.base.tips.ResultTip;
 import com.Web_CSGO.common.enums.CodeEnum;
 import com.Web_CSGO.common.util.ToolUtil;
@@ -18,41 +19,42 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * (Appkind)表服务实现类
+ * (Appproduct)表服务实现类
  *
- * @author makejava
- * @since 2020-03-15 12:23:24
+ * @author caojie
+ * @since 2020-03-15 16:15:07
  */
 @Service
-public class AppkindServiceImpl extends ServiceImpl<AppkindMapper,Appkind> implements IAppkindService {
+public class AppproductServiceImpl extends ServiceImpl<AppproductMapper,Appproduct> implements IAppproductService {
     @Override
-    public List<Appkind>  queryAll(Page page, Appkind APPKind){
-    return baseMapper.queryAllList(page,APPKind);
+    public List<Appproduct>  queryAll(Page page, Appproduct APPProduct){
+    return baseMapper.queryAllList(page,APPProduct);
     }
 
 
 
 
     @Override
-    public ResultTip saveOrUpdateData(Appkind APPKind) {
+    public ResultTip saveOrUpdateData(Appproduct APPProduct) {
 
 
-        if(ToolUtil.isEmpty(APPKind)){//判断对象是否为空
+        if(ToolUtil.isEmpty(APPProduct)){//判断对象是否为空
             return new ResultTip(CodeEnum.PARAMS_INCOMPLETENESS);
         }
-        if (isExist(APPKind)){//判断唯一字段是否存在
+        if (isExist(APPProduct)){//判断唯一字段是否存在
             return new ResultTip(CodeEnum.DEPT_CODE_REPEAT);
         }
 
         int resultCuont;
         try {
             //没有id则生成uuid做新增,有id则做修改
-        if("".equals(APPKind.getKindId()) || APPKind.getKindId()==null){
+        if("".equals(APPProduct.getProductId()) || APPProduct.getProductId()==null){
             String uuid = UUID.randomUUID().toString();
-            APPKind.setKindId(uuid);
-            resultCuont=baseMapper.insert(APPKind);
+            APPProduct.setProductId(uuid);
+            APPProduct.setProductTime(DateUtil.getTime());
+            resultCuont=baseMapper.insert(APPProduct);
         }else {
-            resultCuont=baseMapper.updateById(APPKind);
+            resultCuont=baseMapper.updateById(APPProduct);
         }
 
             //resultCuont(成功事件)是否大于0,大于则成功,小于则失败
@@ -69,17 +71,18 @@ public class AppkindServiceImpl extends ServiceImpl<AppkindMapper,Appkind> imple
 
     /**
      * 判断唯一字段是否存在
-     * @param APPKind
+     * @param APPProduct
      * @return
      */
-    public boolean isExist(Appkind APPKind) {
+    public boolean isExist(Appproduct APPProduct) {
         Map<String,Object> map =new HashMap<>();
         //填入唯一字段
-        map.put("Kind_Name",APPKind.getKindName());
-        List<Appkind> list=baseMapper.selectByMap(map);
+        map.put("Product_Name",APPProduct.getProductName());
+        map.put("Product_Brand",APPProduct.getProductBrand());
+        List<Appproduct> list=baseMapper.selectByMap(map);
 
         if(list.size()>0){
-            if (list.get(0).getKindId().equals(APPKind.getKindId())){//若有同名是它本身返回false
+            if (list.get(0).getProductId().equals(APPProduct.getProductId())){//若有同名是它本身返回false
                 return false;
             }
             return true;

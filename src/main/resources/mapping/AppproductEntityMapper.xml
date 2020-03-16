@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Web_CSGO.mapper.AppproductMapper">
+
+    <resultMap type="com.Web_CSGO.entity.Appproduct" id="AppproductMap">
+        <result property="productId" column="Product_ID"/>
+        <result property="productNo" column="Product_No"/>
+        <result property="productName" column="Product_Name"/>
+        <result property="productSpec" column="Product_Spec"/>
+        <result property="productCom" column="Product_Com"/>
+        <result property="productExplain" column="Product_Explain"/>
+        <result property="productPictrure" column="Product_Pictrure"/>
+        <result property="productIspass" column="Product_IsPass"/>
+        <result property="productTime" column="Product_Time"/>
+        <result property="productBrand" column="Product_Brand"/>
+        <result property="productMarket" column="Product_Market"/>
+        <result property="productMember" column="Product_Member"/>
+        <result property="productVip" column="Product_VIP"/>
+        <result property="productStock" column="Product_Stock"/>
+        <result property="productSale" column="Product_Sale"/>
+        <result property="productPoint" column="Product_Point"/>
+        <result property="productHight" column="Product_Hight"/>
+        <result property="productMiddel" column="Product_Middel"/>
+        <result property="productLower" column="Product_Lower"/>
+        <result property="productIsprivate" column="Product_isprivate"/>
+        <result property="productPicsmall" column="Product_PicSmall"/>
+        <result property="productPosition" column="Product_Position"/>
+        <result property="productNote" column="Product_Note"/>
+        <result property="productDetail" column="Product_Detail"/>
+        <result property="productBusiness" column="Product_Business"/>
+        <result property="productRecommend" column="Product_Recommend"/>
+        <result property="productWord" column="Product_Word"/>
+        <result property="extendId" column="Extend_ID"/>
+        <result property="commentId" column="comment_ID"/>
+        <result property="shopid" column="shopId"/>
+        <result property="productSendbypost" column="Product_SendByPost"/>
+        <result property="productOne" column="Product_One"/>
+        <result property="productTwo" column="Product_Two"/>
+        <result property="productThree" column="Product_Three"/>
+    </resultMap>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllList" resultMap="AppproductMap">
+        select Product_ID, Product_No, Product_Name, Product_Spec, Product_Com, Product_Explain, Product_Pictrure, Product_IsPass, Product_Time, Product_Brand, Product_Market, Product_Member, Product_VIP, Product_Stock, Product_Sale, Product_Point, Product_Hight, Product_Middel, Product_Lower, Product_isprivate, Product_PicSmall, Product_Position, Product_Note, Product_Detail, Product_Business, Product_Recommend, Product_Word, Extend_ID, comment_ID, shopId, Product_SendByPost, Product_One, Product_Two, Product_Three
+        from dbo.APPProduct
+        <where>
+        1=1
+            <if test="obj.productName != null and obj.productName != ''">
+                and Product_Name like '%${ obj.productName }%'
+            </if>
+            <if test="obj.productBrand != null and obj.productBrand != ''">
+                and Product_Brand = '${ obj.productBrand }'
+            </if>
+
+        </where>
+    </select>
+
+
+
+
+
+
+</mapper>

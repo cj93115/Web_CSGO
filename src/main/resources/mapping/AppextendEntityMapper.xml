@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Web_CSGO.mapper.AppextendMapper">
+
+    <resultMap type="com.Web_CSGO.entity.Appextend" id="AppextendMap">
+        <result property="extendId" column="Extend_ID"/>
+        <result property="extendName" column="Extend_Name"/>
+        <result property="extendOrder" column="Extend_Order"/>
+        <result property="kindId" column="Kind_ID"/>
+        <result property="extendBegin" column="Extend_Begin"/>
+        <result property="extendEnd" column="Extend_End"/>
+    </resultMap>
+
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAllList" resultType="java.util.HashMap">
+        select
+          Extend_ID  extendId, Extend_Name extendName,Extend_Order extendOrder, a.Kind_ID kindId, Extend_Begin extendBegin, Extend_End extendEnd,b.Kind_Name kindName
+        from dbo.APPExtend a,dbo.APPKind b
+        <where>
+            b.Kind_Id=a.Kind_Id
+            <if test="obj.extendName != null and obj.extendName != ''">
+                and Extend_Name like '%${ obj.extendName }%'
+            </if>
+        </where>
+    </select>
+
+
+
+
+
+
+</mapper>
