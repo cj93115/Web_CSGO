@@ -29,6 +29,7 @@ public class AdminInterceptor implements  HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)  throws ServletException {
         System.out.println("执行了TestInterceptor的preHandle方法");
+
         try {
             System.err.println(request.getRequestURI());
             OcInformationsEntity ocInformationsEntity =new OcInformationsEntity();

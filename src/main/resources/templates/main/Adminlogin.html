@@ -1,44 +1,44 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>用户登录</title>
-<meta name="Keywords" content="CSGO">
-<meta name="Description" content="CSGO">
-<link rel="stylesheet" href="/css/login/base.css">
-<link rel="stylesheet" href="/css/login/iconfont.css">
-<link rel="stylesheet" href="/css/login/reg.css">
-<script src="/EasyUI-InsdepTheme/jquery.min.js"></script>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>用户登录</title>
+	<meta name="Keywords" content="CSGO">
+	<meta name="Description" content="CSGO">
+	<link rel="stylesheet" href="/css/login/base.css">
+	<link rel="stylesheet" href="/css/login/iconfont.css">
+	<link rel="stylesheet" href="/css/login/reg.css">
+	<script src="/EasyUI-InsdepTheme/jquery.min.js"></script>
 	<script src="/js/login/login.js"></script>
 	<script>
-		function drawImage(_this) {
-			$(_this).attr("src","/drawImage?date="+ new Date().getTime());
-		}
-		function login() {
-			var username = $("#num").val();
-			var password = $("#pass").val();
-			var verification_code = $("#veri").val();
-			if(username==null||username==""){ alert("请输入用户名");return}
-			if(password==null||password==""){alert("请输入密码");return}
-			if(verification_code==null||verification_code==""){alert("请输入验证码");return}
-           var json = JSON.stringify({"username":username,"password":password,"verification_code":verification_code,"userType":1});
-			$.ajax({
-			    type: "post",
-			    url: "/LoginController/login",
+        function drawImage(_this) {
+            $(_this).attr("src","/drawImage?date="+ new Date().getTime());
+        }
+        function login() {
+            var username = $("#num").val();
+            var password = $("#pass").val();
+            var verification_code = $("#veri").val();
+            if(username==null||username==""){ alert("请输入用户名");return}
+            if(password==null||password==""){alert("请输入密码");return}
+            if(verification_code==null||verification_code==""){alert("请输入验证码");return}
+            var json = JSON.stringify({"username":username,"password":password,"verification_code":verification_code,"userType":1});
+            $.ajax({
+                type: "post",
+                url: "/LoginController/login",
                 contentType:"application/json",
                 data: json,
-			    dataType: "json",
-			    success: function(data){
+                dataType: "json",
+                success: function(data){
                     if(data.authenticated){
                         window.location.href="/LoginController/adminIndexPage"
                     }
                     else{
                         alert(data.message);
                     }
-			    }
-			 });
+                }
+            });
 
-		}
+        }
 	</script>
 </head>
 <body>
@@ -54,12 +54,12 @@
 				<p class="p-input pos">
 
 					<input  type="text" style="font-size: 14px" placeholder="请输入用户名"  id="num">
-					</p>
+				</p>
 				<p class="p-input pos">
 
 					<input type="password" id="pass" style="font-size: 14px" placeholder="请输入密码" >
 
-					</p>
+				</p>
 				<p class="p-input pos code">
 					<input type="text" id="veri" style="font-size: 14px" placeholder="请输入验证码">
 					<img src="/drawImage" onclick="drawImage(this)">

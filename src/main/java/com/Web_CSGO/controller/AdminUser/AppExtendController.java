@@ -1,138 +1,112 @@
 package com.Web_CSGO.controller.AdminUser;
 
-import com.Web_CSGO.common.HttpCode;
-import com.Web_CSGO.common.base.BaseController;
-import com.Web_CSGO.entity.AdminUser;
-import com.Web_CSGO.entity.AppExtend;
-import com.Web_CSGO.entity.AppKind;
-import com.Web_CSGO.service.IAppExtendService;
-import com.Web_CSGO.service.IAppKindService;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.Web_CSGO.common.util.DateUtil;
+import com.Web_CSGO.common.util.ToolUtil;
+import com.Web_CSGO.entity.Appextend;
+import com.Web_CSGO.entity.Appkind;
+import com.Web_CSGO.service.IAppextendService;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.google.gson.JsonObject;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.*;
+import com.Web_CSGO.common.util.PageUtil;
+import com.Web_CSGO.common.base.tips.ResultTip;
+import com.Web_CSGO.common.enums.CodeEnum;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import javax.management.Query;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-
-@Slf4j
+/**
+ * (Appextend)表控制层
+ *
+ * @author caojie
+ * @since 2020-03-15 13:19:42
+ */
 @RestController
-@RequestMapping("/AppExtend")
-@EnableTransactionManagement//事务
-public class AppExtendController extends BaseController {
+@RequestMapping("appextend")
+public class AppextendController {
+    /**
+     * 服务对象
+     */
     @Resource
-    private IAppExtendService appExtendService;
-    @Resource
-    private IAppKindService appKindService ;
+    private IAppextendService appextendService;
 
-    @GetMapping("getAppExtend")
+
+   //箱子管理视图
+      @GetMapping("getAppextend")
     public ModelAndView getAdminUserPage(){
         return new ModelAndView("main/getAppExtendList");
     }
-    /***
+    //商城箱子视图
+    @GetMapping("getStoreextend")
+    public ModelAndView getStoreextend(){
+        return new ModelAndView("main/getStoreExtendList");
+    }
+    /**
+     * 通过主键查询单条数据
      *
-     * @param page
-     * @param rows
+     * @param  APPExtend 主键
+     * @return 单条数据
+     */    
+     @PostMapping("selectOne")
+    public Object selectOne(Appextend APPExtend) {
+         return appextendService.queryAll(PageUtil.defaultPage(),APPExtend).get(0);
+    }
+    
+        /**
+     * 通过条件分页查询
+     * @param APPExtend
      * @return
-     * 获取管理用户列表
      */
-    @PostMapping("getAppExtendList")
-    public Object getAdminUserList(Integer page, Integer rows, AppExtend appExtend, String start, String end){
-        List<Map<Object,String>> appExtends = new ArrayList<>();
-        /***********分页部分*************/
-        JSONObject object = new JSONObject();
-        object.put("current",page);
-        object.put("size",rows);
-        Integer current = (Integer)setPage(object).get("current");
-        if (null == current) {
-            current = 0;
-        }
-        //每页的大小
-        Integer size = (Integer)setPage(object).get("size");
-        if (null == size) {
-            size = 10;
-        }
-        Page<Object> objectPage = new Page<>(current, size);
-        /***********分页部分*************/
-        appExtends = appExtendService.getAppExtend(objectPage, appExtend);
-        JSONObject returnJson = new JSONObject();
-
-        returnJson.put("rows",appExtends);//每页条数
-        returnJson.put("total",objectPage.getTotal());//分页总条数
-        return returnJson;
+    @PostMapping("queryAll")
+    @ResponseBody
+    public ResultTip queryAll(Appextend APPExtend) {
+        if (ToolUtil.isEmpty(APPExtend)){return null; }
+     Page<Map<String, Object>> page= PageUtil.defaultPage();
+        List<Map<String, Object>> list =appextendService.queryAll(page,APPExtend);
+        page.setRecords(list);
+        return new ResultTip(CodeEnum.SUCCESS, page);
     }
-    @PostMapping("delAppExtend")
-    public Object delAppExtend(String extendId){
-        System.out.println(extendId);
-        JSONObject returnJson = new JSONObject();
-        boolean remove = appExtendService.removeById(extendId);
-        try{
-            if (remove){
-                returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "删除成功!");
-            }
-        }catch (Exception e){
-            log.error(e.getMessage());
-            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","删除失败!");
-        }
-        return returnJson;
+    
+    
+        /**
+     * 新增或修改
+     * @param  APPExtend
+     * @return
+     */
+    @PostMapping("/saveOrUpdateData")
+    @ResponseBody
+    public ResultTip saveOrUpdateData(Appextend APPExtend){ return appextendService.saveOrUpdateData(APPExtend);
     }
-    @PostMapping("editGetAppExtend")
-    public Object editGetAppExtend(String extendId){
-        Map<String,Object> map = new HashMap();
-        AppExtend appExtend = appExtendService.getById(extendId);
-        appExtend = setAppKind(appExtend);
-        map.put("appExtend",appExtend);
-        List<AppKind> appKind = appKindService.getAppKind(new Page(), new AppKind());
-        map.put("appKind",appKind);
-        return JSON.toJSON(map);
-    }
-    @PostMapping("addOrUpAppExtend")
-    public Object addOrUpAppExtend(AppExtend appExtend,String kindName){
-        appExtend.setKind_ID(kindName);
+    
 
-        JSONObject returnJson = new JSONObject();
-        List<Map<Object,String>> appExtends = new ArrayList<>();
-        appExtends = appExtendService.getAppExtend(new Page(), appExtend);
-        if (appExtends.size() > 0&&!appExtend.getExtend_ID().equals(appExtends.get(0).get("Extend_ID"))) {
-            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "", "保存失败,用户名存在!");
-        }
-
-        if("".equals(appExtend.getExtend_ID())){
-            String uuid = UUID.randomUUID().toString();
-            appExtend.setExtend_ID(uuid);
+    /**
+     * 删除功能
+      * @param  extendId 主键
+     * @return
+     */
+    @PostMapping("/delete")
+    @ResponseBody
+    public ResultTip delete(String extendId){
+        if (extendId==null || "".equals(extendId)){
+            return new ResultTip(CodeEnum.PARAMS_INCOMPLETENESS);
         }
         try {
-            boolean addOrUp = appExtendService.saveOrUpdate(appExtend);
-
-            if (addOrUp){
-                returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "保存成功!");
-            }
-        }catch (Exception e) {
-            log.error(e.getMessage());
-            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","保存失败!");
+           if(appextendService.removeById(extendId)){
+              return new ResultTip(CodeEnum.DELETE_SUCCESS);
+          }
+              return new ResultTip(CodeEnum.OPERATION_FAILD);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultTip(e.getMessage());
         }
-        return returnJson;
     }
-    public AppExtend setAppKind(AppExtend appExtend){
-        QueryWrapper<AppKind> appKindQueryWrapper = new QueryWrapper<>();
-        appKindQueryWrapper.eq("Kind_ID",appExtend.getExtend_ID());
-        appExtend.setAppKind(appKindService.getOne(appKindQueryWrapper));
-        return appExtend;
+    @PostMapping("/getExtend")
+    @ResponseBody
+    public List<Appextend> getKind(){
+        return appextendService.list();
     }
 
-    @PostMapping("getKind")
-    public Object getkind(){
-        List<Map<Object, String>> appExtend = appExtendService.getAppExtend(new Page(), new AppExtend());
-        return JSON.toJSON(appExtend);
-    }
 }

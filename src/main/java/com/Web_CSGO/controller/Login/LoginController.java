@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +44,7 @@ public class LoginController extends BaseController {
         HttpSession session = request.getSession();
         AdminUser adminUser = (AdminUser) session.getAttribute("AdminUser");
         mmap.put("aUserName",adminUser.getUser_Name());
+
         return new ModelAndView("main/index");
     }
     @PostMapping("login")
@@ -54,6 +56,8 @@ public class LoginController extends BaseController {
         String verification_code = (String) json.get("verification_code");
         return  tLoginServiceImpl.login(username,password,userType,verification_code,request);
     }
+
+
     @GetMapping("removeSession")
     public Object removeSession(HttpServletRequest request){
         String userType = request.getParameter("userType");

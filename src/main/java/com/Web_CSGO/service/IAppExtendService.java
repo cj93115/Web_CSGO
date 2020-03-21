@@ -1,13 +1,23 @@
 package com.Web_CSGO.service;
 
-import com.Web_CSGO.entity.AdminUser;
-import com.Web_CSGO.entity.AppExtend;
+
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
-
+import com.Web_CSGO.common.base.tips.ResultTip;
+import com.Web_CSGO.entity.Appextend;
 import java.util.List;
 import java.util.Map;
 
-public interface IAppExtendService extends IService<AppExtend> {
-    List<Map<Object,String>> getAppExtend(Page page, AppExtend appExtend);
+/**
+ * (Appextend)表服务接口
+ *
+ * @author caojie
+ * @since 2020-03-15 13:12:47
+ */
+public interface IAppextendService extends IService<Appextend> {
+
+     List<Map<String, Object>>  queryAll(Page page, Appextend APPExtend);
+     List<Map<String, Object>>  queryAll(Appextend APPExtend);
+          ResultTip saveOrUpdateData(Appextend APPExtend);
+
 }

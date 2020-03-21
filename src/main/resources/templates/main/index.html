@@ -1,6 +1,6 @@
 <!doctype html>
-<html lang="zh" xmlns:th="http://www.thymeleaf.org">
-<head>
+
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 	<meta http-equiv="X-UA-Compatible" content="edge" />
 	<link rel="shortcut icon" href="favicon.ico" />
 	<title>CSGO</title>
@@ -79,14 +79,7 @@
 
 		<!--正常菜单-->
 		<div class="theme-left-normal">
-			<!--theme-left-switch 如果不需要缩进按钮，删除该对象即可-->
 
-<!--
-			<div class="left-control-switch theme-left-switch"><i class="fa fa-chevron-left fa-lg"></i></div>
--->
-
-
-			<!--start class="easyui-layout"-->
 			<div class="easyui-layout" data-options="border:false,fit:true">
 				<!--start region:'north'-->
 				<div data-options="region:'north',border:false" style="height:100px;">
@@ -118,13 +111,20 @@
 						</div>
 						<div title="开箱管理">
 							<ul class="easyui-datalist" data-options="border:false,fit:true">
-								<li><a onclick="addTab('/AppExtend/getAppExtend','箱子类别',true)" style="display: block;">箱子类别</a></li>
-								<li><a onclick="addTab('/Product/getProduct','箱子管理',true)" style="display: block;">箱子管理</a></li>
+								<li><a onclick="addTab('/appkind/getAppkind','箱子类别',true)" style="display: block;">箱子类别</a></li>
+								<li><a onclick="addTab('/appextend/getAppextend','箱子管理',true)" style="display: block;">箱子管理</a></li>
+								<li><a onclick="addTab('/appproduct/getAppproduct','物品管理',true)" style="display: block;">物品管理</a></li>
 							</ul>
 						</div>
 						<div title="竞技场">
 							<ul class="easyui-datalist" data-options="border:false,fit:true">
 								<li><a onclick="addTab('/RoomController/getRoom','房间管理',true)" style="display: block;">房间管理</a></li>
+							</ul>
+						</div>
+						<div title="游戏商城">
+							<ul class="easyui-datalist" data-options="border:false,fit:true">
+								<li><a onclick="addTab('/appextend/getStoreextend','游戏商城',true)" style="display: block;">商城箱子</a></li>
+								<li><a onclick="addTab('/appproduct/getStoreProduct','游戏商城',true)" style="display: block;">商城物品</a></li>
 							</ul>
 						</div>
 						<div title="系统管理">

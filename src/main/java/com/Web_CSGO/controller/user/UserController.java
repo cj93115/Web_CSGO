@@ -44,6 +44,7 @@ public class UserController  extends BaseController {
        return new ModelAndView("main/getUserList");
     }
 
+
     @PostMapping("getUserList")
     public Object getUserList(Integer page, Integer rows,OcInformationsEntity oc){
         /***********分页部分*************/

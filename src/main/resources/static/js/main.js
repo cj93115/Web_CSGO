@@ -1,6 +1,21 @@
  $(function(){
+var username= $("#aUsername").text();
+     $(function(){
+         console.log("测试");
+         console.log("name:"+$("#aUsername").val());
+         if(username==null || username==""){
+             $("#aUsername").hide();
+             $("#login_click").show();
+             $("#reg_click").show();
+         }else {
+             $("#aUsername").show();
+             $("#login_click").hide();
+             $("#reg_click").hide();
+         }
 
-    $(".owl-carousel.qie1").owlCarousel({
+     });
+
+     $(".owl-carousel.qie1").owlCarousel({
         loop:true,
         items: 7,
         autoplay: true,
@@ -58,10 +73,9 @@
            
             
  
-                 var domain_url = "http://47.91.206.215:8986/UserRegisterController/register";
+                 var domain_url = "http://localhost:8986/UserRegisterController/register";
                  var argus={"State":1,"AccountType":"MemberUser","UserName":username,"Password":password,"Mobile":tel,"Email":email,"QQ":qq};
-                 $.ajax({ 
-
+                 $.ajax({
                    // url:'my.json', 
                     url:domain_url,
                     type: 'post', 
@@ -103,10 +117,8 @@
       if(username=='' || password==''){
          layer.msg('帐号密码不能为空');
       }else{
-           
-            
- 
-                 var domain_url = "http://47.91.206.215:8986/LoginController/login";
+                 var domain_url = "http://localhost:8986/LoginController/login";
+             console.log("连接："+domain_url);
                  var argus={"username":username,"password":password,"userType":0};
                  $.ajax({ 
 
@@ -117,14 +129,12 @@
                     data:JSON.stringify(argus),
                     contentType:"application/json",
                     success: function(datas){
+                        console.log(datas);
+
                         if(datas.authenticated){
-                           
-                           
-                           layer.msg('登录成功',{time:1*1000}, function(){
-                                window.location.href='index.php'
-                           }); 
-
-
+                            layer.msg('登录成功');
+                            console.log("已修改");
+                            window.location.reload();
                         }else{
                             layer.msg('登录失败！');
                         }
@@ -143,4 +153,4 @@
 
 
 
-})
+});

@@ -42,15 +42,11 @@
         <form id="query">
             <label class="label-top">用户名:</label>
             <input class="easyui-textbox theme-textbox-radius" id="uname">
-           <!-- <label class="label-top">注册日期:</label>
-            <input class="easyui-datebox theme-textbox-radius" id="userRegDatestart">
-            <label class="label-top">至</label>
-            <input class="easyui-datebox theme-textbox-radius" id="userRegDateend">-->
             <a href="javascript:void(0)" class="easyui-linkbutton button-info"  onclick="init()">查询</a>
             <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')" id="ocadd">新增</a>
         </form>
     </div>
-    <table id="table" class="easyui-datagrid" cls="theme-datagrid"
+    <table id="table"  cls="theme-datagrid"
            data-options="url:'/user/UserController/getUserList',method:'post'">
         <thead>
         <tr>
@@ -94,10 +90,7 @@
                         <label class="label-top">电&nbsp;&nbsp;&nbsp;话:</label>
                         <input class="easyui-numberbox theme-textbox-radius" name="mobile" id="mobile" style="width: 190px" data-options="min:11,precision:0">
                     </div>
-                    <!--<div style="margin-bottom:20px">
-                        <label class="label-top">微信号:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="wx_id" id="wx_id">
-                    </div>-->
+
                 </form>
             </div>
         </div>
@@ -191,17 +184,9 @@
                     });
                     $("#addForm").form('clear');
                     $('#table').datagrid('reload');//刷新
-                } else {
-                    $.messager.show({
-                        title: '提示',
-                        msg: data.msg,
-                        showType: 'show',
-                        timeout: 3000
-                    });
                 }
             }
         });
-
     }
 
     function del(obj) {

@@ -3,12 +3,17 @@ package com.Web_CSGO.common.base;
 
 import com.Web_CSGO.common.Constants;
 import com.Web_CSGO.common.HttpCode;
+import com.Web_CSGO.common.base.tips.PageInfoBT;
+import com.Web_CSGO.common.enums.CodeEnum;
 import com.Web_CSGO.common.exception.BaseException;
 import com.Web_CSGO.common.exception.IllegalParameterException;
 import com.Web_CSGO.common.util.OpenIdUtils;
+
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.github.pagehelper.PageInfo;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +32,7 @@ import java.util.Map;
  * @version 2018年11月23日
  */
 public abstract class BaseController {
+
 
 
     protected final Logger logger = LogManager.getLogger(this.getClass());
@@ -58,6 +65,7 @@ public abstract class BaseController {
         return rspData;
     }
 
+
     /**
      * 设置成功响应代码
      *
@@ -82,6 +90,16 @@ public abstract class BaseController {
 
     }
 
+    /**
+     * 把service层的分页信息，封装为bootstrap table通用的分页封装
+     */
+    protected <T> PageInfoBT<T> packForBT(Page<T> page) {
+        return new PageInfoBT<T>(page);
+    }
+    protected <T> PageInfoBT<T> packForBT(Page<T> page,long limit,long current) {
+        return new PageInfoBT<T>(page,limit,current);
+    }
+
     protected JSONObject setSuccessJSONObject(HttpCode code, Object data) {
         JSONObject json = new JSONObject();
         if (data != null) {
@@ -99,11 +117,10 @@ public abstract class BaseController {
     protected JSONObject setSuccessJSONObject(HttpCode code, Object data, String message) {
         JSONObject json = new JSONObject();
         if (data != null) {
-            json.put("result", data);
+            json.put("rows", data);
         } else {
-            json.put("result", new JSONObject());
+            json.put("rows", new JSONObject());
         }
-        json.put("httpCode", code.value());
         json.put("msg", message);
         json.put("timestamp", System.currentTimeMillis());
         return json;
@@ -198,5 +215,16 @@ public abstract class BaseController {
         return map;
 
     }
+
+    /**
+     * 把service层的分页信息，封装为bootstrap table通用的分页封装
+     */
+        public Object senJsonResul(CodeEnum codeEnum,Page page){
+            Map<String,Object> map=new HashMap<>();
+                map.put("msg",codeEnum);
+                map.put("rows",page);
+            return new JSONObject(map);
+    }
+
 
 }

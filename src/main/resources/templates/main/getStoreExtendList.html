@@ -1,0 +1,348 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="edge"/>
+    <link rel="shortcut icon" href="favicon.ico"/>
+    <title>aaaa</title>
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui_animation.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/easyui_plus.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/insdep_theme_default.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/themes/insdep/icon.css" rel="stylesheet" type="text/css">
+    <link href="/EasyUI-InsdepTheme/plugin/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.min.js"></script>
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/themes/insdep/jquery.insdep-extend.min.js"></script>
+    <script type="text/javascript" src="/common/setForm.js"></script>
+    <style>
+        #main {
+            padding: 10px;
+        }
+
+        #table {
+            padding-top: 10px;
+        }
+
+        #addForm {
+            padding-top: 10px;
+
+        }
+
+        .textbox-icon, .passwordbox-open {
+            width: 24px !important;
+        }
+    </style>
+    <script>
+
+
+    </script>
+</head>
+
+<body>
+<div id="main">
+    <div id="tb" style="padding:2px 5px;">
+        <form id="query">
+            <label class="label-top">名称:</label>
+            <input class="easyui-textbox theme-textbox-radius" id="uname">
+            <a href="javascript:void(0)" class="easyui-linkbutton button-info" onclick="init()">查询</a>
+            <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open');">新增</a>
+        </form>
+    </div>
+    <table id="table"  cls="theme-datagrid"
+           data-options="url:'/appextend/queryAll',method:'post'">
+        <thead>
+        <tr>
+            <th data-options="field:'extendId',width:120,align:'center',formatter:formatter">操作</th>
+            <th data-options="field:'kindName',width:80,align:'center'">箱子类型</th>
+            <th data-options="field:'extendName',width:100,align:'center'">箱子名称</th>
+            <th data-options="field:'extendOrder',width:80,align:'center'">序号</th>
+            <th data-options="field:'extendBegin',width:80,align:'center'">开始时间</th>
+            <th data-options="field:'extendEnd',width:80,align:'center'">结束时间</th>
+            <th data-options="field:'productPicsmall',width:80,align:'center',formatter:formatter2">物品管理</th>
+
+            <!--
+                        <th data-options="field:'Kind_Name',width:80,align:'center'">上级名称</th>
+            -->
+            <!--<th data-options="field:'user_Trust',width:250,align:'center'">User_Trust</th>
+            <th data-options="field:'user_RegDate',width:60,align:'center'">User_RegDate</th>
+            <th data-options="field:'user_Money',width:60,align:'center'">User_Money</th>
+            <th data-options="field:'user_Show',width:60,align:'center'">User_Show</th>
+            <th data-options="field:'wx_id',width:60,align:'center'">微信id</th>-->
+        </tr>
+        </thead>
+    </table>
+</div>
+<!--新增窗口-->
+<div id="window" class="easyui-window" title="新增"
+     data-options="collapsible:false,closable:true,maximizable:false,closed:true"
+     style="width:600px;height:550px;padding:10px;">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" style="padding:10px;">
+            <div style="text-align: center;">
+                <form id="addForm">
+                    <input class="easyui-textbox" name="extendId" id="extendId" hidden="true">
+                    <input class="easyui-textbox" name="extendIsacive" id="extendIsacive" value="2" hidden="true">
+                    <input class="easyui-textbox" name="extendPic" id="extendPic" value="2" hidden="true">
+
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">箱子类型:</label>
+                        <input style="width: 188px" type="text" id="kindId" name="kindId" class="easyui-combobox"
+                               data-options="editable:true ,valueField: 'kindId',textField: 'kindName',prompt: '上级名称',url:'/appkind/getKind'"/>
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">箱子名称:</label>
+                        <input class="easyui-textbox  theme-textbox-radius" name="extendName" id="extendName"
+                               style="width: 190px">
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
+                        <input class="easyui-textbox  theme-textbox-radius" name="extendOrder" id="extendOrder"
+                               style="width: 190px">
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">开始时间:</label>
+                        <input style="width: 188px" type="text" name="extendBegin" id="extendBegin"
+                               class="easyui-datebox">
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">结束时间:</label>
+                        <input style="width: 188px" type="text" name="extendEnd" id="extendEnd"
+                               class="easyui-datebox">
+                    </div>
+                </form>
+                <div style="margin-bottom:20px;margin-left: -22px;">
+                    <label class="label-top">&nbsp;&nbsp;&nbsp;&nbsp;箱子图片:</label>
+                    <input class="easyui-filebox" name="img" id="img" data-options="onChange:upload,prompt:'选择图片',buttonText:'选择文件',accept:'image/jpeg,image/png'" style="width:190px">
+                </div>
+                <div name="img2" id="img2"></div>
+            </div>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:right;padding:5px 0 0;">
+            <a class="easyui-linkbutton" href="javascript:void(0)" onclick="addAppExtend()" style="width:80px">保存</a>
+            <a class="easyui-linkbutton" href="javascript:void(0)" id="onclose" style="width:80px">取消</a>
+        </div>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript">
+
+    $(function () {
+        $("#extendId").next().hide();
+        $("#extendIsacive").next().hide();
+        $("#extendPic").next().hide();
+        init();
+    });
+
+    function init() {
+        $('#table').datagrid({
+            singleSelect: true,
+            closable: false,
+            cache: false,
+            rownumbers: true,//显示序号
+            pagination: true,
+            pageSize: 10,
+            collapsible: true,
+            fitColumns: true,
+            queryParams: {//查询
+                extendName: $("#uname").val(),
+                extendIsacive: 1,
+                sort: "extend_order",
+                order: "desc"
+            }
+        });
+    }
+
+    function formatter(val, row, index) {
+        var del = "<a data-extend_id='" + row.extendId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
+        var edit = "<a data-extend_id='" + row.extendId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+        return del + ' ' + edit;
+    }
+
+    function formatter2(val, row, index) {
+        var imgUrl = "<a href='/appproduct/getAppproduct?extendId="+row.extendId+"&extendName="+row.extendName+"&extendPic="+row.extendPic+"'   ><img src='/csgo_img/"+row.extendPic+"'height='120px' ></a>";
+        if(row==''||row==null){
+            imgUrl = '';
+        }
+        return  imgUrl;
+    }
+
+
+    function addAppExtend() {
+        if ($("#extendName").val() == '' || $("#extendName").val() == null) {
+            $.messager.show({
+                title: '提示',
+                msg: '名称不能为空！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        if ($("#extendOrder").val() == "" || $("#extendOrder").val() == null) {
+            $.messager.show({
+                title: '提示',
+                msg: '请输入序号！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        if ($("#kindName").val() == '') {
+            $.messager.show({
+                title: '提示',
+                msg: '请选择上级名称！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        if ($("#extendBegin").val() == '') {
+            $.messager.show({
+                title: '提示',
+                msg: '请填写开始时间！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        if ($("#extendEnd").val() == '') {
+            $.messager.show({
+                title: '提示',
+                msg: '请填写结束时间！',
+                showType: 'show',
+                timeout: 3000
+            });
+            return;
+        }
+        $("#extendIsacive").textbox("setValue","1");
+        $.ajax({
+            type: "post",
+            url: "/appextend/saveOrUpdateData",
+            data: $("#addForm").serialize(),
+            dataType: "json",
+            success: function (data) {
+                if (data.code == 200) {
+
+                    $.messager.show({
+                        title: '提示',
+                        msg: data.msg,
+                        showType: 'show',
+                        timeout: 3000
+                    });
+                    $('#extendPic').textbox("setValue","");
+                    $('#table').datagrid('reload');//刷新
+                    $("#addForm").form('clear');
+                    $('#window').window('close');
+
+                } else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: data.msg,
+                        showType: 'show',
+                        timeout: 3000
+                    });
+                }
+            }
+        });
+
+    }
+
+
+
+    function del(_this) {
+        $.messager.confirm('删除提示', '是否删除?', function (r) {
+            if (r) {
+                $.ajax({
+                    type: "post",
+                    url: "/appextend/delete",
+                    data: {
+                        extendId: $(_this).data("extend_id")
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.code == 200) {
+                            $.messager.show({
+                                title: '提示',
+                                msg: data.msg,
+                                showType: 'show',
+                                timeout: 3000
+                            });
+                            $('#table').datagrid('reload');//刷新
+                        } else {
+                            $.messager.show({
+                                title: '提示',
+                                msg: data.msg,
+                                showType: 'show',
+                                timeout: 3000
+                            });
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    function edit(_this) {
+        $.ajax({
+            type: "post",
+            url: "/appextend/selectOne",
+            data: {
+                extendId: $(_this).attr("data-extend_id")
+            },
+            dataType: "json",
+            success: function (data) {
+                $.setForm('#addForm', data);
+
+                $('#kindId').combobox({
+                    valueField: 'kindId',
+                    textField: 'kindName',
+                    data: data,
+                    onLoadSuccess: function () {
+                        $('#kindId').combobox('setValue', data.kindId);
+                        $('#img2').html("<img src='/csgo_img/" + data.extendPic + "'height='80px' >");
+                    }
+                });
+                $('#window').window('open')
+            }
+        });
+
+
+    }
+
+
+
+    function upload() {
+        var formData = new FormData();
+        formData.append("file", $("input[name=img]")[0].files[0]); //文件上传框的name
+        $.ajax({
+            type: "post",
+            url: "/appproduct/imageUpload",
+            data:formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function(data){
+
+                if(data.code==200){
+                    $('#extendPic').textbox("setValue",data.data);
+                    $('#img2').html("<img src='/csgo_img/" + data.data + "'height='80px' >");
+                }else {
+                    $('#extendPic').val(data.msg);
+                }
+            }
+        });
+    }
+
+
+    $("#onclose").click(function () {
+        $('#extendPic').textbox("setValue","");
+        $("#addForm").form('clear');
+        $('#window').window('close');
+    });
+
+
+</script>
+</html>

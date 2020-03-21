@@ -13,10 +13,10 @@ require('./detect');
 // theses highlighting errors from cropping up again.
 require('./markup');
 
-// Tests meant for the browser only. Using the `test/fixtures/index.html` file
+// Tests meant for the browser only. Using the `test/fixtures/arena.html` file
 // along with `jsdom` these tests check for things like: custom markup already
 // existing in the code being highlighted, blocks that disable highlighting,
-// and several other cases. Do note that the `test/fixtures/index.html` file
+// and several other cases. Do note that the `test/fixtures/arena.html` file
 // isn't actually used to test inside a browser but `jsdom` acts as a virtual
 // browser inside of node.js and runs together with all the other tests.
 require('./special');
