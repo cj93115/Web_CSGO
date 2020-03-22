@@ -43,7 +43,7 @@ public class LoginController extends BaseController {
     public ModelAndView AdminIndex(HttpServletRequest request,ModelMap mmap){
         HttpSession session = request.getSession();
         AdminUser adminUser = (AdminUser) session.getAttribute("AdminUser");
-        mmap.put("aUserName",adminUser.getUser_Name());
+        mmap.put("AdminName",adminUser.getUser_Name());
 
         return new ModelAndView("main/index");
     }

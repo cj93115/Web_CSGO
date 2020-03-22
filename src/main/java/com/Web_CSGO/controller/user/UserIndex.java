@@ -13,6 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName: UserIndex
@@ -21,40 +25,66 @@ import javax.servlet.http.HttpSession;
  * @Date: 2020/2/26 14:12
  **/
 @RequestMapping("/user")
-@Controller
+@RestController
 public class UserIndex {
 
 
     @RequestMapping("/index")
-    public ModelAndView index() {
-
-        ModelMap mmap = new ModelMap();
-        HttpSession session = HttpKit.getRequest().getSession();
+    public ModelAndView index(HttpServletRequest request,ModelMap modelMap) {
+        HttpSession session = request.getSession();
         OcInformationsEntity ifor = (OcInformationsEntity) session.getAttribute("OcInformationsEntity");
         if (!ToolUtil.isEmpty(ifor)) {
-            mmap.put("aUsername", ifor.getUserName());
-            return new ModelAndView("/main/user/index", mmap);
+            modelMap.put("aUsername", ifor.getUserName());
         }
         return new ModelAndView("/main/user/index");
     }
 
     @RequestMapping("/csgo")
-    public ModelAndView csgo() {
+    public ModelAndView csgo(HttpServletRequest request,ModelMap modelMap) {
+        HttpSession session = request.getSession();
+        OcInformationsEntity ifor = (OcInformationsEntity) session.getAttribute("OcInformationsEntity");
+        if (!ToolUtil.isEmpty(ifor)) {
+            modelMap.put("aUsername", ifor.getUserName());
+        }
         return new ModelAndView("/main/user/csgo");
     }
 
     @RequestMapping("/shangcheng")
-    public ModelAndView shangcheng() {
+    public ModelAndView shangcheng(HttpServletRequest request,ModelMap modelMap) {
+        HttpSession session = request.getSession();
+        OcInformationsEntity ifor = (OcInformationsEntity) session.getAttribute("OcInformationsEntity");
+        if (!ToolUtil.isEmpty(ifor)) {
+            modelMap.put("aUsername", ifor.getUserName());
+        }
         return new ModelAndView("/main/user/shangcheng");
     }
 
-    @RequestMapping("/kaixiang")
-    public ModelAndView kaixiang() {
+    @GetMapping("/kaixiang")
+    public ModelAndView kaixiang(HttpServletRequest request,ModelMap modelMap) {
+        HttpSession session = request.getSession();
+        OcInformationsEntity ifor = (OcInformationsEntity) session.getAttribute("OcInformationsEntity");
+        if (!ToolUtil.isEmpty(ifor)) {
+            modelMap.put("aUsername", ifor.getUserName());
+        }
         return new ModelAndView("/main/user/kaixiang");
     }
 
     @RequestMapping("/pkRoom")
-    public ModelAndView pkRoom() {
+    public ModelAndView pkRoom(HttpServletRequest request,ModelMap modelMap) {
+        HttpSession session = request.getSession();
+        OcInformationsEntity ifor = (OcInformationsEntity) session.getAttribute("OcInformationsEntity");
+        if (!ToolUtil.isEmpty(ifor)) {
+            modelMap.put("aUsername", ifor.getUserName());
+        }
         return new ModelAndView("/main/user/pkRoom");
+    }
+    @RequestMapping("/tuiguang")
+    public ModelAndView tuiguang(HttpServletRequest request,ModelMap modelMap) {
+        HttpSession session = request.getSession();
+        OcInformationsEntity ifor = (OcInformationsEntity) session.getAttribute("OcInformationsEntity");
+        if (!ToolUtil.isEmpty(ifor)) {
+            modelMap.put("aUsername", ifor.getUserName());
+        }
+        return new ModelAndView("/main/user/tuiguang");
     }
 }

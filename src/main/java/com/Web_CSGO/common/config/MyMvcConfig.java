@@ -17,8 +17,8 @@ public class MyMvcConfig implements WebMvcConfigurer {
         String path = System.getProperty("user.dir");
         String path2 = path.replace("\\", "/");
         System.out.println("-------------------------");
-        System.out.println(path);
-        registry.addResourceHandler("/csgo_img/**").addResourceLocations("file:D:/csgo_img/");
+        System.out.println(path2);
+        registry.addResourceHandler("/csgo_img/**").addResourceLocations("file:"+path2+"/csgo_img/");
     }
 
 

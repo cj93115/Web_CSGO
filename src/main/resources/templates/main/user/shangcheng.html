@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
 
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     
     <meta charset="utf-8">
@@ -67,8 +67,9 @@
                            <li class="t4"><a href="/user/kaixiang"><img src="/userimages/nav4.png"></a></li>
                            <li class="t5"><a href="/user/pkRoom"><img src="/userimages/nav5.png"></a></li>
                            <li class="t6"><a href="#"><img src="/userimages/nav6.png"></a></li>
-                           <li class="t7"><a href="/user/tuiguang.html"><img src="/userimages/nav7.png"></a></li>
+                           <li class="t7"><a href="/user/tuiguang"><img src="/userimages/nav7.png"></a></li>
                            <li class="anniu"><a href="#" id="login_click">登录</a><a href="#" id="reg_click">注册</a></li>
+                           <li class="anniu"><a href="#" th:text="${aUsername}" id="aUsername"></a></li>
                        </ul>
                    </div>
                    <div class="xia-menu">

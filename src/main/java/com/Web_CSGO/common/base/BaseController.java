@@ -216,15 +216,14 @@ public abstract class BaseController {
 
     }
 
-    /**
-     * 把service层的分页信息，封装为bootstrap table通用的分页封装
-     */
-        public Object senJsonResul(CodeEnum codeEnum,Page page){
+
+        public Object senJsonResul(HttpCode codeEnum,Object object){
             Map<String,Object> map=new HashMap<>();
                 map.put("msg",codeEnum);
-                map.put("rows",page);
+                map.put("rows",object);
             return new JSONObject(map);
     }
+
 
 
 }

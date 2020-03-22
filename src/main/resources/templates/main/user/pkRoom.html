@@ -1,24 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
 <head>
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=1440, user-scalable=yes"> 
+    <meta name="viewport" content="width=1440, user-scalable=yes">
     <title>游戏cc平台</title>
         <link rel="stylesheet" href="/pksite/css/owl.carousel.min.css">
     <link rel="stylesheet" href="/pksite/css/owl.theme.default.min.css">
     <link rel="stylesheet" href="/pksite/css/main.css">
 
-    <script src="/pksite/js/jquery-3.4.1.min.js" type="text/javascript"></script>
+    <!--<script src="/pksite/js/jquery-3.4.1.min.js" type="text/javascript"></script>-->
     <script src="/pksite/js/owl.carousel.min.js"></script>
-    <script src="/pksite/js/main.js" type="text/javascript"></script>
-    <script src="/pksite/layer/layer.js"></script>
-
+    <!--<script src="/pksite/js/main.js" type="text/javascript"></script>-->
+    <!--<script src="/pksite/layer/layer.js"></script>-->
+    <script type="text/javascript" src="http://ajax.microsoft.com/ajax/jquery/jquery-1.4.min.js"></script>
+    <script src="http://cdn.bootcss.com/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://cdn.bootcss.com/sockjs-client/1.1.4/sockjs.min.js"></script>
+    <script type="text/javascript" src="/EasyUI-InsdepTheme/jquery.easyui.min.js"></script>
 </head>
 
 <body class="index">
+<p href="#" th:text="${aUsername}" id="aUsername">
 <div class="main-content">
 <audio id="dian_audio"><source src="/pksite/audio/dian.mp3" type="audio/mpeg"></audio>
 <audio id="gun_audio"><source src="/pksite/audio/gun.wav" type="audio/wav"></audio>
@@ -44,7 +48,7 @@
                   <li><div class="quan">4</div></li>
                   <li><div class="quan">5</div></li>
                   <li><div class="quan">6</div></li>
-              </ul>     
+              </ul>
               <div class="line"></div>
               <ul class="list">
                   <li><div class="tu"><img src="/pksite/images/b1.png"></div></li>
@@ -53,13 +57,13 @@
                   <li><div class="tu"><img src="/pksite/images/b1.png"></div></li>
                   <li><div class="tu"><img src="/pksite/images/b1.png"></div></li>
                   <li><div class="tu"><img src="/pksite/images/b1.png"></div></li>
-              </ul>      
+              </ul>
          </div>
          <div class="bisai">
               <div class="active">
                   <div class="kuang">
                       <div class="zhong">
-                        
+
 <div id="demo1" class="gundong" >
     <ul>
       <li><img src="/pksite/images/q1.png"></li>
@@ -145,10 +149,10 @@
       <li><img src="/pksite/images/q5.png"></li>
       <li><img src="/pksite/images/q3.png"></li>
       <li><img src="/pksite/images/q1.png"></li>
-      <li><img src="/pksite/images/q2.png"></li>
+      <li><img src="/pksite/images/q2.png"></li>Web_CSGO
       <li><img src="/pksite/images/q6.png"></li>
     </ul>
- </div>                    
+ </div>
                       </div>
                       <div class="fl"><img src="/pksite/images/left-arrow.png"></div>
                       <div class="fr"><img src="/pksite/images/right-arrow.png"></div>
@@ -211,13 +215,13 @@
       <li><img src="/pksite/images/q2.png"></li>
       <li><img src="/pksite/images/q1.png"></li>
     </ul>
- </div>                    
+ </div>
 
 
                       </div>
                       <div class="fl"><img src="/pksite/images/left-arrow.png"></div>
                       <div class="fr"><img src="/pksite/images/right-arrow.png"></div>
-                  
+
                   </div>
                   <div class="wenzi">
                      <div class="fl">kaktus</div>
@@ -258,7 +262,7 @@
               <div class="">
                   <div class="kuang">
                     <div class="zhong">
-                    
+
 <div id="demo4" class="gundong" >
     <ul>
       <li><img src="/pksite/images/q3.png"></li>
@@ -273,7 +277,7 @@
                       </div>
                       <div class="fl"><img src="/pksite/images/left-arrow.png"></div>
                       <div class="fr"><img src="/pksite/images/right-arrow.png"></div>
-                  
+
                   </div>
                   <div class="wenzi">
                      <div class="fl">kaktus</div>
@@ -292,7 +296,7 @@
                               <div class="price">$ 0.78</div>
                           </div>
                        </div>
-                      
+
                        <div class="xiangtu">
                           <div>
                               ST(WW)
@@ -318,50 +322,45 @@
 
      <div id="liebiao">
            <h1>竞技场</h1>
-           <div class="panel"><span>竞技场列表</span> <em>3场竞技</em></div>
-           <div class="shangbiao"><span>玩家</span><span>战斗场景</span><span>话费</span></div>
+           <div class="panel"><span>竞技场列表</span> <em>场竞技</em></div>
+         <a  onclick="addUser()" id="addRoom">创建竞技场</a>
+
+         <div class="shangbiao"><span>玩家</span><span>战斗场景</span><span>话费</span></div>
            <div id="list-gun">
-               <ul class="team-list">
-                  <li>
-                     <div class="div_table">
-                         <div class="t1">
-                           <span> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/zhuan.jpg"></i><br>正<br>在<br>等<br>待<br></span>
-                         </div>
-                         <div class="t2">
-                             <span><img src="/pksite/images/icon1.jpg"></span>
-                             <span><img src="/pksite/images/icon2.jpg"></span>
-                             <span><img src="/pksite/images/icon4.jpg"></span>
-                         </div>
-                         <div class="t3">
-                             <div class="title">4 回合</div>
-                             <div class="con">
-                              <ul class="xiaoxiang">
-                                   <li>
-                                      <div><img src="/pksite/images/b1.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-                                  <li>
-                                      <div><img src="/pksite/images/b2.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-                                  <li>
-                                      <div><img src="/pksite/images/b3.png"></div>
-                                      <span>friday case</span>
-                                  </li>
+               <ul class="team-list"  id="ul">
 
-
-                              </ul>
-                             </div>
-                         </div>
-                         <div class="t4"><span>$</span>13.88</div>
-                         <div class="t5"><button class="btn">打开</button></div>
-                     </div>
-                  </li>
+                  <!--<li  th:each="m : ${list}" id="test" >-->
+                     <!--<div class="div_table">-->
+                         <!--<div class="t1">-->
+                             <!--<span th:if="${m.type} eq '1'"> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/wan.jpg"></i><br>正<br>在<br>进<br>行<br></span>-->
+                             <!--<span th:if="${m.type} eq '2'"> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/zhuan.jpg"></i><br>正<br>在<br>等<br>待<br></span>-->
+                         <!--</div>-->
+                         <!--<div class="t2" >-->
+                             <!--<span th:each="l : ${m.img}">-->
+                             <!--<span><img   th:src="${l}"></span>-->
+                             <!--</span>-->
+                         <!--</div>-->
+                         <!--<div class="t3">-->
+                             <!--<div class="title"><p th:text="${m.bout}"/>回合</div>-->
+                             <!--<div class="con">-->
+                              <!--<ul class="xiaoxiang">-->
+                                   <!--<li  th:each="x : ${m.box}">-->
+                                      <!--<div><img th:src="${x.img}"></div>-->
+                                      <!--<span><p th:text="${x.name}"></span>-->
+                                  <!--</li>-->
+                              <!--</ul>-->
+                             <!--</div>-->
+                         <!--</div>-->
+                         <!--<div class="t4"><span>$</span><p th:text="${m.monye}"></p></div>-->
+                         <!--<div class="t5"><button class="btn">打开</button></div>-->
+                     <!--</div>-->
+                  <!--</li>-->
 
                   <li class="active">
                      <div class="div_table">
                          <div class="t1">
                            <span> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/wan.jpg"></i><br>正<br>在<br>进<br>行<br></span>
+                             <span> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/zhuan.jpg"></i><br>正<br>在<br>等<br>待<br></span>
                          </div>
                          <div class="t2">
                              <span><img src="/pksite/images/icon1.jpg"></span>
@@ -391,83 +390,10 @@
                              </div>
                          </div>
                          <div class="t4"><span>$</span>13.88</div>
-                         <div class="t5"><button class="btn">打开</button></div>
-                     </div>
-                  </li>
-                  <li>
-                     <div class="div_table">
-                         <div class="t1">
-                           <span> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/zhuan.jpg"></i><br>正<br>在<br>等<br>待<br></span>
-                         </div>
-                         <div class="t2">
-                             <span><img src="/pksite/images/icon1.jpg"></span>
-                             <span><img src="/pksite/images/icon2.jpg"></span>
-                             <span><img src="/pksite/images/icon4.jpg"></span>
-                         </div>
-                         <div class="t3">
-                             <div class="title">4 回合</div>
-                             <div class="con">
-                              <ul class="xiaoxiang">
-                                   <li>
-                                      <div><img src="/pksite/images/b1.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-                                  <li>
-                                      <div><img src="/pksite/images/b2.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-                                  <li>
-                                      <div><img src="/pksite/images/b3.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-                                  <li>
-                                      <div><img src="/pksite/images/b4.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-
-                              </ul>
-                             </div>
-                         </div>
-                         <div class="t4"><span>$</span>13.88</div>
-                         <div class="t5"><button class="btn">打开</button></div>
+                         <div class="t5"><button class="btn" id="btn">打开</button></div>
                      </div>
                   </li>
 
-                  <li class="active">
-                     <div class="div_table">
-                         <div class="t1">
-                           <span> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/wan.jpg"></i><br>正<br>在<br>进<br>行<br></span>
-                         </div>
-                         <div class="t2">
-                             <span><img src="/pksite/images/icon1.jpg"></span>
-                             <span><img src="/pksite/images/icon3.jpg"></span>
-                             <span><img src="/pksite/images/icon4.jpg"></span>
-                         </div>
-                         <div class="t3">
-                             <div class="title">4 回合</div>
-                             <div class="con">
-                              <ul class="xiaoxiang">
-                                   <li>
-                                      <div><img src="/pksite/images/b1.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-                                  <li>
-                                      <div><img src="/pksite/images/b2.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-                                  <li>
-                                      <div><img src="/pksite/images/b3.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-
-
-                              </ul>
-                             </div>
-                         </div>
-                         <div class="t4"><span>$</span>13.88</div>
-                         <div class="t5"><button class="btn">打开</button></div>
-                     </div>
-                  </li>
                </ul>
            </div>
      </div>
@@ -476,16 +402,17 @@
 </div>
 
 
+
+
+
+
+
+
 <script type="text/javascript">
 
-   
 
 
-
-
-  
-
-    $("#liebiao ul.team-list li .btn").click(function(event) {
+    $("#btn").click(function(event) {
          $('#dian_audio')[0].play();
          $("#jingji").fadeIn();
          $("#liebiao").fadeOut();
@@ -495,12 +422,12 @@
     interval4 =  setInterval('AutoScroll("#demo4")', 100);
 
      $("#jingji .bisai >div .juli .line").animate({
-        
+
          width:"30%"
     },
     4000
     )
-    $("#jingji .bisai >div.active .juli .line").animate({ 
+    $("#jingji .bisai >div.active .juli .line").animate({
          width:"100%"
     },
     4000
@@ -560,74 +487,146 @@ function AutoScroll(obj) {
 
 
 
-
-function hideList1(obj) {
-
-
-    var zhongjiang=Math.random() * 3 | 0;
-    $(obj).find("ul.team-list > li:eq("+zhongjiang+")").animate({
-        
-        height:"0px",marginBottom:0
-    },
-    1000
-
-      // function() {
-
-      //   $(this).css({
-      //         opacity: "1",height:"220px"
-      //     }).appendTo("ul.team-list");
-      // }
-
-    ).delay(1000).animate({height:"220px",marginBottom:30},1000)
-
-    // $(obj).find("ul.team-list > li:first").delay(3000).css({
-    //          opacity:.5
-    //       });
-    
-    // 
-    // 
-
-    // $(obj).find("ul.team-list > li:first").animate({ height:"0px"},"2000");
-    // $(obj).find("ul.team-list > li:first").animate({ height:"220px"},
-    //       function() {
-    //         $(this).appendTo("ul.team-list");
-    //       }
-    //   );
-
- // var $one_li = $(obj).find("ul.team-list > li:eq(1)");    
- // var $two_li = $(obj).find("ul.team-list > li:eq(2)"); 
- // $two_li.insertBefore($one_li);   
-
-}
-
-function hideList2(obj) {
-   $(obj).find("ul.team-list > li:first").appendTo("ul.team-list").animate({height:"220px"},1000);
-}
-
-//hideList1("#list-gun");
-
-HideList1 =  setInterval('hideList1("#list-gun")', 4000);
-//HideList2 =  setInterval('hideList2("#list-gun")', 3000);
-
-
-function index_icon(){
-	var xulei=Math.random() * 3 | 0;
-	var xulei1=Math.random() * 3 | 0;
-   
-	console.log(xulei);
-  
-    $("#liebiao ul.team-list > li:eq("+xulei+") .div_table>div.t2 span:eq("+xulei1+")").fadeOut(1000).delay(3000).fadeIn(1000);
-}
-
-setInterval('index_icon()', 4000);
-
-
-
-$(function(){
-
-
-
-})
 </script>
 </body>
+
+
+<script th:inline="JavaScript">
+    var Room;
+    var webSocket;
+    var commWebSocket;
+    if ("WebSocket" in window) {
+        webSocket = new WebSocket("ws://localhost:8986/websocketPkRoom" );
+
+        //连通之后的回调事件
+        webSocket.onopen = function () {
+            //webSocket.send( document.getElementById('username').value+"已经上线了");
+            console.log("已经连通了websocket");
+            setMessageInnerHTML("已经连通了websocket");
+        };
+
+        //接收后台服务端的消息
+        webSocket.onmessage = function (evt) {
+            var received_msg = evt.data;
+            console.log("数据已接收:" + received_msg);
+            var obj = JSON.parse(received_msg);
+            console.log("可以解析成json:" + obj.messageType);
+            //1代表上线 2代表下线 3代表在线名单 4代表普通消息
+            if (obj.messageType == 1) {
+            } else if (obj.messageType == 2) {
+            } else if (obj.messageType == 3) {
+            } else {
+                Room=obj.textMessage;
+              setMessageInnerHTML(Room);
+
+
+            }
+        };
+
+        //连接关闭的回调事件
+        webSocket.onclose = function () {
+            console.log("连接已关闭...");
+            setMessageInnerHTML("连接已经关闭....");
+        };
+    } else {
+        // 浏览器不支持 WebSocket
+        alert("您的浏览器不支持 WebSocket!");
+    }
+
+    //将消息显示在网页上
+    function setMessageInnerHTML(ro) {
+      // $("#ul").html("");
+       var test;
+        ro.forEach(function(e){
+            var img="";
+            var box="";
+            var type;
+            e.img.forEach(function(i){
+                console.log("照片:"+i);
+                img+="<span><img src="+i+"></span>\n";
+            });
+
+            e.box.forEach(function(b){
+                console.log("照片:"+b.name);
+                box+=("                                  <li>\n" +
+                    "                                      <div><img src='"+b.img+"'></div>\n" +
+                    "                                      <span>"+b.name+"</span>\n" +
+                    "                                  </li>\n") ;
+            });
+            console.log(box);
+
+
+            $("#ul").append("    <li class='active'>\n" +
+                "                     <div class='div_table'>\n" +
+                "                         <div class='t1'>\n" +
+                "                             <span> <i class='icon-game-spinner-rotating icon-refresh-arrows'><img src='/pksite/images/zhuan.jpg'></i><br>正<br>在<br>等<br>待<br></span>\n" +
+                "                         </div>\n" +
+                "                         <div class='t2'>\n" +
+                img+
+                "                         </div>\n" +
+                "                         <div class='t3'>\n" +
+                "                             <div class='title'>4 回合</div>\n" +
+                "                             <div class='con'>\n" +
+                "                              <ul class='xiaoxiang'>\n" +
+                box+
+                "                          </ul>\n" +
+                "                             </div>\n" +
+                "                         </div>\n" +
+                "                         <div class='t4'><span>$</span>"+e.monye+"</div>\n" +
+                "                         <div class='t5'><button class='btn'>打开</button></div>\n" +
+                "                     </div>\n" +
+                "                  </li>");
+        });
+        // document.getElementById('ul').innerHTML += innerHTML + '<br/>';
+    }
+
+    $("#closeWebSocket").click(function () {
+        console.log("关闭连接");
+        //直接关闭websocket的连接
+        webSocket.close();
+    })
+
+    function addUser() {
+        console.log("执行了")
+        $.ajax({
+            type: "get",
+            url: "/pkRoom/add",
+            dataType: "json",
+            success: function () {
+                console.log("成功了")
+            }
+        });
+
+
+
+    }
+
+
+
+    $("#sendMessageButton").click(function () {
+        console.log("发送消息")
+      //  var selectText = $("#onLineUser").find("option:selected").text();
+        //if (selectText == "--所有--") {
+        var   selectText = "All";
+        // } else {
+        //     setMessageInnerHTML(document.getElementById('username').value + "对" + selectText + "说：" + $("#text").val());
+        // }
+        var message = {
+            "message": document.getElementById('text').value,
+            "username": document.getElementById('username').value,
+            "to": selectText
+        };
+        webSocket.send(JSON.stringify(message));
+        $("#text").val("");
+    })
+</script>
+
+
+
+
+
+
+
+
+
 </html>
