@@ -318,85 +318,34 @@
          </div>
      </div>
 
+    <div id="xiangzi">
+        <h1>创建房间</h1>
+        <div class="panel"><span>竞技场列表</span> <em>场竞技</em></div>
+        <a  onclick="addUser()" class="easyui-linkbutton" id="addRoom2">创建竞技场</a>
+
+        <div class="shangbiao"><span>玩家</span><span>战斗场景</span><span>话费</span></div>
+
+        </div>
+    </div>
 
 
      <div id="liebiao">
            <h1>竞技场</h1>
            <div class="panel"><span>竞技场列表</span> <em>场竞技</em></div>
-         <a  onclick="addUser()" id="addRoom">创建竞技场</a>
+         <a  onclick="addUser()" class="easyui-linkbutton" id="addRoom">创建竞技场</a>
+         <a  id="addbox">创建竞技场</a>
 
          <div class="shangbiao"><span>玩家</span><span>战斗场景</span><span>话费</span></div>
            <div id="list-gun">
                <ul class="team-list"  id="ul">
 
-                  <!--<li  th:each="m : ${list}" id="test" >-->
-                     <!--<div class="div_table">-->
-                         <!--<div class="t1">-->
-                             <!--<span th:if="${m.type} eq '1'"> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/wan.jpg"></i><br>正<br>在<br>进<br>行<br></span>-->
-                             <!--<span th:if="${m.type} eq '2'"> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/zhuan.jpg"></i><br>正<br>在<br>等<br>待<br></span>-->
-                         <!--</div>-->
-                         <!--<div class="t2" >-->
-                             <!--<span th:each="l : ${m.img}">-->
-                             <!--<span><img   th:src="${l}"></span>-->
-                             <!--</span>-->
-                         <!--</div>-->
-                         <!--<div class="t3">-->
-                             <!--<div class="title"><p th:text="${m.bout}"/>回合</div>-->
-                             <!--<div class="con">-->
-                              <!--<ul class="xiaoxiang">-->
-                                   <!--<li  th:each="x : ${m.box}">-->
-                                      <!--<div><img th:src="${x.img}"></div>-->
-                                      <!--<span><p th:text="${x.name}"></span>-->
-                                  <!--</li>-->
-                              <!--</ul>-->
-                             <!--</div>-->
-                         <!--</div>-->
-                         <!--<div class="t4"><span>$</span><p th:text="${m.monye}"></p></div>-->
-                         <!--<div class="t5"><button class="btn">打开</button></div>-->
-                     <!--</div>-->
-                  <!--</li>-->
 
-                  <li class="active">
-                     <div class="div_table">
-                         <div class="t1">
-                           <span> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/wan.jpg"></i><br>正<br>在<br>进<br>行<br></span>
-                             <span> <i class="icon-game-spinner-rotating icon-refresh-arrows"><img src="/pksite/images/zhuan.jpg"></i><br>正<br>在<br>等<br>待<br></span>
-                         </div>
-                         <div class="t2">
-                             <span><img src="/pksite/images/icon1.jpg"></span>
-                             <span><img src="/pksite/images/icon2.jpg"></span>
-                             <span><img src="/pksite/images/icon3.jpg"></span>
-                             <span><img src="/pksite/images/icon4.jpg"></span>
-                         </div>
-                         <div class="t3">
-                             <div class="title">4 回合</div>
-                             <div class="con">
-                              <ul class="xiaoxiang">
-                                   <li>
-                                      <div><img src="/pksite/images/b1.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-                                  <li>
-                                      <div><img src="/pksite/images/b2.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-                                  <li>
-                                      <div><img src="/pksite/images/b3.png"></div>
-                                      <span>friday case</span>
-                                  </li>
-
-
-                              </ul>
-                             </div>
-                         </div>
-                         <div class="t4"><span>$</span>13.88</div>
-                         <div class="t5"><button class="btn" id="btn">打开</button></div>
-                     </div>
-                  </li>
 
                </ul>
            </div>
      </div>
+
+
 
 
 </div>
@@ -412,7 +361,8 @@
 
 
 
-    $("#btn").click(function(event) {
+    function  jingji() {
+        console.log();
          $('#dian_audio')[0].play();
          $("#jingji").fadeIn();
          $("#liebiao").fadeOut();
@@ -449,15 +399,26 @@
 
 
 
-    });
+    };
     $("#backlist").click(function(event) {
          $('#dian_audio')[0].play();
          $("#liebiao").fadeIn();
          $("#jingji").fadeOut();
+         $("#addbox").fadeOut();
     });
 
+    $("#addbox").click(function(event) {
+        //$('#dian_audio')[0].play();
+        $("#xiangzi").fadeIn();
+        $("#liebiao").fadeOut();
+        $("#jingji").fadeOut();
+    });
 
-
+$(function () {
+    $("#liebiao").fadeIn();
+    $("#jingji").fadeOut();
+    $("#xiangzi").fadeOut();
+});
 
 
 var cishu=0;
@@ -535,19 +496,19 @@ function AutoScroll(obj) {
 
     //将消息显示在网页上
     function setMessageInnerHTML(ro) {
-      $("#ul").html("");
+     // $("#ul").html("");
        var test;
+        var roomlist;
         ro.forEach(function(e){
+            console.log(e.type);
             var img="";
             var box="";
-            var type;
+            var type="";
             e.img.forEach(function(i){
-                console.log("照片:"+i);
                 img+="<span><img src="+i+"></span>\n";
             });
 
             e.box.forEach(function(b){
-                console.log("照片:"+b.name);
                 box+=("                                  <li>\n" +
                     "                                      <div><img src='"+b.img+"'></div>\n" +
                     "                                      <span>"+b.name+"</span>\n" +
@@ -555,13 +516,25 @@ function AutoScroll(obj) {
             });
             console.log(box);
 
+            if(e.type==1){
+                type="    <li class='active'>\n" +
+                    "                     <div class='div_table'>\n" +
+                    "                         <div class='t1'>\n" +
+                    "                             <span> <i class='icon-game-spinner-rotating icon-refresh-arrows'><img src='/pksite/images/zhuan.jpg'></i><br>正<br>在<br>等<br>待<br></span>\n" +
+                    "                         </div>\n" +
+                    "                         <div class='t2'>\n";
+            }else{
 
-            $("#ul").append("    <li class='active'>\n" +
-                "                     <div class='div_table'>\n" +
-                "                         <div class='t1'>\n" +
-                "                             <span> <i class='icon-game-spinner-rotating icon-refresh-arrows'><img src='/pksite/images/zhuan.jpg'></i><br>正<br>在<br>等<br>待<br></span>\n" +
-                "                         </div>\n" +
-                "                         <div class='t2'>\n" +
+                type="    <li >\n" +
+                    "                     <div class='div_table'>\n" +
+                    "                         <div class='t1'>\n" +
+                    "                             <span> <i class=\"icon-game-spinner-rotating icon-refresh-arrows\"><img src=\"/pksite/images/wan.jpg\"></i><br>正<br>在<br>进<br>行<br></span>\n" +
+                    "                         </div>\n" +
+                    "                         <div class='t2'>\n";
+
+            }
+
+            roomlist = type +
                 img+
                 "                         </div>\n" +
                 "                         <div class='t3'>\n" +
@@ -573,10 +546,11 @@ function AutoScroll(obj) {
                 "                             </div>\n" +
                 "                         </div>\n" +
                 "                         <div class='t4'><span>$</span>"+e.monye+"</div>\n" +
-                "                         <div class='t5'><button class='btn'>打开</button></div>\n" +
+                "                         <div class='t5'><button class='btn' onclick=jingji()>打开</button></div>\n" +
                 "                     </div>\n" +
-                "                  </li>");
+                "                  </li>" +roomlist;
         });
+        $("#ul").html(roomlist);
         // document.getElementById('ul').innerHTML += innerHTML + '<br/>';
     }
 

@@ -20,7 +20,7 @@ import java.util.Map;
 @RequestMapping("pkRoom")
 @RestController
 public class pkRoom extends BaseController {
-
+public static int roomId=0;
 
     @Resource
     WebSocketPkRoom webSocketPkRoom;
@@ -48,6 +48,7 @@ public class pkRoom extends BaseController {
         map.put("box",list3); //箱子
         map.put("monye",13);
         map.put("type",1);
+        map.put("RoomName","房间名字");
         List<Map<String,Object>> list=new ArrayList<>();
         list.add(map);
         model.put("list",list);
@@ -81,11 +82,12 @@ public class pkRoom extends BaseController {
         map.put("box",list3); //箱子
         map.put("monye",13);
         map.put("type",2);
-
+        map.put("RoomName","房间名字"+roomId);
         list.add(map);
         map2.put("messageType", 4);
         map2.put("textMessage", list);
         map2.put("fromusername", "帶");
+        roomId++;
         webSocketPkRoom.sendMessageAll(JSON.toJSONString(map2));
     }
 

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script type="module">
+        import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.esm.browser.js'
+    </script>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+<body>
+<div id="app-2">
+  <span v-bind:title="message">
+    鼠标悬停几秒钟查看此处动态绑定的提示信息！
+  </span>
+</div>
+
+<div id="app-3">
+    <p v-if="seen">现在你看到我了</p>
+</div>
+
+<div id="app-4">
+    <button v-on:click="reverseMessage">vue消息</button>
+    <button onclick=gaibian()>jQuery方法</button>
+    <ol>
+        <li v-for="todo in todos">
+            {{ todo.text }}
+        </li>
+    </ol>
+</div>
+
+</body>
+<script type="text/javascript">
+    var app2 = new Vue({
+        el: '#app-2',
+        data: {
+            message: '页面加载于 ' + new Date().toLocaleString()
+        }
+    })
+
+    var app3 = new Vue({
+        el: '#app-3',
+        data: {
+            seen: false
+        }
+    });
+
+    var aa=[
+        { text: '学习 JavaScript' },
+        { text: '学习 Vue' },
+        { text: '整个牛项目' }
+    ];
+
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: aa
+        },
+        methods: {
+            reverseMessage: function () {
+                this.todos = [
+                    { text: '学习ss JavaScript' },
+                    { text: '学习ss Vue' },
+                    { text: 'ss整个牛项目' }
+                ]
+            }
+        }
+    })
+
+function gaibian(){
+    app4.todos=[
+        { text: '111学习ss JavaScript' },
+        { text: '111学习ss Vue' },
+        { text: '111ss整个牛项目' }
+    ]
+}
+
+</script>
+</html>
