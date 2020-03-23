@@ -107,10 +107,4 @@ public class RoomController  extends BaseController {
         Room room = roomService.getById(id);
         return JSON.toJSON(room);
     }
-
-
-
-
-
-
 }

@@ -671,8 +671,7 @@ public class ToolUtil {
                 //  String filePath =  request.getSession().getServletContext().getRealPath("/");//获取项目路径
                 //  String substring = filePath.substring(0, 2);//分割盘符拿到根目录
                 String path = System.getProperty("user.dir");
-                String path2 = path.replace("\\", "/");
-                String substring =path2;
+                String substring ="D:";
 
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");//设置日期格式
                 String realName = df.format(new Date()).toString().replaceAll("[\\p{P}+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]", "")

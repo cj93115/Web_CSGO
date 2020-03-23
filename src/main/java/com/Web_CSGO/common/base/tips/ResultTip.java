@@ -56,11 +56,7 @@ public class ResultTip<T> extends Tip {
 		this.currentPage=page.getCurrent();
 	}
 
-    public ResultTip(T list) {
-        super();
-    }
-
-    public List<T> getRows(){
+	public List<T> getRows(){
 		return rows;
 	}
 

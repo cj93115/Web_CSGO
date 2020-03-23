@@ -93,6 +93,5 @@ public class pkRoom extends BaseController {
     @PostMapping("addRoom")
      public void addRoom(){
 
-      //  WebSocketPkRoom.sendMessageAll(JSON.toJSONString(list));
      }
 }
