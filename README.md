@@ -13,9 +13,6 @@ Web_CSGO
 2.  前端框架使用参考  [https://www.insdep.com/document/page/easyui/component/splitbutton] 
 3.  static/EasyUI-InsdepTheme index 有前端框架使用实例
 使用mssqlserver 2008 R2版本链接
-数据库IP：47.91.206.215
-账号： test
-密码：test
 ####目录
 common 工具包
 controller 控制层
@@ -29,12 +26,10 @@ service    接口
 使用该命令可以在idea控制台打包成jar包，
 放到服务器在c盘下的web_csgo文件夹下运行批处理即可运行，
 桌面有停止指定端口的脚本
-远程桌面IP:47.91.206.215
-账号：administrator
-密码：123456789Hy
+
 目前服务器上有项目在运行，请小心操作
 #### 码云特技
-888666
+
 1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
 2.  码云官方博客 [blog.gitee.com](https://blog.gitee.com)
 3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
