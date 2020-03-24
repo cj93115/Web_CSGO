@@ -2,7 +2,9 @@ package com.Web_CSGO.service.impl;
 
 
 import com.Web_CSGO.common.util.DateUtil;
+import com.Web_CSGO.entity.Appextend;
 import com.Web_CSGO.entity.Appproduct;
+import com.Web_CSGO.mapper.AppextendMapper;
 import com.Web_CSGO.mapper.AppproductMapper;
 import com.Web_CSGO.service.IAppproductService;
 import com.Web_CSGO.common.base.tips.ResultTip;
@@ -13,6 +15,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +29,8 @@ import java.util.UUID;
  */
 @Service
 public class AppproductServiceImpl extends ServiceImpl<AppproductMapper,Appproduct> implements IAppproductService {
+    @Resource
+    AppextendMapper appextendMapper;
     @Override
     public List<Appproduct>  queryAll(Page page, Appproduct APPProduct){
     return baseMapper.queryAllList(page,APPProduct);
@@ -57,6 +62,10 @@ public class AppproductServiceImpl extends ServiceImpl<AppproductMapper,Appprodu
 
             //resultCuont(成功事件)是否大于0,大于则成功,小于则失败
             if (resultCuont>0){
+                Appextend appextend=appextendMapper.selectById(APPProduct.getExtendId());
+               double sale=baseMapper.SelectBoxSale(APPProduct.getExtendId());
+                appextend.setExtendSale(sale);
+                appextendMapper.updateById(appextend);
                 return new ResultTip(CodeEnum.SUCCESS);
             }else {
                 return new ResultTip(CodeEnum.OPERATION_FAILD);

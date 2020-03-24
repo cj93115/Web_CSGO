@@ -81,10 +81,10 @@ public class OcInformationsEntity implements Serializable {
 
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     @TableField("SubmitTime")
-    private Date SubmitTime;
+    private String SubmitTime;
 
     @TableField("LastLoginTime")
-    private Date LastLoginTime;
+    private String LastLoginTime;
 
     @TableField("LastIp")
     private String LastIp;

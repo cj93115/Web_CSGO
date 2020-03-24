@@ -35,6 +35,11 @@ public class AppextendServiceImpl extends ServiceImpl<AppextendMapper,Appextend>
         return baseMapper.queryAllList(APPExtend);
     }
 
+    @Override
+    public List<Map<String, Object>> extendList(Appextend APPExtend) {
+        return baseMapper.extendList(APPExtend);
+    }
+
 
     @Override
     public ResultTip saveOrUpdateData(Appextend APPExtend) {

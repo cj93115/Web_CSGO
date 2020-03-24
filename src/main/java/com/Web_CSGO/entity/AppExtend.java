@@ -38,6 +38,8 @@ public class Appextend implements Serializable {
         private Integer extendIsacive;
         @TableField("Extend_Pic")
         private String extendPic;
+        @TableField("Extend_Sale")
+        private Double extendSale;
 
 
 

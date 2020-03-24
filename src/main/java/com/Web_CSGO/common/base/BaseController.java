@@ -121,6 +121,7 @@ public abstract class BaseController {
         } else {
             json.put("rows", new JSONObject());
         }
+        json.put("httpCode", code.value());
         json.put("msg", message);
         json.put("timestamp", System.currentTimeMillis());
         return json;

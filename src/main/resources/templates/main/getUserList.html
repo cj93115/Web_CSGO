@@ -79,6 +79,16 @@
                         <input class="easyui-textbox  theme-textbox-radius" name="userName" id="userName" style="width: 190px">
                     </div>
                     <div style="margin-bottom:20px">
+                        <label class="label-top">姓 名:</label>
+                        <input class="easyui-textbox  theme-textbox-radius" name="Name" id="Name" style="width: 190px">
+                    </div>
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">用户类型:</label>
+                        <select  class="easyui-combobox theme-combobox-radius"  name="accountType" id="accountType"   style="width: 190px">
+                            <option value="MemberUser">用户</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom:20px">
                         <label class="label-top">密&nbsp;&nbsp;&nbsp;码:</label>
                         <input class="easyui-passwordbox theme-textbox-radius" name="password" id="password" style="width: 190px">
                     </div>
@@ -90,7 +100,10 @@
                         <label class="label-top">电&nbsp;&nbsp;&nbsp;话:</label>
                         <input class="easyui-numberbox theme-textbox-radius" name="mobile" id="mobile" style="width: 190px" data-options="min:11,precision:0">
                     </div>
-
+                    <div style="margin-bottom:20px;">
+                        <label class="label-top">邮  箱:</label>
+                        <input class="easyui-numberbox theme-textbox-radius" name="Email" id="Email" style="width: 190px" data-options="min:11,precision:0">
+                    </div>
                 </form>
             </div>
         </div>
@@ -127,7 +140,7 @@
     }
     function formatter(val, row, index) {
         var del = "<a  data-informationId='" + row.informationId + "' title='删除' href='#' onclick='del(this)' class='font-red'><i></i>删除 </a> ";
-        var edit = "<a data-informationId='" + row.informationId + "' title='编辑' href='#' onclick='edit(this)' class='font-teal'><i></i>编辑 </a> ";
+        var edit = "<a data-informationId='" + row.informationId + "' title='重置密码' href='#' onclick='edit(this)' class='font-teal'><i></i>重置密码 </a> ";
         return del + ' ' + edit;
     }
 
@@ -184,6 +197,13 @@
                     });
                     $("#addForm").form('clear');
                     $('#table').datagrid('reload');//刷新
+                }else {
+                    $.messager.show({
+                        title: '提示',
+                        msg: data.msg,
+                        showType: 'show',
+                        timeout: 3000
+                    });
                 }
             }
         });
@@ -200,22 +220,13 @@
                     },
                     dataType: "json",
                     success: function (data) {
-                        if (data.httpCode == 200) {
-                            $.messager.show({
-                                title: '提示',
-                                msg: data.msg,
-                                showType: 'show',
-                                timeout: 3000
-                            });
-                            $('#table').datagrid('reload');//刷新
-                        } else {
-                            $.messager.show({
-                                title: '提示',
-                                msg: data.msg,
-                                showType: 'show',
-                                timeout: 3000
-                            });
-                        }
+                        $.messager.show({
+                            title: '提示',
+                            msg: data.msg,
+                            showType: 'show',
+                            timeout: 3000
+                        });
+                        $('#table').datagrid('reload');//刷新
                     }
                 });
             }
@@ -223,19 +234,23 @@
 
     }
     function edit(obj) {
-        $.messager.confirm('编辑提示', '是否编辑?', function (r) {
+        $.messager.confirm('编辑提示', '是否将密码重置为123456?', function (r) {
             if (r) {
-                $("#psd").hide();
                 $.ajax({
                     type: "post",
-                    url: "/user/UserController/editUser",
+                    url: "/user/UserController/resetPassWord",
                     data: {
                         informationId: $(obj).attr("data-informationId")
                     },
                     dataType: "json",
                     success: function (data) {
-                        $.setForm('#addForm',data);
-                        $('#window').window('open')
+                            $.messager.show({
+                                title: '提示',
+                                msg: data.msg,
+                                showType: 'show',
+                                timeout: 3000
+                            });
+                            $('#table').datagrid('reload');//刷新
                     }
                 });
             }
@@ -253,9 +268,9 @@
     $("#onclose").click(function () {
         $('#window').window('close');
         $("#addForm").form('clear');
-    })
+    });
     $("#ocadd").click(function () {
         $("#addForm").form('clear');
-    })
+    });
 </script>
 </html>

@@ -18,19 +18,19 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class LoginConfig implements WebMvcConfigurer {
     
-    //@Override
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //注册TestInterceptor拦截器
         InterceptorRegistration registration = registry.addInterceptor(new AdminInterceptor());
-   //     registration.addPathPatterns("/**");                      //所有路径都被拦截
+        //registration.addPathPatterns("/**");                      //所有路径都被拦截
         registration.excludePathPatterns(
-                                         "/**",//添加不拦截路径
+                                        "/**",
                                          "/LoginController/login",
                                          "RoomController/getRoomList",
                                          "/LoginController/loginPage", //登录
                                          "/LoginController/AdminloginPage", //登录
-                                        /* "/UserController/getUserPage", //登录
-                                         "/UserController/getUserList", //登录*/
+//                                        "/UserController/getUserPage", //登录
+//                                         "/UserController/getUserList", //登录
                                          "/UserRegisterController/register", //注册
                                          "/drawImage",
                                          "/common/**",

@@ -117,4 +117,26 @@ public class UserController  extends BaseController {
         getUser.setPassword("");
         return JSON.toJSON(getUser);
     }
+    @PostMapping("resetPassWord")
+    public Object resetPassWord(String informationId,HttpServletRequest request){
+        JSONObject returnJson = new JSONObject();
+        try {
+            HttpSession session= request.getSession();
+            AdminUser adminUser = (AdminUser) session.getAttribute("AdminUser");
+            if(adminUser!=null) {
+            OcInformationsEntity byId = ocInformationsService.getById(informationId);
+            byId.setPassword(MD5Util.string2MD5("123456"));
+
+                if (ocInformationsService.updateById(byId)) {
+                    returnJson = setSuccessJSONObject(HttpCode.SUCCESS, "", "重置成功!");
+                }
+            }else {
+                return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","需要管理员重置，重置失败!");
+            }
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            return setSuccessJSONObject(HttpCode.BAD_REQUEST, "","重置失败!");
+        }
+        return returnJson;
+    }
 }

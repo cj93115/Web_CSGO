@@ -29,7 +29,7 @@ public class AdminUser implements Serializable {
     @TableId(value = "User_Name")
     private String User_Name;
     private String User_Psd;
-    private Date User_LoginTime;
+    private String User_LoginTime;
     private String User_duty;
     private String User_Trust;
     private Date User_RegDate;

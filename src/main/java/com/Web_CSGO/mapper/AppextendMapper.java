@@ -19,4 +19,5 @@ public interface AppextendMapper extends BaseMapper<Appextend> {
 
    List<Map<String, Object>>  queryAllList(Page page, @Param("obj") Appextend APPExtend);
    List<Map<String, Object>>  queryAllList(@Param("obj") Appextend APPExtend);
+   List<Map<String, Object>>  extendList(@Param("obj") Appextend APPExtend);
 }

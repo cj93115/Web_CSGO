@@ -1,5 +1,6 @@
 package com.Web_CSGO.service.impl;
 
+import com.Web_CSGO.common.util.DateUtil;
 import com.Web_CSGO.common.util.MD5Util;
 import com.Web_CSGO.entity.AdminUser;
 import com.Web_CSGO.entity.OcInformationsEntity;
@@ -13,6 +14,7 @@ import org.springframework.ui.ModelMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 @Service
@@ -44,6 +46,8 @@ public class TLoginServiceImpl implements ILoginService{
                     if(adminUser.getUser_Psd().equals(password)){
                         map.put("authenticated",true);
                         map.put("user",adminUser);
+                        adminUser.setUser_LoginTime(DateUtil.getTime());
+                        tAdminMapper.updateById(adminUser);
                         session.setAttribute("AdminUser",adminUser);
                     }else{
                         map.put("authenticated",false);
@@ -66,10 +70,10 @@ public class TLoginServiceImpl implements ILoginService{
                 if(ocInformationsEntity.getPassword().equals(MD5Util.string2MD5(password))){
                     map.put("authenticated",true);
                     map.put("user",ocInformationsEntity);
+                    ocInformationsEntity.setSubmitTime(DateUtil.getTime());
+                    tOcInformationsMapper.updateById(ocInformationsEntity);
                     ModelMap mmap=new ModelMap();
                     session.setAttribute("OcInformationsEntity",ocInformationsEntity);
-                    session.setAttribute("message","测试");
-                    mmap.put("message","测试");
                 }
                 else{
                     map.put("authenticated",false);

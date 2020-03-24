@@ -2,6 +2,7 @@ package com.Web_CSGO.controller.AdminUser;
 
 import com.Web_CSGO.common.HttpCode;
 import com.Web_CSGO.common.base.BaseController;
+import com.Web_CSGO.common.util.MD5Util;
 import com.Web_CSGO.entity.AdminUser;
 import com.Web_CSGO.service.IAdminService;
 import com.alibaba.fastjson.JSON;
@@ -121,4 +122,7 @@ public class AdminUserController extends BaseController {
         adminUser.setUser_Psd(adminUser.getUser_Psd());
         return JSON.toJSON(adminUser);
     }
+
+
+
 }

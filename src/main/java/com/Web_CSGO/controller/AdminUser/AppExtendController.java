@@ -69,6 +69,14 @@ public class AppextendController {
         page.setRecords(list);
         return new ResultTip(CodeEnum.SUCCESS, page);
     }
+
+    @PostMapping("extendList")
+    @ResponseBody
+    public ResultTip extendList(Appextend APPExtend) {
+        APPExtend.setExtendIsacive(2);
+        List<Map<String, Object>> list =appextendService.extendList(APPExtend);
+        return new ResultTip(CodeEnum.SUCCESS, list);
+    }
     
     
         /**

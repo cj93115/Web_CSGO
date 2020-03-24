@@ -17,7 +17,8 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllList" resultType="java.util.HashMap">
         select
-          Extend_ID  extendId, Extend_Name extendName,Extend_Order extendOrder, a.Kind_ID kindId, Extend_Begin extendBegin, Extend_End extendEnd,b.Kind_Name kindName,
+        Extend_ID extendId, Extend_Name extendName,Extend_Order extendOrder, a.Kind_ID kindId, Extend_Begin extendBegin,
+        Extend_End extendEnd,b.Kind_Name kindName,
         Extend_Pic extendPic
         from dbo.APPExtend a,dbo.APPKind b
         <where>
@@ -35,8 +36,13 @@
     </select>
 
 
-
-
+    <select id="extendList" resultType="java.util.HashMap">
+        SELECT a.Extend_ID extendId,a.Extend_Pic extendPic,a.Extend_Name extendName,a.Extend_Sale extendSale,b.Product_Name
+        productName,b.Product_Pictrure productPictrure FROM APPExtend a ,APPProduct b
+        <where>
+            a.Extend_ID=b.Extend_ID and b.Product_IsPass=1
+        </where>
+    </select>
 
 
 </mapper>
