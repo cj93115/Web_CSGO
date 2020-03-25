@@ -2,14 +2,19 @@ package com.Web_CSGO.controller.AdminUser;
 
 import com.Web_CSGO.common.HttpCode;
 import com.Web_CSGO.common.base.BaseController;
+import com.Web_CSGO.common.util.DateUtil;
 import com.Web_CSGO.common.util.ToolUtil;
 import com.Web_CSGO.entity.Appextend;
 import com.Web_CSGO.entity.Appproduct;
+import com.Web_CSGO.service.IAppextendService;
 import com.Web_CSGO.service.IAppproductService;
+import com.alibaba.druid.pool.WrapperAdapter;
 import com.alibaba.fastjson.JSONObject;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.http.HttpRequest;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.Web_CSGO.common.util.PageUtil;
@@ -18,8 +23,10 @@ import com.Web_CSGO.common.enums.CodeEnum;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.ModelMap;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Wrapper;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,107 +39,141 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("appproduct")
-public class AppproductController extends BaseController{
+public class AppproductController extends BaseController {
     /**
      * 服务对象
      */
     @Resource
     private IAppproductService appproductService;
+    @Resource
+    private IAppextendService appextendService;
 
 
-   //返回物品管理页面
-      @GetMapping("getAppproduct")
-    public ModelAndView getAdminUserPage(String  extendId,String extendPic,String extendName){
-          ModelMap model=new ModelMap();
-          model.addAttribute("extendId",extendId);
-          model.addAttribute("extendPic","/csgo_img/"+extendPic);
-          model.addAttribute("extendName",extendName);
-          return new ModelAndView("main/getAppproductList",model);
+    //返回物品管理页面
+    @GetMapping("getAppproduct")
+    public ModelAndView getAdminUserPage(String extendId, String extendPic, String extendName) {
+        ModelMap model = new ModelMap();
+        Appextend appextend = appextendService.getById(extendId);
+        model.addAttribute("Appextend", appextend);
+        return new ModelAndView("main/getAppproductList", model);
     }
-    //返回商城物品页面
-      @GetMapping("getStoreProduct")
-    public ModelAndView getStoreProduct(String  extendId,String extendPic,String extendName){
-          ModelMap model=new ModelMap();
-          model.addAttribute("extendId",extendId);
-          model.addAttribute("extendPic","/csgo_img/"+extendPic);
-          model.addAttribute("extendName",extendName);
-          return new ModelAndView("main/getStoreProductList",model);
+
+    @GetMapping("kaixiang")
+    public ModelAndView getAdminUserPage(String extendId,ModelMap modelMap) {
+        Appextend appextend = appextendService.getById(extendId);
+        Map<String,Object> map=new HashMap<>();
+        map.put("extend_ID",extendId);
+        List<Appproduct> appproducts=appproductService.selectByMap(map);
+        modelMap.addAttribute("Appextend", appextend);
+        modelMap.addAttribute("appproducts",appproducts);
+        return new ModelAndView("main/user/open", modelMap);
     }
 
 
     /**
      * 通过主键查询单条数据
      *
-     * @param  productId 主键
+     * @param productId 主键
      * @return 单条数据
-     */    
-     @PostMapping("selectOne")
+     */
+    @PostMapping("selectOne")
     public Appproduct selectOne(String productId) {
         return appproductService.getById(productId);
     }
-    
-        /**
+
+    /**
      * 通过条件分页查询
+     *
      * @param APPProduct
      * @return
      */
     @PostMapping("queryAll")
     @ResponseBody
     public ResultTip queryAll(Appproduct APPProduct) {
-        if (ToolUtil.isEmpty(APPProduct)){return null; }
-     Page<Appproduct> page= PageUtil.defaultPage();
+        if (ToolUtil.isEmpty(APPProduct)) {
+            return null;
+        }
+        Page<Appproduct> page = PageUtil.defaultPage();
         Map<String, Object> map = new HashMap<String, Object>();
-        List<Appproduct> list =appproductService.queryAll(page,APPProduct);
+        List<Appproduct> list = appproductService.queryAll(page, APPProduct);
         page.setRecords(list);
         return new ResultTip(CodeEnum.SUCCESS, page);
     }
-    
-    
-        /**
+
+
+    /**
      * 新增或修改
-     * @param  APPProduct
+     *
+     * @param APPProduct
      * @return
      */
 
     @PostMapping("/saveOrUpdateData")
     @ResponseBody
-    public ResultTip saveOrUpdateData(Appproduct APPProduct){
+    @Transactional
+    public ResultTip saveOrUpdateData(Appproduct APPProduct) {
         return appproductService.saveOrUpdateData(APPProduct);
     }
-    
+
 
     /**
      * 删除功能
-      * @param  productId 主键
+     *
+     * @param productId 主键
      * @return
      */
     @RequestMapping("/delete")
     @ResponseBody
-    public ResultTip delete(String productId){
-        if (productId==null || "".equals(productId)){
+    @Transactional
+    public ResultTip delete(String productId) {
+        if (productId == null || "".equals(productId)) {
             return new ResultTip(CodeEnum.PARAMS_INCOMPLETENESS);
         }
         try {
-           if(appproductService.removeById(productId)){
-              return new ResultTip(CodeEnum.DELETE_SUCCESS);
-          }
-              return new ResultTip(CodeEnum.OPERATION_FAILD);
+            Appproduct appproduct = appproductService.getById(productId);
+            String extendId=appproduct.getExtendId();
+            appproductService.removeById(productId);
+            //重新查询箱子总价并修改
+
+            double sale = appproductService.SelectBoxSale(extendId);
+            Appextend appextend = appextendService.getById(extendId);
+            appextend.setExtendSale(sale);
+            appextendService.updateById(appextend);
+            return new ResultTip(CodeEnum.DELETE_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultTip(e.getMessage());
         }
     }
+
+    @RequestMapping("/show")
+    public ResultTip show(String productId) {
+        if (productId == null || "".equals(productId)) {
+            return new ResultTip(CodeEnum.PARAMS_INCOMPLETENESS);
+        }
+        try {
+            Appproduct appproduct = appproductService.getById(productId);
+            appproduct.setOrderTime(DateUtil.getMsTime());
+            appproductService.updateById(appproduct);
+            return new ResultTip(CodeEnum.OPERATION_FAILD);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultTip(e.getMessage());
+        }
+    }
+
     /**
      * 图片上传功能
-      * @param
+     *
+     * @param
      * @return
      */
     @PostMapping("imageUpload")
     @ResponseBody
-    public Object filesUpload(@RequestParam(value="file") MultipartFile file) {
-        String filename= ToolUtil.filesUpload(file);
-        if(filename!=null){
-            return new ResultTip(CodeEnum.SUCCESS,filename);
+    public Object filesUpload(@RequestParam(value = "file") MultipartFile file) {
+        String filename = ToolUtil.filesUpload(file);
+        if (filename != null) {
+            return new ResultTip(CodeEnum.SUCCESS, filename);
         }
         return new ResultTip(CodeEnum.OPERATION_FAILD);
     }

@@ -63,7 +63,7 @@
     </select>
 
     <select id="SelectBoxSale" resultType="double">
-              SELECT round(SUM(Product_Sale),2) from APPProduct where Extend_ID=#{extendId}
+              SELECT isnull(round(SUM(Product_Sale),2),0) from APPProduct where Extend_ID=#{extendId}
     </select>
 
 

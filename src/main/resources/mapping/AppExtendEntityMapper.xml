@@ -17,7 +17,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllList" resultType="java.util.HashMap">
         select
-        Extend_ID extendId, Extend_Name extendName,Extend_Order extendOrder, a.Kind_ID kindId, Extend_Begin extendBegin,
+        Extend_ID extendId, Extend_Name extendName,Extend_Order extendOrder, a.Kind_ID kindId, Extend_Begin extendBegin, Extend_Sale extendSale,
         Extend_End extendEnd,b.Kind_Name kindName,
         Extend_Pic extendPic
         from dbo.APPExtend a,dbo.APPKind b
@@ -37,10 +37,12 @@
 
 
     <select id="extendList" resultType="java.util.HashMap">
-        SELECT a.Extend_ID extendId,a.Extend_Pic extendPic,a.Extend_Name extendName,a.Extend_Sale extendSale,b.Product_Name
-        productName,b.Product_Pictrure productPictrure FROM APPExtend a ,APPProduct b
+        SELECT* FROM
+        APPExtend ex
+        ,APPProduct pr
+        ,(SELECT MAX(a.order_Time) time FROM APPProduct a GROUP BY a.Extend_ID) t
         <where>
-            a.Extend_ID=b.Extend_ID and b.Product_IsPass=1
+        ex.extend_Id=pr.Extend_ID and pr.order_Time=t.time and extend_isAcive=2
         </where>
     </select>
 

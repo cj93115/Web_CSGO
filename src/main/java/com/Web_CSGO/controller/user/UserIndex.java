@@ -57,4 +57,10 @@ public class UserIndex {
     public ModelAndView pkRoom() {
         return new ModelAndView("/main/user/pkRoom");
     }
+    @RequestMapping("/open")
+    public ModelAndView open() {
+        return new ModelAndView("/main/user/open");
+    }
+
+
 }

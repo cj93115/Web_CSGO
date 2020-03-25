@@ -1,6 +1,6 @@
 package com.Web_CSGO.entity;
 
-
+import java.util.Date;
 import lombok.Data;
 import java.io.Serializable;
 import lombok.EqualsAndHashCode;
@@ -14,14 +14,14 @@ import com.baomidou.mybatisplus.annotation.TableName;
  * (Appproduct)实体类
  *
  * @author caojie
- * @since 2020-03-15 16:15:07
+ * @since 2020-03-25 11:17:33
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("APPProduct")
 public class Appproduct implements Serializable {
-    private static final long serialVersionUID = -88001690933953157L;
+    private static final long serialVersionUID = 487454782546010332L;
         @TableId(value="Product_ID",type = IdType.NONE)
         private String productId;
         @TableField("Product_No")
@@ -37,39 +37,39 @@ public class Appproduct implements Serializable {
         @TableField("Product_Pictrure")
         private String productPictrure;
         @TableField("Product_IsPass")
-        private Object productIspass;
+        private Boolean productIspass;
         @TableField("Product_Time")
         private String productTime;
         @TableField("Product_Brand")
         private String productBrand;
         @TableField("Product_Market")
-        private Double productMarket;
+        private Object productMarket;
         @TableField("Product_Member")
-        private Double productMember;
+        private Object productMember;
         @TableField("Product_VIP")
-        private Double productVip;
+        private Object productVip;
         @TableField("Product_Stock")
-        private Double productStock;
+        private Object productStock;
         @TableField("Product_Sale")
-        private Double productSale;
+        private Object productSale;
         @TableField("Product_Point")
-        private Double productPoint;
+        private Object productPoint;
     /**
     * 钻石店铺
     */    @TableField("Product_Hight")
-        private Double productHight;
+        private Object productHight;
     /**
     * 黄金店铺
     */    @TableField("Product_Middel")
-        private Double productMiddel;
+        private Object productMiddel;
     /**
     * 普通店铺
     */    @TableField("Product_Lower")
-        private Double productLower;
+        private Object productLower;
     /**
     * 是否私有
     */    @TableField("Product_isprivate")
-        private Object productIsprivate;
+        private Boolean productIsprivate;
         @TableField("Product_PicSmall")
         private String productPicsmall;
         @TableField("Product_Position")
@@ -95,11 +95,15 @@ public class Appproduct implements Serializable {
         @TableField("Product_SendByPost")
         private Integer productSendbypost;
         @TableField("Product_One")
-        private Double productOne;
-        @TableField("Product_Two")
-        private Double productTwo;
+        private Object productOne;
+    /**
+    * 排序时间
+    */    @TableField("Product_Two")
+        private Object productTwo;
         @TableField("Product_Three")
-        private Double productThree;
+        private Object productThree;
+        @TableField("Order_Time")
+        private String orderTime;
 
 
 

@@ -19,6 +19,6 @@ public interface IAppextendService extends IService<Appextend> {
      List<Map<String, Object>>  queryAll(Page page, Appextend APPExtend);
      List<Map<String, Object>>  queryAll(Appextend APPExtend);
      List<Map<String, Object>>  extendList(Appextend APPExtend);
-          ResultTip saveOrUpdateData(Appextend APPExtend);
+     ResultTip saveOrUpdateData(Appextend APPExtend);
 
 }

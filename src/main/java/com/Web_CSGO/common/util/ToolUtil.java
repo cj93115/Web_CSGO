@@ -671,14 +671,17 @@ public class ToolUtil {
                 //  String filePath =  request.getSession().getServletContext().getRealPath("/");//获取项目路径
                 //  String substring = filePath.substring(0, 2);//分割盘符拿到根目录
                 String path = System.getProperty("user.dir");
-                String substring ="D:";
+                String path2 = path.replace("\\", "/");
+                System.out.println("-------------------------");
+                System.out.println(path2);
+                String substring =path2;
 
                 SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS");//设置日期格式
                 String realName = df.format(new Date()).toString().replaceAll("[\\p{P}+~$`^=|<>～｀＄＾＋＝｜＜＞￥×]", "")
                         .replace(" ", "");//取日期去掉空格和标点符号
 
                 // 1 构建存放路径
-                File fileImg = new File("/csgo_img");
+                File fileImg = new File(path2+"/csgo_img");
                 if (!fileImg.exists()) {
                     fileImg.mkdirs();//创建文件夹
                     // 2 创建提示文本文本

@@ -15,7 +15,7 @@ public class runApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(runApplication.class, args);
-        System.out.println("secced!");
+        System.out.println("success!");
     }
     @Bean
     public RestTemplate getRestTemplate(){

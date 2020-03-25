@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     
     <meta charset="utf-8">
@@ -127,13 +126,15 @@
                  <div class="con">
                      <ul id="app" >
                          <ol>
+                             <a onclick=kaixiang({{site.Extend_ID}}) >
                              <li v-for="site in sites">
                              <div class="new"><img src="/userimages/new.png"></div>
-                             <div class="titu1"><img :src="/csgo_img/+site.extendPic" height='120px'></div>
-                             <div class="titu2"><img :src="/csgo_img/+site.productPictrure"></div>
-                             <div class="anniu">{{site.extendSale}}GB</div>
-                             <h3>{{site.extendName}}!</h3>
+                             <div class="titu1"><img :src="/csgo_img/+site.Extend_Pic" height='120px'></div>
+                             <div class="titu2"><img :src="/csgo_img/+site.Product_Pictrure"></div>
+                             <div class="anniu">{{site.Extend_Sale}}GB</div>
+                             <h3>{{site.Extend_Name}}!</h3>
                              </li>
+                             </a>
                          </ol>
 
                      </ul>
@@ -165,12 +166,12 @@
              </div>
          </div>
       </div>
-<div id="app">
-    <button @click="send">发送ajax请求</button>
-</div>
+<!--<div id="app">-->
+<!--    <button @click="send">发送ajax请求</button>-->
+<!--</div>-->
 </body>
 
-<script>
+<script  type="text/javascript">
    var vm= new Vue({
         el: '#app',
         data: {
@@ -191,5 +192,20 @@
        });
    };
 
+   function kaixiang(extendId) {
+       console.log("查看："+extendId);
+       $.ajax({
+           type: "get",
+           url: "/appproduct/kaixiang",
+           data: {
+               extendId: extendId
+           },
+           dataType: "json",
+           success: function (data) {
+           }
+       });
+
+
+   };
 </script>
 </html>

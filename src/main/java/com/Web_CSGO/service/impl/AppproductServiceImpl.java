@@ -36,6 +36,16 @@ public class AppproductServiceImpl extends ServiceImpl<AppproductMapper,Appprodu
     return baseMapper.queryAllList(page,APPProduct);
     }
 
+    @Override
+    public List<Appproduct> selectByMap(Map<String, Object> map) {
+        return baseMapper.selectByMap(map);
+    }
+
+    @Override
+    public Double SelectBoxSale(String extendId) {
+        return baseMapper.SelectBoxSale(extendId);
+    }
+
 
     @Override
     public ResultTip saveOrUpdateData(Appproduct APPProduct) {
