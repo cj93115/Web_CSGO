@@ -92,13 +92,19 @@
                                data-options="editable:true ,valueField: 'kindId',textField: 'kindName',prompt: '上级名称',url:'/appkind/getKind'"/>
                     </div>
                     <div style="margin-bottom:20px">
-                        <label class="label-top">箱子名称:</label>
+                        <label class="label-top">价格:</label>
                         <input class="easyui-textbox  theme-textbox-radius" name="extendName" id="extendName"
                                style="width: 190px">
                     </div>
                     <div style="margin-bottom:20px">
+                        <label class="label-top">价格:</label>
+                        <input class="easyui-numberbox  theme-textbox-radius" name="extendSale" id="extendSale"
+                               data-options="min:0,precision:2"    style="width: 190px">
+                    </div>
+
+                    <div style="margin-bottom:20px">
                         <label class="label-top">序&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</label>
-                        <input class="easyui-textbox  theme-textbox-radius" name="extendOrder" id="extendOrder"
+                        <input class="easyui-numberbox theme-textbox-radius" name="extendOrder" id="extendOrder"
                                style="width: 190px">
                     </div>
                     <div style="margin-bottom:20px">

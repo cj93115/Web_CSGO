@@ -45,6 +45,10 @@ public class AppproductServiceImpl extends ServiceImpl<AppproductMapper,Appprodu
     public Double SelectBoxSale(String extendId) {
         return baseMapper.SelectBoxSale(extendId);
     }
+    @Override
+    public Double selectExtendCount(String extendId) {
+        return baseMapper.selectExtendCount(extendId);
+    }
 
 
     @Override
@@ -72,10 +76,7 @@ public class AppproductServiceImpl extends ServiceImpl<AppproductMapper,Appprodu
 
             //resultCuont(成功事件)是否大于0,大于则成功,小于则失败
             if (resultCuont>0){
-                Appextend appextend=appextendMapper.selectById(APPProduct.getExtendId());
-               double sale=baseMapper.SelectBoxSale(APPProduct.getExtendId());
-                appextend.setExtendSale(sale);
-                appextendMapper.updateById(appextend);
+
                 return new ResultTip(CodeEnum.SUCCESS);
             }else {
                 return new ResultTip(CodeEnum.OPERATION_FAILD);

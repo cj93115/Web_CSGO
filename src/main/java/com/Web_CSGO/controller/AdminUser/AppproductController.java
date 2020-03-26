@@ -58,16 +58,6 @@ public class AppproductController extends BaseController {
         return new ModelAndView("main/getAppproductList", model);
     }
 
-    @GetMapping("kaixiang")
-    public ModelAndView getAdminUserPage(String extendId,ModelMap modelMap) {
-        Appextend appextend = appextendService.getById(extendId);
-        Map<String,Object> map=new HashMap<>();
-        map.put("extend_ID",extendId);
-        List<Appproduct> appproducts=appproductService.selectByMap(map);
-        modelMap.addAttribute("Appextend", appextend);
-        modelMap.addAttribute("appproducts",appproducts);
-        return new ModelAndView("main/user/open", modelMap);
-    }
 
 
     /**
@@ -131,14 +121,7 @@ public class AppproductController extends BaseController {
         }
         try {
             Appproduct appproduct = appproductService.getById(productId);
-            String extendId=appproduct.getExtendId();
             appproductService.removeById(productId);
-            //重新查询箱子总价并修改
-
-            double sale = appproductService.SelectBoxSale(extendId);
-            Appextend appextend = appextendService.getById(extendId);
-            appextend.setExtendSale(sale);
-            appextendService.updateById(appextend);
             return new ResultTip(CodeEnum.DELETE_SUCCESS);
         } catch (Exception e) {
             e.printStackTrace();

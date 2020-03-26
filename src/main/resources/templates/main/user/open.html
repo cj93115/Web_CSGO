@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
+<html xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=1440, user-scalable=yes"> 
+    <meta name="viewport" content="width=1440, user-scalable=yes">
     <title>游戏cc平台</title>
         <link rel="stylesheet" href="/userResous/css/owl.carousel.min.css">
     <link rel="stylesheet" href="/userResous/css/owl.theme.default.min.css">
@@ -15,6 +15,7 @@
     <script src="/userResous/js/owl.carousel.min.js"></script>
     <script src="/userResous/js/main.js" type="text/javascript"></script>
     <script src="/userResous/layer/layer.js"></script>
+    <script src="/js/vue.js"></script>
 </head>
 
 <body>
@@ -43,7 +44,7 @@
       <input type="text" name="" id="login_username" placeholder="请输入您的账号">
       <input type="password" name="" id="login_password" placeholder="请输入密码">
       <div class="reg_wjmm"><a href="###">忘记密码</a></div>
-       
+
       <button type="button" id="login_button">登录</button>
 
       <button type="button" id="reg_click1">注册</button>
@@ -71,7 +72,7 @@
                          <li class="t7"><a href="tuiguang.html"><img src="/userResous/images/nav7.png"></a></li>
                                                   <li class="anniu"><a href="###" id="login_click">登录</a><a href="###" id="reg_click">注册</a></li>
                                                </ul>
-                   </div> 
+                   </div>
                    <div class="xia-menu">
                                   <ul class="qie1 owl-carousel owl-theme">
                 <li>
@@ -111,7 +112,7 @@
                   <div class="text">454545454@QQ.COM<br>格洛克18型<br>城里的月光（究竟沙场）</div>
                 </li>
              </ul>
-                   </div>                
+                   </div>
              </div>
       </div>
 
@@ -135,17 +136,21 @@
 
 
           <div class="main-content">
-              <div class="title-img"><img src="/userResous/images/kaixiang.png"></div>
+<!--              <div class="title-img"><img src="/userResous/images/kaixiang.png"></div>-->
               <div class="kaixiang">
 				        <div class="lingqu">
-				      	  	   <img id="zhongjiang_img" src="/userResous/images/zz1.png">
-				      	  	   <a href="jingji.html" class="kai" id="lingjiang">领取奖品</a>
+				      	  	   <img id="zhongjiang_img" >
+                                <h2 id="productName"></h2>
+                                <h3 id="productSpec"></h3>
+                                <h2 id="productSale"></h2>
+				      	  	   <a  class="kai" id="lingjiang">领取奖品</a>
 				      	  </div>
 
 	              	  <img src="/userResous/images/kaixiangbg.png">
 	              	  <div id="kai_pre" class="neirong">
-	              	  	   <img src="/userResous/images/shangtu.png">
-	              	  	   <h2>注册奖励</h2>
+                          <h2 th:text="${appextend.extendName}"></h2>
+                          <input type="hidden" id="extendId" th:value="${appextend.extendId}">
+	              	  	   <img th:src="'/csgo_img/'+${appextend.extendPic}">
 	                       <a href="###" class="kai" id="kaijiang">立即开箱</a>
 	                       <a href="userCenter.html" class="goToPageUC">充值金币 》</a>
 	              	  </div>
@@ -153,17 +158,15 @@
                       	    <div class="xiaoguo"></div>
 
 						    <div class="owl-carousel gundong">
-						    	     <div><span id="0"><img src="/userResous/images/zz0.png"></span></div>
-							      	 <div><span id="1"><img src="/userResous/images/zz1.png"></span></div>
-							      	 <div><span id="2"><img src="/userResous/images/zz2.png"></span></div>
-							      	 <div><span id="3"><img src="/userResous/images/zz3.png"></span></div>
-							      	 <div><span id="4"><img src="/userResous/images/zz4.png"></span></div>
-							      	 <div><span id="5"><img src="/userResous/images/zz5.png"></span></div>
-							      	 
+                                <div th:each="product , i : ${appproducts}">
+                        <span th:id="${i.index}">
+                             <img th:src="'/csgo_img/'+${product.productPictrure}">
+                        </span>
+                                </div>
 						  </div>
 
-						   <a href="###"  class="kai"><span id="time">10</span> 秒后开奖</a>
-						  
+						   <a href="###"  class="kai"><span id="time">2</span> 秒后开奖</a>
+
 					  </div>
 
               </div>
@@ -175,91 +178,33 @@
 	                 <div class="con">
 	                     	  <div class="title-img"><img src="/userResous/images/diaoluo.png"></div>
 				              <div class="xiaowen">共有6件物品在这个箱子中</div>
-				              <ul class="diaoluo">
-				              	 <li class="t1">
+				              <ul class="diaoluo" >
+				              	 <li th:each="product , i : ${appproducts}" th:class="'t'+${i.index}"  >
 				              	 	  <i class="iconfont icon-wupinzhongleitubiao1 box-type-0"></i>
-				              	 	  <span><img src="/userResous/images/zz1.png"></span>
-				              	 	  <p>魔方之杖</p>
+				              	 	  <span><img th:src="'/csgo_img/'+${product.productPictrure}"></span>
+				              	 	  <p th:text="${product.productName}"></p>
 				              	 	  <div class="beiji">
-				              	 	  	   <h3>0.20%</h3>
+				              	 	  	   <h3 th:text="${product.productPosition}"></h3>
+                                          数量:<span th:text="${product.productCount}"></span>
 				              	 	  	   <br>
-				              	 	  	  参考价:<span >52GB</span>
+				              	 	  	  参考价:<span th:text="${product.productSale}+'GB'"></span>
 				              	 	  	  <br>
 				              	 	  	  可出售物品
 				              	 	  </div>
 				              	 </li>
-				              	 <li class="t2">
-				              	 	  <i class="iconfont icon-wupinzhongleitubiao1 box-type-0"></i>
-				              	 	  <span><img src="/userResous/images/zz2.png"></span>
-				              	 	  <p>M4A1 消音型 暴怒野兽 (久经沙场)</p>
-				              	 	  <div class="beiji">
-				              	 	  	   <h3>0.20%</h3>
-				              	 	  	   <br>
-				              	 	  	  参考价:<span >52GB</span>
-				              	 	  	  <br>
-				              	 	  	  可出售物品
-				              	 	  </div>
-				              	 </li>
-                                  <li class="t3">
-				              	 	  <i class="iconfont icon-wupinzhongleitubiao1 box-type-0"></i>
-				              	 	  <span><img src="/userResous/images/zz3.png"></span>
-				              	 	  <p>魔方之杖</p>
-				              	 	  <div class="beiji">
-				              	 	  	   <h3>0.20%</h3>
-				              	 	  	   <br>
-				              	 	  	  参考价:<span >52GB</span>
-				              	 	  	  <br>
-				              	 	  	  可出售物品
-				              	 	  </div>
-				              	 </li>
-				              	 <li class="t4">
-				              	 	  <i class="iconfont icon-wupinzhongleitubiao1 box-type-0"></i>
-				              	 	  <span><img src="/userResous/images/zz4.png"></span>
-				              	 	  <p>魔方之杖</p>
-				              	 	  <div class="beiji">
-				              	 	  	   <h3>0.20%</h3>
-				              	 	  	   <br>
-				              	 	  	  参考价:<span >52GB</span>
-				              	 	  	  <br>
-				              	 	  	  可出售物品
-				              	 	  </div>
-				              	 </li>
-                                 <li class="t5">
-				              	 	  <i class="iconfont icon-wupinzhongleitubiao1 box-type-0"></i>
-				              	 	  <span><img src="/userResous/images/zz5.png"></span>
-				              	 	  <p>魔方之杖</p>
-				              	 	  <div class="beiji">
-				              	 	  	   <h3>0.20%</h3>
-				              	 	  	   <br>
-				              	 	  	  参考价:<span >52GB</span>
-				              	 	  	  <br>
-				              	 	  	  可出售物品
-				              	 	  </div>
-				              	 </li>
-				              	 <li>
-				              	 	  <i class="iconfont icon-wupinzhongleitubiao1 box-type-0"></i>
-				              	 	  <span><img src="/userResous/images/zz0.png"></span>
-				              	 	  <p>魔方之杖</p>
-				              	 	  <div class="beiji">
-				              	 	  	   <h3>0.20%</h3>
-				              	 	  	   <br>
-				              	 	  	  参考价:<span >52GB</span>
-				              	 	  	  <br>
-				              	 	  	  可出售物品
-				              	 	  </div>
-				              	 </li>				              	 
 
 				              </ul>
 	                 </div>
 	                 <div><img src="/userResous/images/tu1.png" width="100%">
 	                 </div>
 	              </div>
-		      
-          </div>
-      </div> 
 
- 
+          </div>
+      </div>
+
+
 <script type="text/javascript">
+
     $(function(){
 
         var owl = $('.owl-carousel.gundong');
@@ -275,10 +220,9 @@
         });
 
 
-        function lingjiang(img_id){
+        function lingjiang(){
             $(".reg_mask").fadeIn();
             $(".lingqu").fadeIn();
-            $("#zhongjiang_img").attr('src', '/userResous/images/zz'+img_id+'.png');
         }
 
 
@@ -289,31 +233,33 @@
 
         $("#kaijiang").click(function(event) {
 
-
-
-
-
-            var zhongjiang=Math.random() * 5 | 0;;
-            console.log(zhongjiang);
-            var zhongjiang_num=zhongjiang-4;
-
-
             $("#kai_pre").hide();
             $("#zhezhu").css('margin-top', 100);;
             owl.trigger('play.owl.autoplay');
-
-            var time = 9;
+            $.ajax({
+                type: "post",
+                url: "/csgo/lingjiang",
+                data: {
+                    extendId:  $("#extendId").val()
+                },
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+                    $("#zhongjiang_img").attr('src', '/csgo_img/'+data.productPictrure);
+                    $("#productName").html(data.productName);
+                    $("#productSpec").html(data.productSpec);
+                    $("#productSale").html(data.productSale);
+                }
+            });
+            var time=2;
             var time1=setInterval(function(){
+                console.log(time);
                     if(time==0){
-
-                        owl.trigger('to.owl.carousel', [zhongjiang_num,300]);
+                        owl.trigger('to.owl.carousel', [1,300]);
                         owl.trigger('stop.owl.autoplay');
-                        lingjiang(zhongjiang);
-
-
+                        lingjiang();
                         clearInterval(time1);
                         $("#time").html('0');
-
                     }else{
                         $("#time").html(time);
                         time--;
@@ -327,6 +273,8 @@
         });
 
     })
+
+
 </script>
 <div class="footer">
          <div class="main-content">
@@ -345,5 +293,6 @@
              </div>
          </div>
       </div>
+
 </body>
 </html>

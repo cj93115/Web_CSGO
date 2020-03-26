@@ -51,7 +51,7 @@ public class Appproduct implements Serializable {
         @TableField("Product_Stock")
         private Object productStock;
         @TableField("Product_Sale")
-        private Object productSale;
+        private Double productSale;
         @TableField("Product_Point")
         private Object productPoint;
     /**
@@ -92,8 +92,8 @@ public class Appproduct implements Serializable {
         private String commentId;
         @TableField("shopId")
         private Integer shopid;
-        @TableField("Product_SendByPost")
-        private Integer productSendbypost;
+        @TableField("Product_Count")
+        private Integer productCount;
         @TableField("Product_One")
         private Object productOne;
     /**

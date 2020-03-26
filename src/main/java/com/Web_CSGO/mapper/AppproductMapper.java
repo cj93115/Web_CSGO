@@ -20,4 +20,5 @@ public interface AppproductMapper extends BaseMapper<Appproduct> {
    List<Appproduct>  queryAllList(Page page,@Param("obj") Appproduct APPProduct);
 
    Double SelectBoxSale(@Param("extendId") String extendId);
+   Double selectExtendCount(@Param("extendId") String extendId);
 }

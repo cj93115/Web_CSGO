@@ -21,6 +21,7 @@ public interface IAppproductService extends IService<Appproduct> {
      List<Appproduct>  queryAll(Page page, Appproduct APPProduct);
      List<Appproduct>  selectByMap(Map<String,Object> map);
      Double SelectBoxSale(String extendId);
+     Double selectExtendCount(String extendId);
           ResultTip saveOrUpdateData(Appproduct APPProduct);
 
 }

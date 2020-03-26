@@ -37,12 +37,12 @@
 
 
     <select id="extendList" resultType="java.util.HashMap">
-        SELECT* FROM
+        SELECT ex.Extend_ID extendId,Extend_Name extendName,Extend_Pic extendPic,Extend_Sale extendSale,Product_Pictrure productPictrure FROM
         APPExtend ex
         ,APPProduct pr
         ,(SELECT MAX(a.order_Time) time FROM APPProduct a GROUP BY a.Extend_ID) t
         <where>
-        ex.extend_Id=pr.Extend_ID and pr.order_Time=t.time and extend_isAcive=2
+        ex.extend_Id=pr.Extend_ID and pr.order_Time=t.time and extend_isAcive=2 ORDER BY Extend_Order asc
         </where>
     </select>
 

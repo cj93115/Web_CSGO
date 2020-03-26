@@ -41,16 +41,16 @@
 
 <body>
 <div id="main">
-    <img src="/images/fanhui.jpg" onclick="back()" height="50"></img>
+    <img src="/images/fanhui.jpg" onclick="back()" height="20"></img>
     <div id="tb" style="padding:0px 10px;">
         <form id="query">
-            <input class="easyui-textbox theme-textbox-radius" th:value="${Appextend.extendId}" id="boxId" name="boxId">
-            <img th:src="'/csgo_img/'+${Appextend.extendPic}" height='120px' style="padding:0px 10px;">
-            <label >箱子名称： {{ extend.extendName }} &nbsp;&nbsp;&nbsp; </label>
-            <label >总价:  {{ extend.extendSale }}GB &nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;          </label>
-            <input class="easyui-textbox theme-textbox-radius" id="uname">
+            <input class="easyui-textbox theme-textbox-radius" th:value="${Appextend.extendId}" id="boxId" name="boxId">&nbsp;&nbsp;
+            <img th:src="'/csgo_img/'+${Appextend.extendPic}" height='120px' style="padding:0px 10px;">&nbsp;&nbsp;
+            <label th:text="${Appextend.extendName}"></label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label th:text="'总价：'+${Appextend.extendSale}+'GB'"></label>&nbsp;&nbsp;&nbsp;
+            <input class="easyui-textbox theme-textbox-radius" id="uname">&nbsp;&nbsp;&nbsp;&nbsp;
             <a href="javascript:void(0)" class="easyui-linkbutton button-info" onclick="init()">查询</a>
-            <a href="#" class="easyui-linkbutton button-default" onclick="$('#window').window('open')" id="ocadd">新增</a>
+            <a href="#" class="easyui-linkbutton button-default" onclick="ocadd()" id="ocadd">新增</a>
 
         </form>
     </div>
@@ -96,6 +96,11 @@
                         <input class="easyui-numberbox theme-textbox-radius" data-options="min:0,precision:2,suffix:'￥'"
                                name="productSale" id="productSale" style="width: 190px">
                     </div>
+                    <div style="margin-bottom:20px;margin-left: -8px;">
+                        <label class="label-top">数   量:</label>
+                        <input class="easyui-numberbox theme-textbox-radius" name="productCount" id="productCount"
+                               style="width: 190px">
+                    </div>
                     <div style="margin-bottom:20px">
                         <label class="label-top">是否启用:</label>
                         <select class="easyui-combobox theme-combobox-radius" name="productIsprivate"
@@ -104,16 +109,25 @@
                             <option value="1">是</option>
                         </select>
                     </div>
+                    <div style="margin-bottom:20px">
+                        <label class="label-top">物品状态:</label>
+                        <select class="easyui-combobox theme-combobox-radius" name="productSpec"
+                                id="productSpec" style="width: 190px">
+                            <option value="崭新出厂">崭新出厂</option>
+                            <option value="略有磨损">略有磨损</option>
+                            <option value="破烂不堪">破烂不堪</option>
+                            <option value="久经沙场">久经沙场</option>
+                        </select>
+                    </div>
+
                     <div style="margin-bottom:20px;margin-left: -22px;">
-                        <label class="label-top">&nbsp;&nbsp;&nbsp;&nbsp;武器图片:</label>
+                        <label class="label-top">武器图片:</label>
                         <input class="easyui-filebox" name="img" id="img"
                                data-options="onChange:upload,prompt:'选择图片',buttonText:'选择文件',accept:'image/jpeg,image/png'"
                                style="width:190px">
                     </div>
+                    <div name="img2" id="img2"></div>
                 </form>
-
-
-                <div name="img2" id="img2"></div>
 
             </div>
         </div>
@@ -362,17 +376,16 @@
 
     $("#onclose").click(function () {
         $("#addForm").form('clear');
+        $('#img2').html("");
         $('#window').window('close');
-    })
-    $("#ocadd").click(function () {
-        $("#addForm").form('clear');
     });
+  function ocadd () {
+        console.log("清空");
+        $("#addForm").form('clear');
+        $('#img2').html("");
+      $('#window').window('open')
+    }
 
-   var vm=  new Vue({
-        el: '#query',
-        data: {
-            extend:{}
-        }
-    })
+
 </script>
 </html>

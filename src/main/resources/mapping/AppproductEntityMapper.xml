@@ -33,7 +33,7 @@
         <result property="extendId" column="Extend_ID"/>
         <result property="commentId" column="comment_ID"/>
         <result property="shopid" column="shopId"/>
-        <result property="productSendbypost" column="Product_SendByPost"/>
+        <result property="productCount" column="Product_Count"/>
         <result property="productOne" column="Product_One"/>
         <result property="productTwo" column="Product_Two"/>
         <result property="productThree" column="Product_Three"/>
@@ -42,7 +42,7 @@
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAllList" resultMap="AppproductMap">
-        select Product_ID, Product_No, Product_Name, Product_Spec, Product_Com, Product_Explain, Product_Pictrure, Product_IsPass, Product_Time, Product_Brand, Product_Market, Product_Member, Product_VIP, Product_Stock, Product_Sale, Product_Point, Product_Hight, Product_Middel, Product_Lower, Product_isprivate, Product_PicSmall, Product_Position, Product_Note, Product_Detail, Product_Business, Product_Recommend, Product_Word, Extend_ID, comment_ID, shopId, Product_SendByPost, Product_One, Product_Two, Product_Three
+        select Product_ID, Product_No, Product_Name, Product_Spec, Product_Com, Product_Explain, Product_Pictrure, Product_IsPass, Product_Time, Product_Brand, Product_Market, Product_Member, Product_VIP, Product_Stock, Product_Sale, Product_Point, Product_Hight, Product_Middel, Product_Lower, Product_isprivate, Product_PicSmall, Product_Position, Product_Note, Product_Detail, Product_Business, Product_Recommend, Product_Word, Extend_ID, comment_ID, shopId, Product_Count, Product_One, Product_Two, Product_Three
         from dbo.APPProduct
         <where>
         1=1
@@ -64,6 +64,9 @@
 
     <select id="SelectBoxSale" resultType="double">
               SELECT isnull(round(SUM(Product_Sale),2),0) from APPProduct where Extend_ID=#{extendId}
+    </select>
+    <select id="selectExtendCount" resultType="double">
+              SELECT isnull(round(SUM(Product_Count),2),0) from APPProduct where Extend_ID=#{extendId}
     </select>
 
 

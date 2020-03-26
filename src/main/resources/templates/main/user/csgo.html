@@ -13,7 +13,7 @@
     <script src="/js/owl.carousel.min.js"></script>
     <script src="/js/main.js" type="text/javascript"></script>
     <script src="/layer/layer.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="/js/vue.js"></script>
 </head>
 
 <body>
@@ -126,15 +126,16 @@
                  <div class="con">
                      <ul id="app" >
                          <ol>
-                             <a onclick=kaixiang({{site.Extend_ID}}) >
                              <li v-for="site in sites">
+                                 <a :href="'/csgo/kaixiang?extendId='+site.extendId" >
                              <div class="new"><img src="/userimages/new.png"></div>
-                             <div class="titu1"><img :src="/csgo_img/+site.Extend_Pic" height='120px'></div>
-                             <div class="titu2"><img :src="/csgo_img/+site.Product_Pictrure"></div>
-                             <div class="anniu">{{site.Extend_Sale}}GB</div>
-                             <h3>{{site.Extend_Name}}!</h3>
+                             <div class="titu1"><img :src="/csgo_img/+site.extendPic" height='120px'></div>
+                             <div class="titu2"><img :src="/csgo_img/+site.productPictrure"></div>
+                             <div class="anniu">{{site.extendSale}}GB</div>
+                             <h3>{{site.extendName}}!</h3>
+                                 </a>
                              </li>
-                             </a>
+
                          </ol>
 
                      </ul>
@@ -166,9 +167,6 @@
              </div>
          </div>
       </div>
-<!--<div id="app">-->
-<!--    <button @click="send">发送ajax请求</button>-->
-<!--</div>-->
 </body>
 
 <script  type="text/javascript">
@@ -177,6 +175,7 @@
         data: {
             sites: []
         }
+
     });
 
 
@@ -186,14 +185,12 @@
            url: "/appextend/extendList",
            dataType: "json",
            success: function (data) {
-               console.log("查看数据："+data.data);
                vm.sites=data.data;
            }
        });
    };
 
    function kaixiang(extendId) {
-       console.log("查看："+extendId);
        $.ajax({
            type: "get",
            url: "/appproduct/kaixiang",
