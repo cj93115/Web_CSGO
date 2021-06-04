@@ -25,7 +25,7 @@
         <pagehelper.boot.version>1.2.5</pagehelper.boot.version>
         <commons-lang3.version>3.3.2</commons-lang3.version>
         <bcprov.verion>1.46</bcprov.verion>
-        <httpclient.version>4.5.6</httpclient.version>
+        <httpclient.version>4.5.13</httpclient.version>
         <jjwt.version>0.8.0</jjwt.version>
 
     </properties>
